@@ -31,14 +31,6 @@ module.exports = class extends Generator {
         return super.usage().replace('yo kujang:', 'kujang ');
     }
 
-    /**
- * Override yeoman generator's destinationPath to apply custom output dir.
- */
-    destinationPath(...paths) {
-        paths = path.join(...paths);
-        paths = this.applyOutputPathCustomizer(paths);
-        return paths ? super.destinationPath(paths) : paths;
-    }
 
     /**
    * Apply output customizer.
@@ -95,6 +87,16 @@ module.exports = class extends Generator {
     }
 
 
+    /**
+ * Override yeoman generator's destinationPath to apply custom output dir.
+ */
+     destinationPath(...paths) {
+      paths = path.join(...paths);
+      paths = this.applyOutputPathCustomizer(paths);
+      return paths ? super.destinationPath(paths) : paths;
+  }
+
+
 /**
  * Render content
  *
@@ -111,6 +113,9 @@ module.exports = class extends Generator {
     context: generator,
     ...options,
   };
+
+  this.log(options)
+
   if (context.entityClass) {
     const basename = path.basename(source);
     if (context.configOptions && context.configOptions.sharedEntities) {
@@ -131,6 +136,25 @@ module.exports = class extends Generator {
       });
   }
   return promise;
+}
+
+
+/**
+ * Rewrite file with passed arguments
+ * @param {object} args argument object (containing path, file, haystack, etc properties)
+ * @param {object} generator reference to the generator
+ */
+ rewriteFile(args, generator) {
+  let fullPath;
+  if (args.path) {
+    fullPath = path.join(args.path, args.file);
+  }
+  fullPath = generator.destinationPath(args.file);
+
+  args.haystack = generator.fs.read(fullPath);
+  const body = rewrite(args);
+  generator.fs.write(fullPath, body);
+  return args.haystack !== body;
 }
 
 
@@ -171,7 +195,7 @@ module.exports = class extends Generator {
   /**
    * Check if Node is installed
    */
-   checkNode() {
+   /* checkNode() {
     if (this.skipChecks) return;
     const nodeFromPackageJson = packagejs.engines.node;
     if (!semver.satisfies(process.version, nodeFromPackageJson)) {
@@ -184,7 +208,7 @@ module.exports = class extends Generator {
         'Your Node version is not LTS (Long Term Support), use it at your own risk! Kujang does not support non-LTS releases, so if you encounter a bug, please use a LTS version first.'
       );
     }
-  }
+  } */
 
   /**
    * Check if Git is installed

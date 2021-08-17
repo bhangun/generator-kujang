@@ -1,17 +1,50 @@
 const GenBase = require('../core/base');
-
+const chalk = require('chalk');
+const packagejs = require('../package.json');
 
 const writeFiles = require('./files').writeFiles;
 
+const name = 'bismillah'
+
 module.exports = class extends GenBase {
 
-    constructor(args, opts, features) {
-        // Calling the super constructor is important so our generator is correctly set up
-        super(args, opts, features);
-        // expose lodash to templates
-     
-        // Next, add your custom code
-        this.option('babel'); // This method adds support for a `--babel` flag
+    get initializing() {
+        return {
+            init(args) {
+                if (args === 'default') {
+                    // do something when argument is 'default'
+                }
+            },
+            readConfig() {
+                //  this.jhipsterAppConfig = this.getAllJhipsterConfig();
+                /*  if (!this.jhipsterAppConfig) {
+                    this.error('Can\'t read .yo-rc.json');
+                }  */
+                // this.log(this.destinationRoot());
+            },
+            displayLogo() {
+                this.log(`${chalk.bold.yellowBright('                ▄      ')}`);
+                this.log(`${chalk.bold.yellowBright('            ▄▄▄██ ')}`);
+                this.log(`${chalk.bold.yellowBright('       ▄▄███████ ')}`);
+                this.log(`${chalk.bold.yellowBright('    ▄██░░██████ ')}`);
+                this.log(`${chalk.bold.yellowBright('   ██░░███████  ')}${chalk.bold.cyan('__              __')}`);
+                this.log(`${chalk.bold.yellowBright('  █░░████████  ')}${chalk.bold.cyan('|  | ____ ___   |__|____    ____    ____ ')}`);
+                this.log(`${chalk.bold.yellowBright(' ██████████    ')}${chalk.bold.cyan('|  |/ /  |   \\  |  \\__  \\  /    \\  / ___\\')}`);
+                this.log(`${chalk.bold.yellowBright(' ███████       ')}${chalk.bold.cyan('|    <|  |   /  |  |/ __ \\|   |  \\/ /_/  >')}`);
+                this.log(`${chalk.bold.yellowBright('  ██████       ')}${chalk.bold.cyan('|__|_  \\____/\\__|  (____  /___|  /\\___  /     ')}`);
+                this.log(`${chalk.bold.yellowBright('   ██████     ██     ')}${chalk.bold.cyan('\\/    \\______|    \\/     \\//_____/')}`);
+                this.log(`${chalk.bold.yellowBright('    ████████████ ')}`);
+                this.log(`${chalk.bold.yellowBright('      █████████ ')}`);
+                this.log(`${chalk.bold.yellowBright('        ████▌  ')}`);
+                this.log(`${chalk.bold.yellowBright('        ████')}`);
+                this.log(`${chalk.bold.yellowBright('        █████')}`);
+                this.log(`${chalk.bold.yellowBright('         ▀▀▀▀')}`);
+
+
+                // Have Yeoman greet the user.
+                this.log(`\nWelcome to the ${chalk.bold.yellow('JHipster-Flutter')} generator! ${chalk.yellow(`v${packagejs.version}\n`)}`);
+            },
+        };
     }
 
     method1() {
