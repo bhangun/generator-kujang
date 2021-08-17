@@ -1,0 +1,15 @@
+node_modules
+coverage
+.idea
+*.iml
+*.ipr
+*.iws
+atlassian-ide-plugin.xml
+/.project
+test/temp/
+*debug.log*
+.vscode
+.history
+.package-lock.json
+package-lock.json
+.DS_Store
