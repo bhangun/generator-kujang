@@ -19,5 +19,19 @@
         "semver": "^7.3.5",
         "shelljs": "^0.8.4",
         "yeoman-generator": "^5.4.1"
-    }
+    },
+    "scripts": {
+        "pretest": "eslint .",
+        "lint": "eslint .",
+        "lint-fix": "eslint . --fix",
+        "release": "git push && git push --tags && npm publish",
+        "release:patch": "npm version patch -a -m \"Update to %s\" && npm run release",
+        "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",
+        "release:major": "npm version major -a -m \"Update to %s\" && npm run release",
+        "test": "mocha test"
+      },
+      "license": "Apache-2.0",
+      "bugs": {
+        "url": "https://github.com/bhangun/generator-kujang/issues"
+      }
 }

@@ -114,7 +114,7 @@ module.exports = class extends Generator {
     ...options,
   };
 
-  this.log(options)
+  this.log(context)
 
   if (context.entityClass) {
     const basename = path.basename(source);
