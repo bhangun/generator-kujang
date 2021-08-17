@@ -1,6 +1,5 @@
-const GenBase = require('./base');
-const path = require('path');
-const _ = require('lodash');
+const GenBase = require('../core/base');
+
 
 const writeFiles = require('./files').writeFiles;
 
@@ -10,8 +9,7 @@ module.exports = class extends GenBase {
         // Calling the super constructor is important so our generator is correctly set up
         super(args, opts, features);
         // expose lodash to templates
-        this._ = _;
-
+     
         // Next, add your custom code
         this.option('babel'); // This method adds support for a `--babel` flag
     }
