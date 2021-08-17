@@ -72,7 +72,7 @@ module.exports = class extends Generator {
      * @param {*} options - options object
      * @param {*} context - context
      */
-    template(source, destination, generator, options = {}, context) {
+    template(source, destination, generator,  context, options = {}) {
         const _this = generator || this;
         const _context = context || _this;
         const customDestination = _this.destinationPath(destination);

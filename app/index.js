@@ -15,13 +15,6 @@ module.exports = class extends GenBase {
                     // do something when argument is 'default'
                 }
             },
-            readConfig() {
-                //  this.jhipsterAppConfig = this.getAllJhipsterConfig();
-                /*  if (!this.jhipsterAppConfig) {
-                    this.error('Can\'t read .yo-rc.json');
-                }  */
-                // this.log(this.destinationRoot());
-            },
             displayLogo() {
                 this.log(`${chalk.bold.yellowBright('                ▄      ')}`);
                 this.log(`${chalk.bold.yellowBright('            ▄▄▄██ ')}`);
@@ -42,7 +35,7 @@ module.exports = class extends GenBase {
 
 
                 // Have Yeoman greet the user.
-                this.log(`\nWelcome to the ${chalk.bold.yellow('JHipster-Flutter')} generator! ${chalk.yellow(`v${packagejs.version}\n`)}`);
+                this.log(`\nSalam to the ${chalk.bold.yellow('Kujang')} generator! ${chalk.yellow('v${packagejs.version}\n')}`);
             },
         };
     }
