@@ -42,83 +42,28 @@ module.exports = class extends GenBase {
             {
                 type: 'input',
                 name: 'appsName',
-                message: 'What is your Flutter application name?',
+                message: 'What would your Flutter application name?',
                 default: appsName,
-                // store: true
-            },
-           /*  {
-                type: 'input',
-                name: 'directoryPath',
-                message: 'Where JHipster app directory is located?',
-                default: 'backend',
-                store: true,
-                validate: (input) => {
-                    const path = this.destinationPath(input);
-                    if (shelljs.test('-d', path)) {
-                        const appsFolders = getAppFolder.call(this, input);
-                        if (appsFolders.length === 0) {
-                            return `No application found in ${path}`;
-                        }
-                        return true;
-                    }
-                    return `${path} is not a directory or doesn't exist`;
-                }
-            },
-            {
-                type: 'input',
-                name: 'packageName',
-                validate: input => (/^([a-z_]{1}[a-z0-9_]*(\.[a-z_]{1}[a-z0-9_]*)*)$/.test(input) ? true : 'The package name you have provided is not a valid Java package name.'),
-                message: 'What is your package name?',
-                // default: this.jhipsterAppConfig.packageName,
                 store: true
             },
             {
                 type: 'list',
-                name: 'android',
-                message: 'Which Android native code do you want to use?',
+                name: 'api_source',
+                message: 'From which Api definition you want to generate?',
+                store: true,
                 choices: [
                     {
-                        value: 'java',
-                        name: 'Java'
+                        value: 'openapi',
+                        name: 'OpenApi/Swagger API Standard'
                     },
                     {
-                        value: 'kotlin',
-                        name: 'Kotlin'
-                    },
-                ],
-                default: 'java'
-            },
-            {
-                type: 'list',
-                name: 'ios',
-                message: 'Which iOS native code do you want to use?',
-                choices: [
-                    {
-                        value: 'objc',
-                        name: 'Objective-C'
-                    },
-                    {
-                        value: 'swift',
-                        name: 'Swift'
-                    },
-                ],
-                default: 'objc'
-            }, */
-            /* {
-                // when: response => applicationType === 'gateway' || applicationType === 'microservice' || applicationType === 'uaa',
-                type: 'list',
-                name: 'stateManageType',
-                message: 'Which State-Management style do you want to use?',
-                choices: [
-                   
-                    {
-                        value: 'mobx',
-                        name: 'MobX state-management'
+                        value: 'jhipster',
+                        name: 'JHipster generator'
                     },
                     
                 ],
-                default: 'basic'
-            }, */
+                default: 'openapi'
+            }
         ];
 
         const done = this.async();
@@ -128,20 +73,12 @@ module.exports = class extends GenBase {
         });
     }
 
-    get writing() {
+    writing() {
 
-        /* if (this.props.stateManageType === 'provider') {
-            this.composeWith(require.resolve('../provider'));
-        } else if (this.props.stateManageType === 'mobx') {
-            this.composeWith(require.resolve('../mobx'));
+        if (this.props.api_source === 'jhipster') {
+            this.composeWith(require.resolve('../jhipster'),  this.props );
         } else {
-            this.composeWith(require.resolve('../basic'));
-        } */
-
-        this.composeWith(require.resolve('../default'));
-
-
-
-       // return writeFiles();
+            this.composeWith(require.resolve('../openapi'), this.props );
+        }
     }
 };

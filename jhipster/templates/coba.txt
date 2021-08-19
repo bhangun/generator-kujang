@@ -1,0 +1,4 @@
+
+
+isi ini baru <%- name %>
+
