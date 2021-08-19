@@ -6,6 +6,7 @@ const shelljs = require('shelljs');
 module.exports = class extends GenBase {
 
     get initializing() {
+        const version = chalk.yellow(`${packagejs.version}`)
         return {
             init(args) {
                 if (args === 'default') {
@@ -26,7 +27,7 @@ module.exports = class extends GenBase {
                 this.log(`${chalk.bold.yellowBright('    ████████████ ')}`);
                 this.log(`${chalk.bold.yellowBright('      █████████ ')}`);
                 this.log(`${chalk.bold.redBright('        ████▌  ')}`);
-                this.log(`${chalk.bold.redBright('        ████')}   Salam to the ${chalk.bold.yellow('Kujang')} generator! ${chalk.yellow(`${packagejs.version}`)}`);
+                this.log(`${chalk.bold.redBright('        ████')}   Salam to the ${chalk.bold.yellow('Kujang')} generator! ${version}`);
                 this.log(`${chalk.bold.redBright('        █████')}`);
                 this.log(`${chalk.bold.red('         ▀▀▀▀')}`);
             },
