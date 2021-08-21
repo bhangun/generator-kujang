@@ -1,6 +1,6 @@
 {
     "name": "generator-kujang",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Kujang generator to build Flutter Apps",
     "keywords": [
         "yeoman-generator",
