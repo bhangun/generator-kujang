@@ -1,4 +1,4 @@
 
 
-isi ini baru <%- name %>
+isi ini baru <%- name %>  <%- name %>
 

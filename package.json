@@ -2,17 +2,32 @@
     "name": "generator-kujang",
     "version": "0.1.0",
     "description": "Kujang generator to build Flutter Apps",
-    "files": [
-        "generators"
-    ],
     "keywords": [
-        "yeoman-generator"
+        "yeoman-generator",
+        "generator-kujang",
+        "kujang",
+        "openapi",
+        "swagger",
+        "jhipster",
+        "flutter"
     ],
+    "homepage": "https://github.com/bhangun/generator-kujang",
+    "author": {
+        "name": "bhangun hartani",
+        "email": "bhangunh@kays.tech",
+        "url": "https://kays.tech"
+    },
+    "main": "generators/app/index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bhangun/generator-kujang.git"
+    },
     "dependencies": {
         "@apidevtools/swagger-parser": "^10.0.3",
         "chalk": "^4.1.2",
         "child_process": "^1.0.2",
         "ejs": "^3.1.6",
+        "generator-jhipster-kutilang": "^0.0.11",
         "https": "^1.0.0",
         "lodash": "^4.17.21",
         "path": "^0.12.7",
@@ -29,9 +44,9 @@
         "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",
         "release:major": "npm version major -a -m \"Update to %s\" && npm run release",
         "test": "mocha test"
-      },
-      "license": "Apache-2.0",
-      "bugs": {
+    },
+    "license": "Apache-2.0",
+    "bugs": {
         "url": "https://github.com/bhangun/generator-kujang/issues"
-      }
+    }
 }
