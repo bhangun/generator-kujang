@@ -31,12 +31,12 @@ module.exports = class extends Generator {
     return super.usage().replace('yo kujang:', 'kujang ');
   }
 
-    /**
-   * @returns default app name
-   */
-     getDefaultAppName() {
-      return /^[a-zA-Z0-9_]+$/.test(path.basename(process.cwd())) ? path.basename(process.cwd()) : 'jhipster';
-    }
+  /**
+ * @returns default app name
+ */
+  getDefaultAppName() {
+    return /^[a-zA-Z0-9_]+$/.test(path.basename(process.cwd())) ? path.basename(process.cwd()) : 'jhipster';
+  }
 
 
   /**
@@ -120,8 +120,6 @@ module.exports = class extends Generator {
       context: generator,
       ...options,
     };
-
-    this.log(context)
 
     if (context.entityClass) {
       const basename = path.basename(source);

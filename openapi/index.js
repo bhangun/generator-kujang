@@ -8,7 +8,7 @@ module.exports = class extends GenBase {
 
     constructor(args, opts) {
         super(args, opts);
-        this.appsName =opts.appsName
+        this.appsName = opts.appsName
     }
 
     prompting() {
@@ -17,6 +17,7 @@ module.exports = class extends GenBase {
                 type: 'input',
                 name: 'path_api',
                 message: 'Url/path to your api doc (json/yaml)',
+                validate: input => (/^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/.test(input) ? true : 'Url or Path not provide.'),
                 store: true
             },
             {
@@ -24,7 +25,6 @@ module.exports = class extends GenBase {
                 name: 'packageName',
                 validate: input => (/^([a-z_]{1}[a-z0-9_]*(\.[a-z_]{1}[a-z0-9_]*)*)$/.test(input) ? true : 'The package name you have provided is not a valid Java package name.'),
                 message: 'What is your package name?',
-                // default: this.jhipsterAppConfig.packageName,
                 store: true
             },
             {
@@ -59,30 +59,31 @@ module.exports = class extends GenBase {
                 ],
                 default: 'swift'
             },
-             {
-                 type: 'list',
-                 name: 'stateManageType',
-                 message: 'Which State-Management style do you want to use?',
-                 choices: [
-                     {
-                         value: 'mobx',
-                         name: 'MobX state-management'
-                     },
-                     {
-                         value: 'bloc',
-                         name: 'BLoC state-management'
-                     },
-                 ],
-                 default: 'mobx'
-             }
+            {
+                type: 'list',
+                name: 'stateManageType',
+                message: 'Which State-Management style do you want to use?',
+                choices: [
+                    {
+                        value: 'mobx',
+                        name: 'MobX state-management'
+                    },
+                    {
+                        value: 'bloc',
+                        name: 'BLoC state-management'
+                    },
+                ],
+                default: 'mobx'
+            }
         ];
 
         const done = this.async();
         this.prompt(prompts).then((props) => {
 
-            const params = props.path_api
+            //  const params = props.path_api
+            this.config.set('params', props)
 
-            SwaggerParser.validate(params, (err, api) => {
+            /* SwaggerParser.validate(params, (err, api) => {
                 if (err) {
                     console.error(err);
                 }
@@ -98,65 +99,72 @@ module.exports = class extends GenBase {
                         entities: mappingEntities(api.components.schemas) }
                     done();
                 }
-            })
+            }) */
+
+            done();
         });
     }
+    gatherapi() {
+        const done = this.async();
+        const props = this.config.get('params')
 
+        SwaggerParser.validate(props.path_api, (err, api) => {
+            if (err) {
+                console.error(err);
+            }
+            else {
+                this.props = {
+                    appsName: this.appsName,
+                    baseName: this.appsName,
+                    packageName: props.packageName,
+                    packageFolder: this.appsName,
+                    stateManageType: props.stateManageType,
+                    android: props.android,
+                    ios: props.ios,
+                    // context.differentRelationships[
+                    // pkType = this.getPkType(context.databaseType);
+                    entities: mappingEntities(this.appsName,api.components.schemas)
+                }
+                done();
+            }
+        })
+    }
     validate() {
-        this.composeWith(require.resolve('generator-jhipster-kutilang/generators/mobx'),this.props);
+        //this.composeWith(require.resolve('generator-jhipster-kutilang/generators/mobx'),this.props);
+
+        // this.composeWith(require.resolve('generator-jhipster-kutilang/generators/entity-mobx'),this.props);
+
     }
 
 
-    get writingEntity() {
-       // const writeEntity = require('generator-jhipster-kutilang/generators/entity-mobx/files');
+    writingEntity() {
+        console.log('----writing entity openapi---')
+        // const writeEntity = require('generator-jhipster-kutilang/generators/entity-mobx/files');
+        //console.log(this.props)
 
-        console.log('---------Call Entity 2---------')
-       // return writeEntity;
+        // this.composeWith(require.resolve('generator-jhipster-kutilang/generators/entity-mobx'),this.props,{name:'myname'},);
+        //this.template('coba.txt', 'coba-baru.txt',this, {});
+        // console.log(this.props)
+        // return writeEntity;
+        this.props.entities.forEach(entity => {
+         writeFiles(this.props.packageFolder, entity, this)
+        })
     }
 
-}
-/* 
+    /*  get writing() {
+         console.log(this.props)
+         return writeFiles(this.props);
+     } */
 
-function getOpenApi(params, props) {
-    //const params = this.props.path_api
-    SwaggerParser.validate(params, (err, api) => {
-        if (err) {
-            console.error(err);
-        }
-        else {
-            console.log("API name: %s, Version: %s", api.info.title, api.info.version);
-
-            //console.log(api)
-            //console.log(api.paths['/pet/{petId}/uploadImage'])
-            //console.log(api.paths['/pet/{petId}/uploadImage'].post.parameters)
-            //console.log(api.paths['/pet/findByStatus'])
-            //console.log(Object.keys(api.components))
-            // console.log(mappingEntities(api.components.schemas))
-            //console.log(mappingEntities(api.components.schemas)[6].fields)
-            //console.log(api.components.schemas.Pet)
-            //console.log(api.components.securitySchemes)
-            //return callback
-            //  writingEntity()
-
-            props = mappingEntities(api.components.schemas)
-        }
-    });
-} */
-
-function mappingRelationship(obj) {
-    const relationship = []
-    return relationship
 }
 
 function mappingFields(obj, entities) {
-    // console.log(obj)
     const fields = []
     Object.entries(obj.properties).forEach(field => {
-        // console.log(field)
         fields.push({
             fieldType: field[1].type,
             fieldName: field[0],
-            fieldIsEnum: (field[1].enum) ? true : false,
+            fieldIsEnum: false,//(field[1].enum) ? true : false,
             fieldValues: field[1].enum,
             fieldDescription: field[1].description
         })
@@ -164,12 +172,16 @@ function mappingFields(obj, entities) {
     return fields
 }
 
-function mappingEntities(obj) {
+function mappingEntities(appsName, obj) {
     const entities = []
     Object.entries(obj).forEach(entity => {
         entities.push({
+            appsName: appsName,
+            pkType: 'String',
+            relationships: [],
             entityName: entity[0],
             entityClass: entity[0],
+            entityInstance: entity[0],
             entityFolderName: entity[0],
             entityFileName: entity[0],
             enableTranslation: false,
@@ -177,7 +189,56 @@ function mappingEntities(obj) {
         })
     })
     return entities
+}
 
+
+function mappingRelationship(obj) {
+    const relationship = []
+    // relationship.relationshipValidate 
+    /*  context.fieldsContainOwnerManyToMany = true;
+     context.fieldsContainNoOwnerOneToOne = true;
+     context.fieldsContainOwnerOneToOne = true;
+     context.fieldsContainOneToMany = true;
+     context.fieldsContainManyToOne = true;
+     relationship.otherEntityModulePath 
+     relationship.otherEntityModuleName
+     relationship.otherEntityStateName =
+     relationship.otherEntityFieldCapitalized
+     relationship.otherentityClass = 'User';
+     relationship.otherEntityTableName 
+     relationship.otherEntityNameCapitalized
+     relationship.otherEntityNamePlural
+     relationship.otherEntityName */
+    /* 
+       const entityConfig = {
+        jhipsterConfigDirectory: this.jhipsterConfigDirectory,
+        filename: this.filename,
+        data: this.data || this.fileData,
+        useConfigurationFile: this.useConfigurationFile,
+        fieldsContainOwnerManyToMany: this.fieldsContainOwnerManyToMany,
+        fieldsContainNoOwnerOneToOne: this.fieldsContainNoOwnerOneToOne,
+        fieldsContainOwnerOneToOne: this.fieldsContainOwnerOneToOne,
+        fieldsContainOneToMany: this.fieldsContainOneToMany,
+        fieldsContainInstant: this.fieldsContainInstant,
+        fieldsContainZonedDateTime: this.fieldsContainZonedDateTime,
+        fieldsContainLocalDate: this.fieldsContainLocalDate,
+        fieldsContainBigDecimal: this.fieldsContainBigDecimal,
+        fieldsContainBlob: this.fieldsContainBlob,
+        fieldsContainImageBlob: this.fieldsContainImageBlob,
+        jpaMetamodelFiltering: this.jpaMetamodelFiltering,
+        pkType: this.pkType,
+        entityApiUrl: this.entityApiUrl,
+        entityClass: this.entityClass,
+        entityTableName: this.entityTableName,
+        entityInstance: this.entityInstance,
+        entityFolderName: this.entityFolderName,
+        entityFileName: this.entityFileName,
+        entityServiceFileName: this.entityServiceFileName,
+        entityStateName: this.entityStateName,
+        entityUrl: this.entityUrl,
+        entityTranslationKey: this.entityTranslationKey 
+    };*/
+    return relationship
 }
 
 
