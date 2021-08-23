@@ -15,12 +15,14 @@ module.exports = {
  * @returns entites
  */
 function mappingEntities(appsName, api) {
-  console.log(api.components.requestBodies.Pet.content['application/json'])
-  console.log(api.components.securitySchemes.petstore_auth.flows.implicit.scopes)
-  console.log(api.components.schemas.Pet.properties.category.properties)
-  console.log(api.components.schemas.Pet.properties.tags.items)
-  console.log(Object.entries(api.components.schemas.Pet))
-  console.log(Object.entries(api.components.schemas.Pet)[2])
+  
+  console.log(Object.entries(Object.entries(api.paths)[0][1].post.requestBody.content)[1][1].schema.properties.category.properties)
+
+  //console.log(Object.entries(api.paths)[0][1].post.requestBody.content)
+
+  //console.log(Object.entries(Object.entries(api.paths)[0][1].put.responses)[0][1].content)
+  //console.log(Object.entries(api.paths)[0][1].put.security)
+ // console.log(Object.entries(api.components.schemas.Pet)[2])
  
 
   const schema = api.components.schemas
