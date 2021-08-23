@@ -2,7 +2,9 @@ const GenBase = require('../core/base');
 const utils = require('../core/utils');
 const SwaggerParser = require("@apidevtools/swagger-parser");
 
-
+/**
+ * 
+ */
 module.exports = class extends GenBase {
 
     constructor(args, opts) {
@@ -34,7 +36,9 @@ module.exports = class extends GenBase {
                         appsName: this.appsName, 
                         baseName: props.appsName,
                         packageFolder: this.appsName, 
-                        entities: utils.mappingEntities(this.appsName,api.components.schemas) 
+                        info: api.info,
+                        paths: api.paths,
+                        entities: utils.mappingEntities(this.appsName,api) 
                     }
                     done();
                 }
@@ -43,6 +47,9 @@ module.exports = class extends GenBase {
     }
    
     compose() {
+
+        //console.log(this.props)
+        //console.log(this.props.entities[6].fields)
         this.composeWith(require.resolve('../mobx'), this.props);
     }
 }

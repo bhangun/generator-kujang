@@ -12,9 +12,6 @@ module.exports = class extends Generator {
     super(args, opts, features);
     // expose lodash to templates
     this._ = _;
-
-    // Next, add your custom code
-    this.option('babel'); // This method adds support for a `--babel` flag
   }
 
   /**

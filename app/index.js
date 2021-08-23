@@ -1,7 +1,6 @@
 const GenBase = require('../core/base');
 const chalk = require('chalk');
 const packagejs = require('../package.json');
-const shelljs = require('shelljs');
 
 module.exports = class extends GenBase {
     constructor(args, opts) {
@@ -10,6 +9,7 @@ module.exports = class extends GenBase {
 
     get initializing() {
         const version = chalk.yellow(`${packagejs.version}`)
+        
         return {
 
             displayLogo() {

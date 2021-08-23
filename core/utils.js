@@ -1,29 +1,31 @@
+const _ = require('lodash');
 
 module.exports = {
 
   mappingEntities,
   mappingFields,
-  mappingRelationship
+  mappingRelationship,
+
 };
 
+/**
+ * 
+ * @param {*} appsName Application name
+ * @param {*} api OpenAPi object
+ * @returns entites
+ */
+function mappingEntities(appsName, api) {
+  console.log(api.components.requestBodies.Pet.content['application/json'])
+  console.log(api.components.securitySchemes.petstore_auth.flows.implicit.scopes)
+  console.log(api.components.schemas.Pet.properties.category.properties)
+  console.log(api.components.schemas.Pet.properties.tags.items)
+  console.log(Object.entries(api.components.schemas.Pet))
+  console.log(Object.entries(api.components.schemas.Pet)[2])
+ 
 
-function mappingFields(obj, entities) {
-  const fields = []
-  Object.entries(obj.properties).forEach(field => {
-    fields.push({
-      fieldType: field[1].type,
-      fieldName: field[0],
-      fieldIsEnum: false,//(field[1].enum) ? true : false,
-      fieldValues: field[1].enum,
-      fieldDescription: field[1].description
-    })
-  })
-  return fields
-}
-
-function mappingEntities(appsName, obj) {
+  const schema = api.components.schemas
   const entities = []
-  Object.entries(obj).forEach(entity => {
+  Object.entries(schema).forEach(entity => {
     entities.push({
       appsName: appsName,
       pkType: 'String',
@@ -34,16 +36,72 @@ function mappingEntities(appsName, obj) {
       entityFolderName: entity[0],
       entityFileName: entity[0],
       enableTranslation: false,
-      fields: mappingFields(entity[1], obj)
+      fields: mappingFields(entity[1], schema)
     })
   })
   return entities
 }
 
+/**
+ * 
+ * @param {*} obj 
+ * @param {*} entities 
+ * @returns 
+ */
+function mappingFields(obj, entities) {
+  const fields = []
+  Object.entries(obj.properties).forEach(field => {
+    fields.push({
+      fieldType: sanitaizeField(field[1].type, entities),
+      fieldName: _.camelCase(field[0]),
+      fieldIsEnum: (field[1].enum) ? true : false,
+      fieldValues: _.join(field[1].enum, ','),
+      fieldDescription: field[1].description,
+      fieldsContainOneToMany: false,
+      fieldsContainOwnerManyToMany: false,
+      fieldsContainOwnerOneToOne: false,
+      fieldsContainNoOwnerOneToOne: false,
+      fieldsContainManyToOne: false
+    })
+  })
+  return fields
+}
 
+/**
+ * 
+ * @param {*} field 
+ * @param {*} entities 
+ * @returns 
+ */
+function sanitaizeField(field, entities) {
+  let newField =''
+  if (field.fieldType == 'object') {
+   // newField = 'String'
+  }
+  else if (field.fieldType == 'array') {
+    newField = 'Array<String>'
+  }
+  return _.capitalize(newField)
+}
+
+
+/**
+ * 
+ * @param {*} obj 
+ * @returns 
+ */
 function mappingRelationship(obj) {
   const relationship = []
 
+  relationship.otherEntityModulePath
+  relationship.otherEntityModuleName
+  relationship.otherEntityStateName =
+    relationship.otherEntityFieldCapitalized
+  relationship.otherentityClass = 'User';
+  relationship.otherEntityTableName
+  relationship.otherEntityNameCapitalized
+  relationship.otherEntityNamePlural
+  relationship.otherEntityName
+
   return relationship
 }
-

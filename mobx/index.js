@@ -86,7 +86,7 @@ module.exports = class extends GenBase {
 
         this.composeWith(require.resolve('../entity-mobx'), this.props);
 
-        return writeFiles(this.props);
+       // return writeFiles(this.props);
     }
 
     install() {

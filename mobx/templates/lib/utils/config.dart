@@ -29,7 +29,7 @@ const LOCALE_BAHASA = 'id';
 // Icon Images
 const String ICON_APP = 'assets/icons/ic_appicon.png';
 const String IMAGE_LOGIN = 'assets/images/img_login.jpg';
-const String IMAGE_SPLASH = 'assets/icons/logo_jh.svg';
+const String IMAGE_SPLASH = 'assets/icons/logo-kujang.svg';
 
 //fonts
 const String quickFont = "Quicksand";
