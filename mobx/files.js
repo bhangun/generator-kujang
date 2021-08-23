@@ -24,7 +24,7 @@ module.exports = {
 
 function writeFiles(param) {
     //console.log(param)
-    const packageFolder = param.get('appsName')
+    const packageFolder = param.appsName
 
     const flutterDir = '';
     return {
