@@ -14,9 +14,8 @@ npm i -g generator-kujang
 ```bash
 yo kujang
 ```
-[![cli][kujang-cli]]
+[kujang-cli]
 
-<img width="200em" src="https://github.com/bhangun/repo-assets/blob/master/kujang/snapshot/kujang-logo-cli.png" />
 
 ```bash
 cd toYourAppFolder
