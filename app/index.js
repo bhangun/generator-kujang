@@ -4,15 +4,14 @@ const packagejs = require('../package.json');
 const shelljs = require('shelljs');
 
 module.exports = class extends GenBase {
+    constructor(args, opts) {
+        super(args, opts);
+    }
 
     get initializing() {
         const version = chalk.yellow(`${packagejs.version}`)
         return {
-            init(args) {
-                if (args === 'default') {
-                    // do something when argument is 'default'
-                }
-            },
+
             displayLogo() {
                 this.log(`${chalk.bold.yellowBright('                ▄      ')}`);
                 this.log(`${chalk.bold.yellowBright('            ▄▄▄██ ')}`);
@@ -45,7 +44,7 @@ module.exports = class extends GenBase {
                 name: 'appsName',
                 message: 'What would your Flutter application name?',
                 default: appsName,
-                store: true
+                //store: true
             },
             {
                 type: 'list',

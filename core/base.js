@@ -2,14 +2,7 @@ var Generator = require('yeoman-generator');
 const path = require('path');
 const _ = require('lodash');
 const ejs = require('ejs');
-
 const chalk = require('chalk');
-/* 
-const semver = require('semver');
-const exec = require('child_process').exec;
-const https = require('https'); */
-
-
 
 
 module.exports = class extends Generator {
