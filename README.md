@@ -14,7 +14,7 @@ npm i -g generator-kujang
 ```bash
 yo kujang
 ```
-[kujang-cli]
+[![cli][kujang-cli]]
 
 
 ```bash
