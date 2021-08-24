@@ -56,10 +56,10 @@ module.exports = class extends GenBase {
                         value: 'openapi',
                         name: 'OpenApi/Swagger API Standard'
                     },
-                    {
+                    /* {
                         value: 'jhipster',
                         name: 'JHipster generator'
-                    },
+                    }, */
                     
                 ],
                 default: 'openapi'
