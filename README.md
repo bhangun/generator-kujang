@@ -15,6 +15,7 @@ npm i -g generator-kujang
 yo kujang
 ```
 ![cli][kujang-cli]
+![cli][kujang-cli-end]
 
 
 ```bash
@@ -28,7 +29,8 @@ flutter run
 
 
 
-[kujang-cli]: https://github.com/bhangun/repo-assets/blob/master/kujang/snapshot/kujang-logo-cli.png
+[kujang-cli]: https://github.com/bhangun/repo-assets/blob/master/kujang/snapshot/kujang-cli.png
+[kujang-cli-end]: https://github.com/bhangun/repo-assets/blob/master/kujang/snapshot/end-cli.png
 [kujang-logo]: https://raw.githubusercontent.com/bhangun/repo-assets/master/kujang/logo/kujang.svg
 [kujang-url]: https://www.npmjs.com/package/generator-kujang
 [npm-url]: https://www.npmjs.com/package/generator-kujang
