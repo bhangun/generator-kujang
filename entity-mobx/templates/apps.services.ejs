@@ -1,0 +1,34 @@
+import 'dart:async';
+import 'dart:convert';
+
+import '../models/<%= entityInstance %>.dart';
+import '../../../services/network/rest_services.dart';
+
+
+class <%= entityClass %>Services {
+
+  static Future<<%= entityClass %>> <%= entityInstance %>(String id) async {
+    var response = await RestServices.fetch('/api/<%= entityInstance %>' + id);
+    return <%= entityClass %>.fromJson(json.decode(response));
+  }
+
+  static Future<List<<%= entityClass %>>> <%= entityInstance %>s([var page, var size, var sort]) async {
+    var data = await RestServices.fetch('/api/<%= entityInstance %>s');
+    return <%= entityClass %>.listFromString(data);
+  }
+
+  static create<%= entityClass %>(<%= entityClass %> <%= entityInstance %>) async {
+    
+  }
+
+  //
+  static update<%= entityClass %>(<%= entityClass %> <%= entityInstance %>) async {
+    
+  }
+
+  //
+  static delete<%= entityClass %>(int id) async {
+    
+  }
+
+}

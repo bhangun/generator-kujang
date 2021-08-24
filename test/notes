@@ -1,5 +1,7 @@
 
   
+URL
+https://petstore3.swagger.io/api/v3/openapi.json
 
 
   //console.log(Object.entries(Object.entries(api.paths)[0][1].post.requestBody.content)[0][1].schema.properties.tags.items)

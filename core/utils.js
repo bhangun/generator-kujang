@@ -5,7 +5,8 @@ module.exports = {
   mappingEntities,
   mappingFields,
   mappingRelationship,
-
+  getPaths,
+  getPathMethod
 };
 
 /**
@@ -59,6 +60,53 @@ function mappingFields(obj, entities) {
   })
   return fields
 }
+
+/**
+ * 
+ * @param {*} api Api root
+ */
+function getPaths(api) {
+  const paths = []
+  Object.entries(api.paths).forEach(path=>{
+    paths.push({
+      path: path[0],
+      methods: getPathMethod(api.paths)
+    })
+  })
+}
+
+/**
+ * 
+ * @param {*} paths list of paths
+ */
+function getPathMethod(paths) {
+  const methods = []
+  Object.entries(paths).forEach(method=>{
+    const m = method[1];
+    const contents = []
+    const type = ''
+    const required = []
+
+    Object.entries(m.requestBody.content).forEach(c =>{
+      contents.push(c[0])
+      type = c[1].schema.xml
+      required = c[1].schema.required
+    })
+
+    methods.push({
+      method: method[0],
+      tags: m.tags,
+      summary: m.summary,
+      description: m.description,
+      operationId: m.operationId,
+      requestBodyDesc: m.requestBody.description,
+      requestBodyType: type,
+      requestBodyRequired: required,
+      contentType: contents,
+    })
+  })
+}
+
 
 /**
  * 

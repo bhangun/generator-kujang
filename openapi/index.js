@@ -18,7 +18,7 @@ module.exports = class extends GenBase {
                 type: 'input',
                 name: 'path_api',
                 message: 'Url/path to your api doc (json/yaml)',
-                validate: input => (/^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/.test(input) ? true : 'Url or Path not provide.'),
+                validate: input => (/^(https?|chrome):\/\/[^\s$.?#].[^\s]*^(.*/)([^/]*)$$/.test(input) ? true : 'Url or Path not provide.'),
                 store: true
             },
            
@@ -38,7 +38,8 @@ module.exports = class extends GenBase {
                         packageFolder: this.appsName, 
                         info: api.info,
                         paths: api.paths,
-                        entities: utils.mappingEntities(this.appsName,api) 
+                        entities: utils.mappingEntities(this.appsName,api),
+                        paths: utils.getPaths(api)
                     }
                     done();
                 }
@@ -48,8 +49,8 @@ module.exports = class extends GenBase {
    
     compose() {
 
-        //console.log(this.props)
+        console.log(this.props)
         //console.log(this.props.entities[6].fields)
-        this.composeWith(require.resolve('../mobx'), this.props);
+        //this.composeWith(require.resolve('../mobx'), this.props);
     }
 }
