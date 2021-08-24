@@ -37,7 +37,7 @@ module.exports = class extends GenBase {
                         baseName: props.appsName,
                         packageFolder: this.appsName, 
                         info: api.info,
-                        paths: api.paths,
+                       
                         entities: utils.mappingEntities(this.appsName,api),
                         paths: utils.getPaths(api)
                     }

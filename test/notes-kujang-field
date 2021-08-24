@@ -1,0 +1,168 @@
+{
+  appsName: 'kut01',
+  baseName: undefined,
+  packageFolder: 'kut01',
+  info: {
+    title: 'Swagger Petstore - OpenAPI 3.0',
+    description: 'This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about\n' +
+      "Swagger at [http://swagger.io](http://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!\n" +
+      "You can now help us improve the API whether it's by making changes to the definition itself or to the code.\n" +
+      'That way, with time, we can improve the API in general, and expose some of the new features in OAS3.\n' +
+      '\n' +
+      'Some useful links:\n' +
+      '- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)\n' +
+      '- [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)',
+    termsOfService: 'http://swagger.io/terms/',
+    contact: { email: 'apiteam@swagger.io' },
+    license: {
+      name: 'Apache 2.0',
+      url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    },
+    version: '1.0.6'
+  },
+  entities: [
+    {
+      appsName: 'kut01',
+      pkType: 'String',
+      relationships: [],
+      entityName: 'Order',
+      entityClass: 'Order',
+      entityInstance: 'Order',
+      entityFolderName: 'Order',
+      entityFileName: 'Order',
+      enableTranslation: false,
+      fields: [Array]
+    },
+    {
+      appsName: 'kut01',
+      pkType: 'String',
+      relationships: [],
+      entityName: 'Customer',
+      entityClass: 'Customer',
+      entityInstance: 'Customer',
+      entityFolderName: 'Customer',
+      entityFileName: 'Customer',
+      enableTranslation: false,
+      fields: [Array]
+    },
+    {
+      appsName: 'kut01',
+      pkType: 'String',
+      relationships: [],
+      entityName: 'Address',
+      entityClass: 'Address',
+      entityInstance: 'Address',
+      entityFolderName: 'Address',
+      entityFileName: 'Address',
+      enableTranslation: false,
+      fields: [Array]
+    },
+    {
+      appsName: 'kut01',
+      pkType: 'String',
+      relationships: [],
+      entityName: 'Category',
+      entityClass: 'Category',
+      entityInstance: 'Category',
+      entityFolderName: 'Category',
+      entityFileName: 'Category',
+      enableTranslation: false,
+      fields: [Array]
+    },
+    {
+      appsName: 'kut01',
+      pkType: 'String',
+      relationships: [],
+      entityName: 'User',
+      entityClass: 'User',
+      entityInstance: 'User',
+      entityFolderName: 'User',
+      entityFileName: 'User',
+      enableTranslation: false,
+      fields: [Array]
+    },
+    {
+      appsName: 'kut01',
+      pkType: 'String',
+      relationships: [],
+      entityName: 'Tag',
+      entityClass: 'Tag',
+      entityInstance: 'Tag',
+      entityFolderName: 'Tag',
+      entityFileName: 'Tag',
+      enableTranslation: false,
+      fields: [Array]
+    },
+    {
+      appsName: 'kut01',
+      pkType: 'String',
+      relationships: [],
+      entityName: 'Pet',
+      entityClass: 'Pet',
+      entityInstance: 'Pet',
+      entityFolderName: 'Pet',
+      entityFileName: 'Pet',
+      enableTranslation: false,
+      fields: [Array]
+    },
+    {
+      appsName: 'kut01',
+      pkType: 'String',
+      relationships: [],
+      entityName: 'ApiResponse',
+      entityClass: 'ApiResponse',
+      entityInstance: 'ApiResponse',
+      entityFolderName: 'ApiResponse',
+      entityFileName: 'ApiResponse',
+      enableTranslation: false,
+      fields: [Array]
+    }
+  ],
+  paths: [
+      { path: '/pet', methods: [
+          {
+            method: 'put',
+            tags: [ 'pet' ],
+            summary: 'Update an existing pet',
+            description: 'Update an existing pet by Id',
+            operationId: 'updatePet',
+            requestBodyDesc: 'Update an existent pet in the store',
+            requestBodyType: 'pet',
+            requestBodyRequired: [ 'name', 'photoUrls' ],
+            contentType: [
+              'application/json',
+              'application/xml',
+              'application/x-www-form-urlencoded'
+            ]
+          },
+          {
+            method: 'post',
+            tags: [ 'pet' ],
+            summary: 'Add a new pet to the store',
+            description: 'Add a new pet to the store',
+            operationId: 'addPet',
+            requestBodyDesc: 'Create a new pet in the store',
+            requestBodyType: 'pet',
+            requestBodyRequired: [ 'name', 'photoUrls' ],
+            contentType: [
+              'application/json',
+              'application/xml',
+              'application/x-www-form-urlencoded'
+            ]
+          }
+        ] 
+      },
+      { path: '/pet/findByStatus', methods: [Array] },
+      { path: '/pet/findByTags', methods: [Array] },
+      { path: '/pet/{petId}', methods: [Array] },
+      { path: '/pet/{petId}/uploadImage', methods: [Array] },
+      { path: '/store/inventory', methods: [Array] },
+      { path: '/store/order', methods: [Array] },
+      { path: '/store/order/{orderId}', methods: [Array] },
+      { path: '/user', methods: [Array] },
+      { path: '/user/createWithList', methods: [Array] },
+      { path: '/user/login', methods: [Array] },
+      { path: '/user/logout', methods: [Array] },
+      { path: '/user/{username}', methods: [Array] }
+    ]
+}

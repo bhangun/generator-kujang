@@ -15,6 +15,9 @@ https://petstore3.swagger.io/api/v3/openapi.json
  // console.log(Object.entries(api.components.schemas.Pet)[2])
  
 
+
+
+----------------------------------------
 {
   schema: {
     required: [ 'name', 'photoUrls' ],

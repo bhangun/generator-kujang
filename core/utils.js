@@ -67,31 +67,33 @@ function mappingFields(obj, entities) {
  */
 function getPaths(api) {
   const paths = []
-  Object.entries(api.paths).forEach(path=>{
+  Object.entries(api.paths).forEach(path => {
     paths.push({
       path: path[0],
-      methods: getPathMethod(api.paths)
+      methods: getPathMethod(path[1])
     })
   })
+  return paths
 }
 
 /**
  * 
- * @param {*} paths list of paths
+ * @param {*} path  path
  */
-function getPathMethod(paths) {
+function getPathMethod(path) {
   const methods = []
-  Object.entries(paths).forEach(method=>{
+  Object.entries(path).forEach(method => {
     const m = method[1];
     const contents = []
-    const type = ''
-    const required = []
+    let type = ''
+    let required = []
 
-    Object.entries(m.requestBody.content).forEach(c =>{
-      contents.push(c[0])
-      type = c[1].schema.xml
-      required = c[1].schema.required
-    })
+    if (m.requestBody)
+      Object.entries(m.requestBody.content).forEach(c => {
+        type = c[1].schema.xml?c[1].schema.xml.name:''
+        required = c[1].schema.required
+        contents.push(c[0])
+      })
 
     methods.push({
       method: method[0],
@@ -99,12 +101,13 @@ function getPathMethod(paths) {
       summary: m.summary,
       description: m.description,
       operationId: m.operationId,
-      requestBodyDesc: m.requestBody.description,
+      requestBodyDesc: m.requestBody ? m.requestBody.description : '',
       requestBodyType: type,
       requestBodyRequired: required,
       contentType: contents,
     })
   })
+  return methods
 }
 
 
@@ -115,9 +118,9 @@ function getPathMethod(paths) {
  * @returns 
  */
 function sanitaizeField(field, entities) {
-  let newField =''
+  let newField = ''
   if (field.fieldType == 'object') {
-   // newField = 'String'
+    // newField = 'String'
   }
   else if (field.fieldType == 'array') {
     newField = 'Array<String>'
