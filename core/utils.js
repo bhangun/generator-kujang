@@ -16,8 +16,10 @@ module.exports = {
  */
 function mappingEntities(appsName, api) {
   
-  console.log(Object.entries(Object.entries(api.paths)[0][1].post.requestBody.content)[1][1].schema.properties.category.properties)
-
+  //console.log(Object.entries(Object.entries(api.paths)[0][1].post.requestBody.content)[0][1].schema.properties.tags.items)
+  //console.log(Object.entries(Object.entries(api.paths)[0][1].post.requestBody.content)[2][1])
+  //console.log(Object.entries(Object.entries(api.paths)[0][1].post.responses.content)[2][1])
+  console.log(Object.entries(Object.entries(api.paths)[0][1].post.responses)[0][1].content)
   //console.log(Object.entries(api.paths)[0][1].post.requestBody.content)
 
   //console.log(Object.entries(Object.entries(api.paths)[0][1].put.responses)[0][1].content)
