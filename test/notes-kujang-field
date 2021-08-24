@@ -31,7 +31,80 @@
       entityFolderName: 'Order',
       entityFileName: 'Order',
       enableTranslation: false,
-      fields: [Array]
+      fields: [
+        {
+          fieldType: '',
+          fieldName: 'id',
+          fieldIsEnum: false,
+          fieldValues: '',
+          fieldDescription: undefined,
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        },
+        {
+          fieldType: '',
+          fieldName: 'petId',
+          fieldIsEnum: false,
+          fieldValues: '',
+          fieldDescription: undefined,
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        },
+        {
+          fieldType: '',
+          fieldName: 'quantity',
+          fieldIsEnum: false,
+          fieldValues: '',
+          fieldDescription: undefined,
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        },
+        {
+          fieldType: '',
+          fieldName: 'shipDate',
+          fieldIsEnum: false,
+          fieldValues: '',
+          fieldDescription: undefined,
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        },
+        {
+          fieldType: '',
+          fieldName: 'status',
+          fieldIsEnum: true,
+          fieldValues: 'placed,approved,delivered',
+          fieldDescription: 'Order Status',
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        },
+        {
+          fieldType: '',
+          fieldName: 'complete',
+          fieldIsEnum: false,
+          fieldValues: '',
+          fieldDescription: undefined,
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        }
+      ]
     },
     {
       appsName: 'kut01',
@@ -103,7 +176,80 @@
       entityFolderName: 'Pet',
       entityFileName: 'Pet',
       enableTranslation: false,
-      fields: [Array]
+      fields: [
+        {
+          fieldType: '',
+          fieldName: 'id',
+          fieldIsEnum: false,
+          fieldValues: '',
+          fieldDescription: undefined,
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        },
+        {
+          fieldType: '',
+          fieldName: 'name',
+          fieldIsEnum: false,
+          fieldValues: '',
+          fieldDescription: undefined,
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        },
+        {
+          fieldType: '',
+          fieldName: 'category',
+          fieldIsEnum: false,
+          fieldValues: '',
+          fieldDescription: undefined,
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        },
+        {
+          fieldType: '',
+          fieldName: 'photoUrls',
+          fieldIsEnum: false,
+          fieldValues: '',
+          fieldDescription: undefined,
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        },
+        {
+          fieldType: '',
+          fieldName: 'tags',
+          fieldIsEnum: false,
+          fieldValues: '',
+          fieldDescription: undefined,
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        },
+        {
+          fieldType: '',
+          fieldName: 'status',
+          fieldIsEnum: true,
+          fieldValues: 'available,pending,sold',
+          fieldDescription: 'pet status in the store',
+          fieldsContainOneToMany: false,
+          fieldsContainOwnerManyToMany: false,
+          fieldsContainOwnerOneToOne: false,
+          fieldsContainNoOwnerOneToOne: false,
+          fieldsContainManyToOne: false
+        }
+      ]
     },
     {
       appsName: 'kut01',
@@ -129,10 +275,40 @@
             requestBodyDesc: 'Update an existent pet in the store',
             requestBodyType: 'pet',
             requestBodyRequired: [ 'name', 'photoUrls' ],
-            contentType: [
+            requestContentType: [
               'application/json',
               'application/xml',
               'application/x-www-form-urlencoded'
+            ],
+            responses: [
+              {
+                responseCode: '200',
+                responseDesc: 'Successful operation',
+                responseType: 'pet',
+                responseContentType: [ 'application/xml', 'application/json' ],
+                responseHeaders: []
+              },
+              {
+                responseCode: '400',
+                responseDesc: 'Invalid ID supplied',
+                responseType: '',
+                responseContentType: [],
+                responseHeaders: []
+              },
+              {
+                responseCode: '404',
+                responseDesc: 'Pet not found',
+                responseType: '',
+                responseContentType: [],
+                responseHeaders: []
+              },
+              {
+                responseCode: '405',
+                responseDesc: 'Validation exception',
+                responseType: '',
+                responseContentType: [],
+                responseHeaders: []
+              }
             ]
           },
           {
@@ -144,13 +320,14 @@
             requestBodyDesc: 'Create a new pet in the store',
             requestBodyType: 'pet',
             requestBodyRequired: [ 'name', 'photoUrls' ],
-            contentType: [
+            requestContentType: [
               'application/json',
               'application/xml',
               'application/x-www-form-urlencoded'
-            ]
+            ],
+            responses: [ [Object], [Object] ]
           }
-        ] 
+        ]
       },
       { path: '/pet/findByStatus', methods: [Array] },
       { path: '/pet/findByTags', methods: [Array] },
@@ -158,7 +335,33 @@
       { path: '/pet/{petId}/uploadImage', methods: [Array] },
       { path: '/store/inventory', methods: [Array] },
       { path: '/store/order', methods: [Array] },
-      { path: '/store/order/{orderId}', methods: [Array] },
+      {
+        path: '/store/order/{orderId}',
+        methods: [
+          {
+            method: 'get',
+            tags: [Array],
+            summary: 'Find purchase order by ID',
+            description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions',
+            operationId: 'getOrderById',
+            requestBodyDesc: '',
+            requestBodyType: '',
+            requestBodyRequired: [],
+            contentType: []
+          },
+          {
+            method: 'delete',
+            tags: [Array],
+            summary: 'Delete purchase order by ID',
+            description: 'For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors',
+            operationId: 'deleteOrder',
+            requestBodyDesc: '',
+            requestBodyType: '',
+            requestBodyRequired: [],
+            contentType: []
+          }
+        ]
+      },
       { path: '/user', methods: [Array] },
       { path: '/user/createWithList', methods: [Array] },
       { path: '/user/login', methods: [Array] },

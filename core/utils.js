@@ -26,9 +26,9 @@ function mappingEntities(appsName, api) {
       relationships: [],
       entityName: entity[0],
       entityClass: entity[0],
-      entityInstance: entity[0],
-      entityFolderName: entity[0],
-      entityFileName: entity[0],
+      entityInstance: _.camelCase(entity[0]),
+      entityFolderName: _.camelCase(entity[0]),
+      entityFileName: _.camelCase(entity[0]),
       enableTranslation: false,
       fields: mappingFields(entity[1], schema)
     })
@@ -84,15 +84,15 @@ function getPathMethod(path) {
   const methods = []
   Object.entries(path).forEach(method => {
     const m = method[1];
-    const contents = []
-    let type = ''
+    const contentsRequest = []
+    let typeRequest = ''
     let required = []
 
     if (m.requestBody)
       Object.entries(m.requestBody.content).forEach(c => {
-        type = c[1].schema.xml?c[1].schema.xml.name:''
+        typeRequest = c[1].schema.xml ? c[1].schema.xml.name : ''
         required = c[1].schema.required
-        contents.push(c[0])
+        contentsRequest.push(c[0])
       })
 
     methods.push({
@@ -101,13 +101,50 @@ function getPathMethod(path) {
       summary: m.summary,
       description: m.description,
       operationId: m.operationId,
+
       requestBodyDesc: m.requestBody ? m.requestBody.description : '',
-      requestBodyType: type,
+      requestBodyType: typeRequest,
       requestBodyRequired: required,
-      contentType: contents,
+      requestContentType: contentsRequest,
+
+      responses: getResponses(m)
     })
   })
   return methods
+}
+
+function getResponses(list) {
+  const responses = []
+  
+  if (list)
+    Object.entries(list.responses).forEach(r => {
+      const types = []
+      let typeRequest = ''
+      let headersType = []
+     // console.log(r)
+      if (r[1].content)
+        Object.entries(r[1].content).forEach(c => {
+          typeRequest = c[1].schema.xml ? c[1].schema.xml.name : ''
+          types.push(c[0])
+          /* console.log('----------')
+          console.log(c[0]) */
+        })
+       
+        if (r[1].headers)
+        Object.entries(r[1].headers).forEach(c => {
+          //headersType = c[1].schema.xml ? c[1].schema.xml.name : ''
+          headersType.push(c[0])
+        })
+
+      responses.push({
+        responseCode: r[0],
+        responseDesc: r[1].description ? r[1].description : '',
+        responseType: typeRequest,
+        responseContentType: types,
+        responseHeaders: headersType
+      })
+    })
+  return responses;
 }
 
 

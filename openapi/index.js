@@ -49,7 +49,7 @@ module.exports = class extends GenBase {
    
     compose() {
 
-        console.log(this.props)
+        console.log(this.props.paths[0].methods[0].responses[0])
         //console.log(this.props.entities[6].fields)
         //this.composeWith(require.resolve('../mobx'), this.props);
     }
