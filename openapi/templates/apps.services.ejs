@@ -9,30 +9,40 @@ class <%= capitalize(appsName) %>Services {
 <% for (i in paths) { %>
 <% for (m in paths[i].methods) { 
   const path = paths[i].path;
-  const requestType = paths[i].methods[m].responseType;
+  const requestType = paths[i].methods[m].requestBodyType;
   const requestClass = capitalize(requestType);
-  const requestBodyClass = capitalize(paths[i].methods[m].requestBodyType); 
+  const requestBodyClass = capitalize(requestType); 
+  const responseClass = capitalize(paths[i].methods[m].responseType); 
   const methodName = paths[i].methods[m].operationId;
   const isInput = requestType?true:false;
   const methodPath = validatePath(paths[i].methods[m].method);
   const desc = paths[i].methods[m].description; 
-  const parameters = putParam(paths[i].methods[m].parameters);
+  const summary = paths[i].methods[m].summary;
+  const parameters = putParam(paths[i].methods[m]);
+
 %>
   /**
-  * <%= desc %>
+  * <%= summary %><% if(desc){%>
+  * <%= desc %> <%}%>
   */
-  static Future<<%= requestBodyClass %>> <%= methodName %>(<%= parameters %>) async {
+  static Future<<%= responseClass %>> <%= methodName %>(<%= parameters %>) async {
     var response = await RestServices.<%= methodPath %>('<%= path %>'); 
-    <%if(isInput){%>return <%= requestClass %>.fromJson(json.decode(response));<%}%>
+    <%if(isInput){%>return <%= requestBodyClass %>.fromJson(json.decode(response));<%}%>
   }
 <% } } %>
 }
 
 <%
 
-function putParam(param){
+function putParam(input){
   let result = '';
+  let param = input.parameters;
+  let addComma = '';
+  
   if(param){
+    if(param.length>0)
+      addComma = ', '
+
     let n = param.length
     let comma =''
     for(p in param){
@@ -42,11 +52,18 @@ function putParam(param){
         comma =', '
     } 
   }
+  
+
+  if(input.requestBodyType)
+    result += addComma+capitalize(input.requestBodyType)+' '+input.requestBodyType;
+  
   return result;
 }
 
 function capitalize(text){
-  return text.substr( 0, 1 ).toUpperCase()+text.substr( 1 );
+  if(text)
+    return text.substr( 0, 1 ).toUpperCase()+text.substr( 1 );
+  else ''
 }
 
 function validatePath(m){
