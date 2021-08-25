@@ -79,12 +79,20 @@ function mappingFields(obj, entities) {
 function getPaths(api) {
   const paths = []
   Object.entries(api.paths).forEach(path => {
+    const param = splitParam(path[0])
+    const hasParam = path[0].split('{').length>1
     paths.push({
-      path: path[0],
+      pathOrigin: path[0],
+      path: param, 
+      hasParam: hasParam,
       methods: getPathMethod(path[1])
     })
   })
   return paths
+}
+
+function splitParam(path){
+  return path.replace('{','${')
 }
 
 /**
@@ -93,11 +101,14 @@ function getPaths(api) {
  */
 function getPathMethod(path) {
   const methods = []
+  
   Object.entries(path).forEach(method => {
     const m = method[1];
     const contentsRequest = []
     let typeRequest = ''
     let required = []
+    const result = getResponses(m)
+    let parameter = []
 
     if (m.requestBody)
       Object.entries(m.requestBody.content).forEach(c => {
@@ -106,10 +117,12 @@ function getPathMethod(path) {
         contentsRequest.push(c[0])
       })
 
-    const result = getResponses(m)
+    if(method[0]=='get')
+      parameter = m.parameters
 
     methods.push({
       method: method[0],
+      parameters: parameter,
       tags: m.tags,
       summary: m.summary,
       description: m.description,

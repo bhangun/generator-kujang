@@ -24,8 +24,8 @@ function writingEntity() {
         }
         else {
             this.props = utils.mappingProps(api,'testing')
-            console.log(this.props.paths[0])
-            console.log(this.props.paths[0].methods)
+           // console.log(this.props.paths)
+            console.log(this.props.paths[1].methods[0].parameters)
         }
     })
 }

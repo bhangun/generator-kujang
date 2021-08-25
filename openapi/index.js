@@ -44,7 +44,7 @@ module.exports = class extends GenBase {
                     this.props = utils.mappingProps(api,this.appname)
                     const opt = {paths:this.props.paths}
                     opt.appsName = 'coba'
-                    console.log(this.props.paths)
+                    console.log(this.props.paths[1].methods[0])
                     this.template('apps.services.ejs', `serpis.dart`,this,this.props);
                     done();
                 }
