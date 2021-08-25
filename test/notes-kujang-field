@@ -272,70 +272,53 @@ https://petstore3.swagger.io/api/v3/pet/findByStatus?status=available
       { 
         path: '/pet', 
         methods: [
+          {},
           {
-            method: 'put',
-            tags: [ 'pet' ],
-            summary: 'Update an existing pet',
-            description: 'Update an existing pet by Id',
-            operationId: 'updatePet',
-            requestBodyDesc: 'Update an existent pet in the store',
-            requestBodyType: 'pet',
-            requestBodyRequired: [ 'name', 'photoUrls' ],
-            requestContentType: [
-              'application/json',
-              'application/xml',
-              'application/x-www-form-urlencoded'
+          }
+        ]
+      },
+      { path: '/pet/findByStatus', 
+        methods: [
+          {
+            method: 'get',
+            parameters: [
+              {
+                name: 'status',
+                in: 'query',
+                description: 'Status values that need to be considered for filter',
+                required: false,
+                explode: true,
+                schema: [Object]
+              }
             ],
+            tags: [ 'pet' ],
+            summary: 'Finds Pets by status',
+            description: 'Multiple status values can be provided with comma separated strings',
+            operationId: 'findPetsByStatus',
+            requestBodyDesc: '',
+            requestBodyType: '',
+            requestBodyRequired: [],
+            requestContentType: [],
+            responseType: '',
             responses: [
               {
                 responseCode: '200',
-                responseDesc: 'Successful operation',
-                responseType: 'pet',
-                responseContentType: [ 'application/xml', 'application/json' ],
+                responseDesc: 'successful operation',
+                responseType: '',
+                responseContentType: [Array],
                 responseHeaders: []
               },
               {
                 responseCode: '400',
-                responseDesc: 'Invalid ID supplied',
-                responseType: '',
-                responseContentType: [],
-                responseHeaders: []
-              },
-              {
-                responseCode: '404',
-                responseDesc: 'Pet not found',
-                responseType: '',
-                responseContentType: [],
-                responseHeaders: []
-              },
-              {
-                responseCode: '405',
-                responseDesc: 'Validation exception',
+                responseDesc: 'Invalid status value',
                 responseType: '',
                 responseContentType: [],
                 responseHeaders: []
               }
             ]
-          },
-          {
-            method: 'post',
-            tags: [ 'pet' ],
-            summary: 'Add a new pet to the store',
-            description: 'Add a new pet to the store',
-            operationId: 'addPet',
-            requestBodyDesc: 'Create a new pet in the store',
-            requestBodyType: 'pet',
-            requestBodyRequired: [ 'name', 'photoUrls' ],
-            requestContentType: [
-              'application/json',
-              'application/xml',
-              'application/x-www-form-urlencoded'
-            ],
-            responses: [ [Object], [Object] ]
           }
-        ]
+        ] 
       },
-      { path: '/pet/findByStatus', methods: [Array] },
       { path: '/pet/findByTags', methods: [Array] },
       { path: '/pet/{petId}', methods: [Array] },
       { path: '/pet/{petId}/uploadImage', methods: [Array] },

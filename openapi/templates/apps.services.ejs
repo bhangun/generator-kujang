@@ -5,8 +5,9 @@ import '../../../services/network/rest_services.dart';
 <% for (i in entities) { %>
 import '../models/<%= entities[i].entityInstance %>.dart'; <%}%>
 
-class <%= capitalize(appsName) %>Services { 
-<% for (i in paths) { %>
+/// <%= info.title%>
+/// @version <%= info.version%>
+class <%= capitalize(appsName) %>Services { <% for (i in paths) { %>
 <% for (m in paths[i].methods) { 
   const path = paths[i].path;
   const requestType = paths[i].methods[m].requestBodyType;
@@ -18,46 +19,66 @@ class <%= capitalize(appsName) %>Services {
   const methodPath = validatePath(paths[i].methods[m].method);
   const desc = paths[i].methods[m].description; 
   const summary = paths[i].methods[m].summary;
-  const parameters = putParam(paths[i].methods[m]);
-
+  const param =  putParam(paths[i].methods[m]);
+  const parameters = param.param;
+  const query = param.query;
 %>
-  /**
-  * <%= summary %><% if(desc){%>
-  * <%= desc %> <%}%>
-  */
+  /// <%= summary %><% if(desc){%>
+  /// <%= desc %> <%}%>
   static Future<<%= responseClass %>> <%= methodName %>(<%= parameters %>) async {
-    var response = await RestServices.<%= methodPath %>('<%= path %>'); 
+    var response = await RestServices.<%= methodPath %>('<%= path %><%= query %>'); 
     <%if(isInput){%>return <%= requestBodyClass %>.fromJson(json.decode(response));<%}%>
   }
-<% } } %>
+  <% } } %>
 }
 
 <%
-
 function putParam(input){
   let result = '';
   let param = input.parameters;
+  let query = ''
   let addComma = '';
-  
-  if(param){
-    if(param.length>0)
-      addComma = ', '
 
+  if(param){
+    
+    let req = ''
     let n = param.length
     let comma =''
+    let and = '';
+    let q = 0;
+
+    if(param.required)
+      req = '@required '
+
+    if(param.length > 0)
+      addComma = ', '
+
     for(p in param){
-      result += comma + capitalize(param[p].schema.type)+' '+param[p].name ;
+      result += comma + req + capitalize(param[p].schema.type)+' '+param[p].name ;
+
+      if(q > 0)
+        and='%26'
+
+      if(param[p].in == 'query'){
+        query += and + param[p].name + '=${'+ param[p].name + '}'
+        q++;
+      }
       n--;
+
       if(n>0)
         comma =', '
+      
     } 
   }
-  
 
+  // add parameter if there is payload
   if(input.requestBodyType)
     result += addComma+capitalize(input.requestBodyType)+' '+input.requestBodyType;
   
-  return result;
+  if(query)
+    query = '?'+query
+
+  return {param: result, query: query};
 }
 
 function capitalize(text){
