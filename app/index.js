@@ -13,18 +13,18 @@ module.exports = class extends GenBase {
         return {
 
             displayLogo() {
-                this.log(`${chalk.bold.yellowBright('            ▄      ')}`);
-                this.log(`${chalk.bold.yellowBright('         ▄▄▄██ ')}`);
-                this.log(`${chalk.bold.yellowBright('       ▄░░█████ ')}`);
-                this.log(`${chalk.bold.yellowBright('    ▄░░  ░█████ ')}`);
-                this.log(`${chalk.bold.yellowBright('   ░░  ░██████  ')}${chalk.bold.cyan('__              __')}`);
-                this.log(`${chalk.bold.yellowBright('  ░  ░░██████  ')}${chalk.bold.cyan('|  | ____ ___   |__|____    ____    ____ ')}`);
-                this.log(`${chalk.bold.yellowBright(' ░░░░░█████    ')}${chalk.bold.cyan('|  |/ /  |   \\  |  \\__  \\  /    \\  / ___\\')}`);
-                this.log(`${chalk.bold.yellowBright(' ░░░████       ')}${chalk.bold.cyan('|    <|  |   /  |  |/ __ \\|   |  \\/ /_/  >')}`);
-                this.log(`${chalk.bold.yellowBright('  ░░░███       ')}${chalk.bold.cyan('|__|__ \\____/\\__|  (____  /___|  /\\___  /     ')}`);
-                this.log(`${chalk.bold.yellowBright('   ░░░███      ▄     ')}${chalk.bold.cyan('\\/    \\______|    \\/     \\//_____/')}`);
-                this.log(`${chalk.bold.yellowBright('    ░░░░░███████ ')}`);
-                this.log(`${chalk.bold.yellowBright('      ░░░░░░███ ')}`);
+                this.log(`${chalk.bold.yellowBright('            ▄     ')}`);
+                this.log(`${chalk.bold.yellowBright('          ▄▄██')}`);
+                this.log(`${chalk.bold.yellowBright('       ▄▄░░████')}`);
+                this.log(`${chalk.bold.yellowBright('     ▄░░  ░████')}`);
+                this.log(`${chalk.bold.yellowBright('    ░░  ░█████  ')}${chalk.bold.cyan('__              __')}`);
+                this.log(`${chalk.bold.yellowBright('   ░  ░░█████  ')}${chalk.bold.cyan('|  | ____ ___   |__|____    ____    ____ ')}`);
+                this.log(`${chalk.bold.yellowBright('  ░░░░░████    ')}${chalk.bold.cyan('|  |/ /  |   \\  |  \\__  \\  /    \\  / ___\\')}`);
+                this.log(`${chalk.bold.yellowBright('  ░░░███       ')}${chalk.bold.cyan('|    <|  |   /  |  |/ __ \\|   |  \\/ /_/  >')}`);
+                this.log(`${chalk.bold.yellowBright('   ░░░██       ')}${chalk.bold.cyan('|__|__ \\____/\\__|  (____  /___|  /\\___  /     ')}`);
+                this.log(`${chalk.bold.yellowBright('    ░░░██     ▄      ')}${chalk.bold.cyan('\\/    \\______|    \\/     \\//_____/')}`);
+                this.log(`${chalk.bold.yellowBright('     ░░░░██████ ')}`);
+                this.log(`${chalk.bold.yellowBright('      ░░░░░░██ ')}`);
                 this.log(`${chalk.bold.redBright('        ░░██▌  ')}`);
                 this.log(`${chalk.bold.redBright('        ░░██')}   Salam to the ${chalk.bold.yellow('Kujang')} generator! ${version}`);
                 this.log(`${chalk.bold.redBright('        ░░███')}`);
@@ -33,7 +33,6 @@ module.exports = class extends GenBase {
         };
     }
 
-    
     prompting() {
        
         const appsName = this.getDefaultAppName(); 
