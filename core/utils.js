@@ -108,7 +108,7 @@ function getPathMethod(path) {
     let typeRequest = ''
     let required = []
     const result = getResponses(m)
-    let parameter = []
+    //let parameter = []
 
     if (m.requestBody)
       Object.entries(m.requestBody.content).forEach(c => {
@@ -117,12 +117,12 @@ function getPathMethod(path) {
         contentsRequest.push(c[0])
       })
 
-    if(method[0]=='get')
-      parameter = m.parameters
+    //if(m.parameters.length > 0)
+    //  parameter = m.parameters
 
     methods.push({
       method: method[0],
-      parameters: parameter,
+      parameters: m.parameters,
       tags: m.tags,
       summary: m.summary,
       description: m.description,

@@ -33,14 +33,14 @@ class <%= capitalize(appsName) %>Services {
 function putParam(param){
   let result = '';
   if(param){
-  let n = param.length
-  let comma =''
-   for(p in param){
+    let n = param.length
+    let comma =''
+    for(p in param){
       result += comma + capitalize(param[p].schema.type)+' '+param[p].name ;
       n--;
       if(n>0)
         comma =', '
-   } 
+    } 
   }
   return result;
 }
