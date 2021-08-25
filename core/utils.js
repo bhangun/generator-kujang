@@ -108,7 +108,6 @@ function getPathMethod(path) {
     let typeRequest = ''
     let required = []
     const result = getResponses(m)
-    //let parameter = []
 
     if (m.requestBody)
       Object.entries(m.requestBody.content).forEach(c => {
@@ -116,9 +115,6 @@ function getPathMethod(path) {
         required = c[1].schema.required
         contentsRequest.push(c[0])
       })
-
-    //if(m.parameters.length > 0)
-    //  parameter = m.parameters
 
     methods.push({
       method: method[0],
