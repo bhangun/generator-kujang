@@ -1,0 +1,41 @@
+import 'dart:async';
+import 'dart:convert';
+
+import '../../../services/network/rest_services.dart';
+<%
+function capitalize(text){
+  return text.substr( 0, 1 ).toUpperCase()+text.substr( 1 );
+}
+
+function validatePath(m){
+  let method = m;
+  if(m == 'put')
+    method = 'update';
+  else if (m == 'get')
+    method = 'fetch';
+
+  return method;
+}
+%>
+
+class <%= appsName %>Services {
+<% for (i in paths) { %>
+<% for (m in paths[i].methods) { 
+  const path = paths[i].path;
+  const requestType = paths[i].methods[m].responseType;
+  const requestClass = capitalize(requestType);
+  const requestBodyClass = capitalize(paths[i].methods[m].requestBodyType); 
+  const methodName = paths[i].methods[m].operationId;
+  const isInput = requestType?true:false;
+  const methodPath = validatePath(paths[i].methods[m].method);
+  const desc = paths[i].methods[m].description;
+  %>
+  /**
+  * <%= desc %>
+  */
+  static Future<<%= requestBodyClass %>> <%= methodName %>(<% if(isInput) {%><%= requestClass %> <%= requestType %><%}%>) async {
+    var response = await RestServices.<%= methodPath %>('<%= path %>'<% if(isInput) {%>, <%= requestType %> <%}%>);
+   <%if(isInput){%> return <%= requestClass %>.fromJson(json.decode(response));<%}%>
+  }
+<% } } %>
+}

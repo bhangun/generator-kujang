@@ -265,7 +265,9 @@
     }
   ],
   paths: [
-      { path: '/pet', methods: [
+      { 
+        path: '/pet', 
+        methods: [
           {
             method: 'put',
             tags: [ 'pet' ],

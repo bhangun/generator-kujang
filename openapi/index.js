@@ -32,7 +32,7 @@ module.exports = class extends GenBase {
                     console.error(err);
                 }
                 else {
-                    this.props = { 
+                    /* this.props = { 
                         appsName: this.appsName, 
                         baseName: props.appsName,
                         packageFolder: this.appsName, 
@@ -40,7 +40,12 @@ module.exports = class extends GenBase {
                        
                         entities: utils.mappingEntities(this.appsName,api),
                         paths: utils.getPaths(api)
-                    }
+                    } */
+                    this.props = utils.mappingProps(api,this.appname)
+                    const opt = {paths:this.props.paths}
+                    opt.appsName = 'coba'
+                    console.log(this.props.paths)
+                    this.template('apps.services.ejs', `serpis.dart`,this,this.props);
                     done();
                 }
             })
@@ -49,7 +54,7 @@ module.exports = class extends GenBase {
    
     compose() {
 
-        console.log(this.props.paths[0].methods[0].responses[0])
+       // console.log(this.props.paths[0].methods[0].responses[0])
         //console.log(this.props.entities[6].fields)
         //this.composeWith(require.resolve('../mobx'), this.props);
     }

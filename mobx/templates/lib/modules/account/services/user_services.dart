@@ -3,13 +3,12 @@ import 'dart:convert';
 
 import 'package:f_logs/f_logs.dart';
 import 'package:<%= appsName %>/utils/helper.dart';
-import 'package:logging/logging.dart';
 
 import '../../../services/network/rest_services.dart';
 import '../models/user_model.dart';
 
 class UserServices {
-  static final log = Logger('UserServices');
+ 
   // GET getAllUsers
   // POST createUser
   // PUT updateUser
@@ -29,7 +28,7 @@ class UserServices {
     return exp.stringMatch(login);
      // if () return login;
     }catch(e){
-      log.info('>>>>>>>>>>>>>>>>> '+e.toString());
+    
       return login;
     }
   }
@@ -45,9 +44,9 @@ class UserServices {
 
   // Fetch all user
   static Future<List<User>> users([var page, var size, var sort]) async {
-    FLog.info(text: '--------1--------');
+   
     List<dynamic> data = await RestServices.fetch(API_USERS);
-    FLog.info(text: '--------2--------');
+   
     return User.listFromJson(data);
   }
 

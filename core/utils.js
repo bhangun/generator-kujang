@@ -1,13 +1,24 @@
 const _ = require('lodash');
 
 module.exports = {
-
+  mappingProps,
   mappingEntities,
   mappingFields,
   mappingRelationship,
   getPaths,
   getPathMethod
 };
+
+function mappingProps(api, appsName) {
+  return {
+    appsName: appsName,
+    baseName: appsName,
+    packageFolder: appsName,
+    info: api.info,
+    entities: mappingEntities(appsName, api),
+    paths: getPaths(api)
+  }
+}
 
 /**
  * 
@@ -95,6 +106,8 @@ function getPathMethod(path) {
         contentsRequest.push(c[0])
       })
 
+    const result = getResponses(m)
+
     methods.push({
       method: method[0],
       tags: m.tags,
@@ -106,8 +119,8 @@ function getPathMethod(path) {
       requestBodyType: typeRequest,
       requestBodyRequired: required,
       requestContentType: contentsRequest,
-
-      responses: getResponses(m)
+      responseType: result.type,
+      responses: result.responses
     })
   })
   return methods
@@ -115,36 +128,37 @@ function getPathMethod(path) {
 
 function getResponses(list) {
   const responses = []
-  
+  let type = ''
   if (list)
     Object.entries(list.responses).forEach(r => {
       const types = []
-      let typeRequest = ''
+      let responseType = ''
+      
       let headersType = []
-     // console.log(r)
+      
       if (r[1].content)
         Object.entries(r[1].content).forEach(c => {
-          typeRequest = c[1].schema.xml ? c[1].schema.xml.name : ''
+          responseType = c[1].schema.xml ? c[1].schema.xml.name : ''
           types.push(c[0])
-          /* console.log('----------')
-          console.log(c[0]) */
         })
-       
-        if (r[1].headers)
+
+      if (r[1].headers)
         Object.entries(r[1].headers).forEach(c => {
-          //headersType = c[1].schema.xml ? c[1].schema.xml.name : ''
           headersType.push(c[0])
         })
+
+      if ('200' == r[0])
+        type = responseType
 
       responses.push({
         responseCode: r[0],
         responseDesc: r[1].description ? r[1].description : '',
-        responseType: typeRequest,
+        responseType: responseType,
         responseContentType: types,
         responseHeaders: headersType
       })
     })
-  return responses;
+  return { responses: responses, type: type };
 }
 
 
