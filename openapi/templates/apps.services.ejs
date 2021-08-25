@@ -34,8 +34,8 @@ class <%= appsName %>Services {
   * <%= desc %>
   */
   static Future<<%= requestBodyClass %>> <%= methodName %>(<% if(isInput) {%><%= requestClass %> <%= requestType %><%}%>) async {
-    var response = await RestServices.<%= methodPath %>('<%= path %>'<% if(isInput) {%>, <%= requestType %> <%}%>);
-   <%if(isInput){%> return <%= requestClass %>.fromJson(json.decode(response));<%}%>
+    var response = await RestServices.<%= methodPath %>('<%= path %>'<% if(isInput) {%>, <%= requestType %><%}%>); <%if(isInput){%>
+    return <%= requestClass %>.fromJson(json.decode(response));<%}%>
   }
 <% } } %>
 }
