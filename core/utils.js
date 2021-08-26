@@ -9,6 +9,12 @@ module.exports = {
   getPathMethod
 };
 
+/**
+ * Mapping all api element to kujang schema
+ * @param {*} api 
+ * @param {*} appsName 
+ * @returns api element
+ */
 function mappingProps(api, appsName) {
   return {
     appsName: appsName,
@@ -16,12 +22,66 @@ function mappingProps(api, appsName) {
     packageFolder: appsName,
     info: api.info,
     entities: mappingEntities(appsName, api),
-    paths: getPaths(api)
+    paths: getPaths(api),
+    servers: api.servers,
+    securitySchemes: getSecurity(api.components.securitySchemes),
+    tags: api.tags
   }
 }
 
 /**
- * 
+ * Get security information
+ * @param {*} api 
+ */
+function getSecurity(api) {
+  const schema = []
+  Object.entries(api).forEach(sch => {
+    let scopes = []
+    let url = ''
+    let typeName = ''
+    let position = ''
+
+    if (sch[1].flows){
+      scopes = getScopes(sch[1].flows.implicit.scopes)
+      url = sch[1].flows.implicit.authorizationUrl
+    }
+    
+    if(sch[1].name)
+      typeName = sch[1].name
+
+    if(sch[1].in)
+      position = sch[1].in
+
+    schema.push({
+      name: sch[0],
+      type: sch[1].type,
+      typeName: typeName,
+      url: url,
+      in: position,
+      scopes: scopes
+    })
+  })
+  return schema
+}
+
+/**
+ * Mapping scopes
+ * @param {*} input 
+ * @returns 
+ */
+function getScopes(input) {
+  const scopes = []
+  Object.entries(input).forEach(s => {
+    scopes.push({
+      scope: s[0],
+      description: s[1]
+    })
+  })
+  return scopes
+}
+
+/**
+ * Mapping component to be entities and as repositories
  * @param {*} appsName Application name
  * @param {*} api OpenAPi object
  * @returns entites
@@ -48,7 +108,7 @@ function mappingEntities(appsName, api) {
 }
 
 /**
- * 
+ * Mapping fiels as properties of entity
  * @param {*} obj 
  * @param {*} entities 
  * @returns 
@@ -73,17 +133,17 @@ function mappingFields(obj, entities) {
 }
 
 /**
- * 
+ * Mapping path to be use as services
  * @param {*} api Api root
  */
 function getPaths(api) {
   const paths = []
   Object.entries(api.paths).forEach(path => {
     const param = splitParam(path[0])
-    const hasParam = path[0].split('{').length>1
+    const hasParam = path[0].split('{').length > 1
     paths.push({
       pathOrigin: path[0],
-      path: param, 
+      path: param,
       hasParam: hasParam,
       methods: getPathMethod(path[1])
     })
@@ -91,17 +151,17 @@ function getPaths(api) {
   return paths
 }
 
-function splitParam(path){
-  return path.replace('{','${')
+function splitParam(path) {
+  return path.replace('{', '${')
 }
 
 /**
- * 
+ * Get Path method
  * @param {*} path  path
  */
 function getPathMethod(path) {
   const methods = []
-  
+
   Object.entries(path).forEach(method => {
     const m = method[1];
     const contentsRequest = []
@@ -135,6 +195,11 @@ function getPathMethod(path) {
   return methods
 }
 
+/**
+ * Mapping responses
+ * @param {*} list 
+ * @returns 
+ */
 function getResponses(list) {
   const responses = []
   let type = ''
@@ -142,9 +207,9 @@ function getResponses(list) {
     Object.entries(list.responses).forEach(r => {
       const types = []
       let responseType = ''
-      
+
       let headersType = []
-      
+
       if (r[1].content)
         Object.entries(r[1].content).forEach(c => {
           responseType = c[1].schema.xml ? c[1].schema.xml.name : ''
@@ -172,7 +237,7 @@ function getResponses(list) {
 
 
 /**
- * 
+ * Sanitize / convert type
  * @param {*} field 
  * @param {*} entities 
  * @returns 
@@ -190,7 +255,7 @@ function sanitaizeField(field, entities) {
 
 
 /**
- * 
+ * Mapping relationship of component/entities 
  * @param {*} obj 
  * @returns 
  */
