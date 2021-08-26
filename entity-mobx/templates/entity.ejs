@@ -86,14 +86,13 @@ relationships.forEach(rela => {
 });
 
 _%>
-
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 <% for (idx in dartFields) { if (dartFields[idx]['desc'] == 'relationship') {%>
 import '../../<%- idx %>/models/<%- idx %>.dart';<%}} %>
 
-class <%= entityClass %> extend Equatable{
+class <%= entityClass %> extends Equatable{
     <% for (idx in dartFields) { if (dartFields[idx]['type'] == 'enum') {%>
     final String? <%- dartFields[idx]['name'] %>;
     <%} 

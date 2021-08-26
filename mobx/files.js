@@ -22,17 +22,17 @@ module.exports = {
     writeFiles
 };
 
-function writeFiles(param) {
+function writeFiles(props) {
     //console.log(param)
-    const packageFolder = param.appsName
+    const packageFolder = props.appsName
 
     const flutterDir = '';
     return {
 
 
         writeGlobalFiles() {
-            this.template('pubspec.yaml', `${packageFolder}/pubspec.yaml`);
-            this.template('README.md', `${packageFolder}/README.md`);
+            this.template('pubspec.ejs', `${packageFolder}/pubspec.yaml`, this, props);
+            this.template('README.ejs', `${packageFolder}/README.md`, this, props);
             this.template('run_watcher', `${packageFolder}/run_watcher`);
             this.template('l10n.yaml', `${packageFolder}/l10n.yaml`);
             this.template(`gitignore`, `${packageFolder}/.gitignore`);
@@ -95,6 +95,8 @@ function writeFiles(param) {
             this.template(`${flutterDir}lib/modules/register_modules.dart`, `${packageFolder}/lib/modules/register_modules.dart`);
 
             // Services
+            this.template(`${flutterDir}lib/services/apps_services.ejs`, `${packageFolder}/lib/services/apps_services.dart`, this, props);
+
             this.template(`${flutterDir}lib/services/local/database_services.dart`, `${packageFolder}/lib/services/local/database_services.dart`);
             this.template(`${flutterDir}lib/services/local/database.dart`, `${packageFolder}/lib/services/local/database.dart`);
             this.template(`${flutterDir}lib/services/local/local_db_constants.dart`, `${packageFolder}/lib/services/local/local_db_constants.dart`);
@@ -118,7 +120,7 @@ function writeFiles(param) {
             this.template(`${flutterDir}lib/utils/modules/modules.dart`, `${packageFolder}/lib/utils/modules/modules.dart`);
             this.template(`${flutterDir}lib/utils/modules/module.dart`, `${packageFolder}/lib/utils/modules/module.dart`);
 
-            this.template(`${flutterDir}lib/utils/config.dart`, `${packageFolder}/lib/utils/config.dart`);
+            this.template(`${flutterDir}lib/utils/config.ejs`, `${packageFolder}/lib/utils/config.dart`);
             this.template(`${flutterDir}lib/utils/dimens.dart`, `${packageFolder}/lib/utils/dimens.dart`);
             this.template(`${flutterDir}lib/utils/helper.dart`, `${packageFolder}/lib/utils/helper.dart`);
             this.template(`${flutterDir}lib/utils/routes.dart`, `${packageFolder}/lib/utils/routes.dart`);

@@ -42,6 +42,7 @@ module.exports = class extends GenBase {
                 type: 'input',
                 name: 'appsName',
                 message: 'What would your Flutter application name?',
+                validate: input => (/^[^\s][A-z0-9-_]*$/.test(input) ? true : 'Please avoid space or non standard flutter apps name!'),
                 default: appsName,
                 //store: true
             },
@@ -54,12 +55,7 @@ module.exports = class extends GenBase {
                     {
                         value: 'openapi',
                         name: 'OpenApi/Swagger API Standard'
-                    },
-                    /* {
-                        value: 'jhipster',
-                        name: 'JHipster generator'
-                    }, */
-                    
+                    },                    
                 ],
                 default: 'openapi'
             }
@@ -68,16 +64,12 @@ module.exports = class extends GenBase {
         const done = this.async();
         this.prompt(prompts).then((props) => {
             this.props = props;
+            this.appsName = props.appsName
             done();
         });
     }
 
     writing() {
-
-        if (this.props.api_source === 'jhipster') {
-            this.composeWith(require.resolve('../jhipster'),  this.props );
-        } else {
-            this.composeWith(require.resolve('../openapi'), this.props );
-        }
+        this.composeWith(require.resolve('../openapi'), this.props );
     }
 };

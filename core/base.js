@@ -25,7 +25,7 @@ module.exports = class extends Generator {
  * @returns default app name
  */
   getDefaultAppName() {
-    return /^[a-zA-Z0-9_]+$/.test(path.basename(process.cwd())) ? path.basename(process.cwd()) : 'kujang';
+    return /^[a-zA-Z0-9-_]+$/.test(path.basename(process.cwd())) ? path.basename(process.cwd()) : 'kujang';
   }
 
 
