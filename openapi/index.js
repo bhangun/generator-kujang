@@ -18,7 +18,7 @@ module.exports = class extends GenBase {
                 type: 'input',
                 name: 'path_api',
                 message: 'Url/path to your api doc (json/yaml)',
-                validate: input => (/^((https?|chrome|file):\/\/[^\s$.?#].[^\s]*)|([A-z0-9-_+/:]+.(json|yaml|yml))$/.test(input) ? true : 'Url or Path not provide.'),
+                validate: input => (/^((https?|chrome|file):\/\/[^\s$.?#].[^\s]*)|([A-z0-9-_+/:]+.(json|yaml|yml))$/.test(input) ? true : 'Something wrong with your URL or Path, please change!'),
                 store: true
             },
         ];
