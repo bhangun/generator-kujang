@@ -21,17 +21,11 @@ but if there still error, some time you have to:
 `flutter clean` and then `flutter run` again
 
 
-### Clean and remove all generated files
-
-```
-flutter packages pub run build_runner clean
-```
-
-### Delete conflicting files
+### Run build_runner to generate store
 
 ```
 flutter packages pub run build_runner watch --delete-conflicting-outputs
-```
+``
 
 ### Continuous generation with the watch command
 

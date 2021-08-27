@@ -65,14 +65,18 @@ class <%= entityClass %> extends Equatable{
         this.<%- fields[idx].fieldName %>,<% }} %> 
     });
 
-    factory <%= entityClass %>.fromJson(Map<String, dynamic> json) =>  <%= entityClass %>(<% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') {%>
-        <% if(fields[idx]['isList']) {%>  
-        <%= fields[idx].fieldName %>: List<<%= fields[idx].fieldType.dart %>>.from(json['<%= fields[idx].fieldName %>'].map((x) => <%= fields[idx].fieldType.dart %>.fromJson(x))), 
-        <%} else { %><%= fields[idx].fieldName %>: <%= capitalize(fields[idx].fieldType.dart) %>.fromJson(json['<%= fields[idx].fieldName %>']), 
-        <%} } else {%><%- fields[idx].fieldName %>: json['<%- fields[idx].fieldName %>'],<% }} %>
+    factory <%= entityClass %>.fromJson(Map<String, dynamic> json) =>  
+        <%= entityClass %>(<% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') {%>
+ <% if(fields[idx]['isList']) { %>  
+        <%= fields[idx].fieldName %>: List<<%= fields[idx].fieldType.dart %>>.from(json['<%= fields[idx].fieldName %>'].map((x) => 
+        <%= fields[idx].fieldType.dart %>.fromJson(x))), <% } else { %>
+        <%= fields[idx].fieldName %>: <%= capitalize(fields[idx].fieldType.dart) %>.fromJson(json['<%= fields[idx].fieldName %>']), 
+        <% } } else {%><%- fields[idx].fieldName %>: json['<%- fields[idx].fieldName %>'], 
+        <% } } %>
     );
 
-    Map<String, dynamic> toJson() => {<% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') {%>
+    Map<String, dynamic> toJson() => 
+        {<% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') {%>
         <% if(fields[idx]['isList']) {%>"<%= fields[idx].fieldName %>": List<dynamic>.from(<%= fields[idx].fieldName %>.map((x) => x.toJson())), 
         <%} else { %>"<%= fields[idx].fieldName %>": <%= fields[idx].fieldName %>.toJson(),
         <%} } else {%>"<%- fields[idx].fieldName %>": <%- fields[idx].fieldName %>,
@@ -114,10 +118,10 @@ class <%= entityClass %>List {
 fields.forEach(field => {
     if (field.fieldIsEnum && enumsAlreadyDeclared.indexOf(field.fieldType.dart) === -1) {
         enumsAlreadyDeclared.push(field.fieldType.dart); _%>
-    const <%= field.fieldType.dart %> = {<%
+enum <%= field.fieldName %> {<%
     const enums = field.fieldValues.split(',');
         for (let i = 0; i < enums.length; i++) { %>
-    '<%= enums[i] %>'<%if (i < enums.length - 1) { %>,<% }
+    <%= enums[i] %><%if (i < enums.length - 1) { %>,<% }
         } %>
-}; <%_ } }); _%>
+} <%_ } }); _%>
 

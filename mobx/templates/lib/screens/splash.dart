@@ -35,9 +35,6 @@ class _Splashpagestate extends State<SplashScreen> {
   }
 
   navigate() async {
-    //if ((await AppDataSource.fetch(0))!=null ) {
-    //Navigator.of(context).pushReplacementNamed(AppsRoutes.home);
-
-    Navigator.of(context).pushReplacementNamed(AppsRoutes.login);
+    Navigator.of(context).pushReplacementNamed(AppsRoutes.home);
   }
 }
