@@ -39,11 +39,11 @@ module.exports = class extends GenBase {
     }
    
     compose() {
-       // this.composeWith(require.resolve('../mobx'), this.props);
+        this.composeWith(require.resolve('../mobx'), this.props);
     }
-    test(){
+    /* test(){
         this.composeWith(require.resolve('../entity-mobx'), this.props);
-    }
+    } */
 
     /* test(){
         const opt = {paths:this.props.paths}
