@@ -1,6 +1,34 @@
 
 https://petstore3.swagger.io/api/v3/pet/findByStatus?status=available
 
+
+
+  if (type.type == 'integer' && type.format == 'int64') {
+    newType.dart = 'double'
+  } else if (type.type == 'integer' && type.format == 'int32') {
+    newType.dart = 'int'
+  } else if (type.type == 'number' && type.format == 'float') {
+    newType.dart = 'Float'
+  } else if (type.type == 'number' && type.format == 'double') {
+    newType.dart = 'double'
+  } else if (type.type == 'string' && type.format == 'byte') {
+    newType.dart = 'ByteData'
+  } else if (type.type == 'string' && type.format == 'binary') {
+    newType.dart = 'BinaryCodec'
+  } else if (type.type == 'boolean') {
+    newType.dart = 'boolean'
+  } else if (type.type == 'string' && type.format == 'date') {
+    newType.dart = 'DateTime'
+  } else if (type.type == 'Instant') {
+    newType.dart = 'int'
+    newType.dartDesc = '.toIso8601String()' + 'Z'
+  } else if (type.type == 'string' && type.format == 'date-time') {
+    newType.dart = 'DateTime'
+  } else if (type.type == 'string' && type.format == 'password') {
+    newType.dart = 'String'
+  }
+  
+  
 --------------------------
 {
   appsName: 'kut01',

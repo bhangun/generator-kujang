@@ -23,7 +23,7 @@ module.exports = {
 };
 
 function writeFiles(props) {
-    //console.log(param)
+    console.log(param)
     const packageFolder = props.appsName
 
     const flutterDir = '';

@@ -117,9 +117,9 @@ function mappingFields(obj, entities) {
   const fields = []
   Object.entries(obj.properties).forEach(field => {
     fields.push({
-      fieldType: sanitaizeField(field[1].type, entities),
+      fieldType: transformType(field[1], entities, field[1].enum),
       fieldName: _.camelCase(field[0]),
-      fieldIsEnum: (field[1].enum) ? true : false,
+      fieldIsEnum: field[1].enum? true : false,
       fieldValues: _.join(field[1].enum, ','),
       fieldDescription: field[1].description,
       fieldsContainOneToMany: false,
@@ -131,6 +131,65 @@ function mappingFields(obj, entities) {
   })
   return fields
 }
+
+/**
+ * Sanitize / convert type
+ * @param {*} field 
+ * @param {*} entities 
+ * @returns 
+ */
+ function transformType(type, entities, isEnum) {
+  let newType = {}
+  newType.origin = type.type?type.type:''
+  newType.example = type.example? type.example :''
+  newType.description = type.description? type.description:''
+  newType.dart = ''
+  newType.dartDesc = ''
+
+  switch (type.type) {
+    case 'integer':
+      if(type.format == 'int64')
+        newType.dart = 'double'
+      else if (type.format == 'int32') 
+        newType.dart = 'int'
+      break;
+    case 'number':
+      if(type.format == 'float') 
+        newType.dart = 'Float'
+      else if (type.format == 'double') 
+        newType.dart = 'double'
+      break;
+    case 'string':
+      if (type.format == 'byte') 
+        newType.dart = 'ByteData'
+      else if (type.format == 'binary') 
+        newType.dart = 'BinaryCodec'
+      else if (type.format == 'date')
+        newType.dart = 'DateTime'
+      else if(type.format == 'date-time')
+        newType.dart = 'DateTime'
+      else if (type.format == 'password') 
+        newType.dart = 'String'
+      else newType.dart = 'String'
+      break;
+    case(type.type == 'Instant'): 
+        newType.dart = 'int'
+        newType.dartDesc = '.toIso8601String()' + 'Z'
+      break
+    case 'array':
+      newType.dart = 'List<String>'
+      break;
+    case 'uuid':
+      newType.dart = 'String'
+      break;
+  }
+  
+  if(isEnum) newType.dart = 'String'
+
+  return newType
+} 
+
+
 
 /**
  * Mapping path to be use as services
@@ -235,25 +294,6 @@ function getResponses(list) {
   return { responses: responses, type: type };
 }
 
-
-/**
- * Sanitize / convert type
- * @param {*} field 
- * @param {*} entities 
- * @returns 
- */
-function sanitaizeField(field, entities) {
-  let newField = ''
-  if (field.fieldType == 'object') {
-    // newField = 'String'
-  }
-  else if (field.fieldType == 'array') {
-    newField = 'Array<String>'
-  }
-  return _.capitalize(newField)
-}
-
-
 /**
  * Mapping relationship of component/entities 
  * @param {*} obj 
@@ -262,7 +302,7 @@ function sanitaizeField(field, entities) {
 function mappingRelationship(obj) {
   const relationship = []
 
-  relationship.otherEntityModulePath
+  /* relationship.otherEntityModulePath
   relationship.otherEntityModuleName
   relationship.otherEntityStateName =
     relationship.otherEntityFieldCapitalized
@@ -271,6 +311,6 @@ function mappingRelationship(obj) {
   relationship.otherEntityNameCapitalized
   relationship.otherEntityNamePlural
   relationship.otherEntityName
-
+ */
   return relationship
 }
