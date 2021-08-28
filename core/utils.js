@@ -146,6 +146,8 @@ function mappingFields(obj, entities) {
   newType.dart = ''
   newType.dartDesc = ''
 
+// console.log(type.xml)
+
   switch (type.type) {
     case 'integer':
       if(type.format == 'int64')
@@ -160,17 +162,24 @@ function mappingFields(obj, entities) {
         newType.dart = 'double'
       break;
     case 'string':
-      if (type.format == 'byte') 
+      switch (type.format){
+        case 'byte':
         newType.dart = 'ByteData'
-      else if (type.format == 'binary') 
+        break;
+        case'binary': 
         newType.dart = 'BinaryCodec'
-      else if (type.format == 'date')
+        break;
+        case 'date':
         newType.dart = 'DateTime'
-      else if(type.format == 'date-time')
+        break;
+        case 'date-time':
         newType.dart = 'DateTime'
-      else if (type.format == 'password') 
+        break;
+        case'password':
+        default: 
         newType.dart = 'String'
-      else newType.dart = 'String'
+        break;
+      }
       break;
     case(type.type == 'Instant'): 
         newType.dart = 'int'
@@ -181,6 +190,9 @@ function mappingFields(obj, entities) {
       break;
     case 'uuid':
       newType.dart = 'String'
+      break;
+    case 'object':
+        newType.dart = type.xml?_.capitalize(type.xml.name):''
       break;
   }
   

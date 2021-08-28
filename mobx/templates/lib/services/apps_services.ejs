@@ -13,7 +13,7 @@ class <%= capitalize(appsName) %>Services { <% for (i in paths) { %>
   const requestType = paths[i].methods[m].requestBodyType;
   const requestClass = capitalize(requestType);
   const requestBodyClass = capitalize(requestType); 
-  const responseClass = capitalize(paths[i].methods[m].responseType); 
+  const responseClass = (paths[i].methods[m].responseType)?capitalize(paths[i].methods[m].responseType):capitalize(paths[i].methods[m].tags[0]); 
   const methodName = paths[i].methods[m].operationId;
   const isInput = requestType?true:false;
   const methodPath = validatePath(paths[i].methods[m].method);
@@ -22,11 +22,20 @@ class <%= capitalize(appsName) %>Services { <% for (i in paths) { %>
   const param =  putParam(paths[i].methods[m]);
   const parameters = param.param;
   const query = param.query;
+
+  let payload = '';
+  let payloadStatement = '';
+  if(methodPath == 'post' || methodPath == 'update'){
+    payload = ', '+param.payload;
+    payloadStatement = param.payloadStatement;
+  }
+
 %>
   /// <%= summary %><% if(desc){%>
   /// <%= desc %> <%}%>
-  static Future<<%= responseClass %>> <%= methodName %>(<%= parameters %>) async {
-    var response = await RestServices.<%= methodPath %>('<%= path %><%= query %>'); 
+  static Future<<%= responseClass %>> <%= methodName %>(<%= parameters %>) async { 
+    <%= payloadStatement %>
+    var response = await RestServices.<%= methodPath %>('<%= path %><%= query %>'<%= payload %>); 
     <%if(isInput){%>return <%= requestBodyClass %>.fromJson(json.decode(response));<%}%>
   }
   <% } } %>
@@ -38,6 +47,8 @@ function putParam(input){
   let param = input.parameters;
   let query = ''
   let addComma = '';
+  let payload = '';
+  let payloadStatement = '';
 
   if(param){
     
@@ -72,13 +83,17 @@ function putParam(input){
   }
 
   // add parameter if there is payload
-  if(input.requestBodyType)
-    result += addComma+capitalize(input.requestBodyType)+' '+input.requestBodyType;
-  
+  if(input.requestBodyType){
+    const pload = capitalize(input.requestBodyType)+' '+input.requestBodyType;
+    result += addComma + pload;
+    payload = input.requestBodyType;
+    payloadStatement = capitalize(input.requestBodyType)+' '+ input.requestBodyType + ' = ' + capitalize(input.requestBodyType) +'();'
+  }
+
   if(query)
     query = '?'+query
 
-  return {param: result, query: query};
+  return {param: result, query: query, payload: payload, payloadStatement: payloadStatement};
 }
 
 function capitalize(text){
