@@ -1,6 +1,6 @@
 
-const GenBase = require('../core/base');
-const utils = require('../core/utils');
+const GenBase = require('kujang-core/core/base');
+const utils = require('kujang-core/core/utils');
 const SwaggerParser = require("@apidevtools/swagger-parser");
 
 

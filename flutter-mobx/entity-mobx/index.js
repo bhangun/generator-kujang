@@ -1,4 +1,4 @@
-const GenBase = require('../core/base');
+const GenBase = require('kujang-core/core/base');
 const writeEntity = require('./files').writeFiles;
 
 module.exports = class extends GenBase {

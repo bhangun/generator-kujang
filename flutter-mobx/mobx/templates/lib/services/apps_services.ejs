@@ -7,8 +7,16 @@ import 'package:<%= appsName %>/models/<%= entities[i].entityInstance %>.dart'; 
 
 /// <%= info.title%>
 /// @version <%= info.version%>
-class <%= capitalize(appsName) %>Services { <% for (i in paths) { %>
+class <%= capitalize(appsName) %>Services { <% for (i in paths) { 
+  
+  
+  console.log(paths[i].path)
+  
+  %>
 <% for (m in paths[i].methods) { 
+  
+  console.log(paths[i].methods[m].operationId)
+
   const path = paths[i].path;
   const requestType = paths[i].methods[m].requestBodyType;
   const requestClass = capitalize(requestType);
@@ -79,7 +87,7 @@ function putParam(input){
       if(n>0)
         comma =', '
       
-    } 
+    }
   }
 
   // add parameter if there is payload

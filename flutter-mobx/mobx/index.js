@@ -1,5 +1,5 @@
 const writeFiles = require('./files').writeFiles;
-const GenBase = require('../core/base');
+const GenBase = require('kujang-core/core/base');
 
 module.exports = class extends GenBase {
 
