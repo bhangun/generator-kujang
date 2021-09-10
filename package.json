@@ -22,9 +22,8 @@
         "url": "git+https://github.com/bhangun/generator-kujang.git"
     },
     "dependencies": {
-        "@apidevtools/swagger-parser": "^10.0.3",
         "chalk": "^4.1.2",
-        "kujang-core": "^0.1.2"
+        "kujang-core": "^0.1.6"
     },
     "scripts": {
         "pretest": "eslint .",

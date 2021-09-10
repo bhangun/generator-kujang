@@ -23,11 +23,12 @@ module.exports = {
 };
 
 function writeFiles(props) {
+    
     const packageFolder = props.appsName
 
     const flutterDir = '';
-    return {
 
+    return {
 
         writeGlobalFiles() {
             this.template('pubspec.ejs', `${packageFolder}/pubspec.yaml`, this, props);

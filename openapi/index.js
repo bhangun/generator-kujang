@@ -1,6 +1,5 @@
 const GenBase = require('kujang-core/core/base');
 const utils = require('kujang-core/core/utils');
-const SwaggerParser = require("@apidevtools/swagger-parser");
 
 /**
  * 
@@ -25,15 +24,9 @@ module.exports = class extends GenBase {
 
         const done = this.async();
         this.prompt(prompts).then((props) => {
-
-            SwaggerParser.validate(props.path_api, (err, api) => {
-                if (err) {
-                    console.error(err);
-                }
-                else {
-                    this.props = utils.mappingProps(api,this.appsName)
-                    done();
-                }
+            utils.transformApi(this.appsName, props.path_api, (api)=>{
+                this.props = api
+                done();
             })
         });
     }
@@ -41,6 +34,8 @@ module.exports = class extends GenBase {
     compose() {
         this.composeWith(require.resolve('../flutter-mobx/mobx'), this.props);
     }
+
+
     /* test(){
         this.composeWith(require.resolve('../entity-mobx'), this.props);
     } */
@@ -50,4 +45,5 @@ module.exports = class extends GenBase {
         opt.appsName = 'coba'
         this.template('apps.services.ejs', `serpis.dart`,this,this.props);
     } */
+
 }

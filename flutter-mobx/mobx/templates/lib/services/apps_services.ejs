@@ -8,25 +8,25 @@ import 'package:<%= appsName %>/models/<%= entities[i].entityInstance %>.dart'; 
 /// <%= info.title%>
 /// @version <%= info.version%>
 class <%= capitalize(appsName) %>Services { <% for (i in paths) { 
-  
-  
-  console.log(paths[i].path)
-  
+  //console.log('i>'+i)
+  //console.log(paths[i].path)
   %>
 <% for (m in paths[i].methods) { 
-  
-  console.log(paths[i].methods[m].operationId)
 
-  const path = paths[i].path;
-  const requestType = paths[i].methods[m].requestBodyType;
+//console.log('m>'+m)
+//console.log(paths[i].methods[m])
+
+
+  const path = paths[i].path?paths[i].path:'';
+  const requestType = paths[i].methods[m].requestBodyType?paths[i].methods[m].requestBodyType:'';
   const requestClass = capitalize(requestType);
   const requestBodyClass = capitalize(requestType); 
   const responseClass = (paths[i].methods[m].responseType)?capitalize(paths[i].methods[m].responseType):capitalize(paths[i].methods[m].tags[0]); 
-  const methodName = paths[i].methods[m].operationId;
+  const methodName = paths[i].methods[m].operationId?paths[i].methods[m].operationId:'';
   const isInput = requestType?true:false;
   const methodPath = validatePath(paths[i].methods[m].method);
-  const desc = paths[i].methods[m].description; 
-  const summary = paths[i].methods[m].summary;
+  const desc = paths[i].methods[m].description?paths[i].methods[m].description:''; 
+  const summary = paths[i].methods[m].summary?paths[i].methods[m].summary:'';
   const param =  putParam(paths[i].methods[m]);
   const parameters = param.param;
   const query = param.query;
