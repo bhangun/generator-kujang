@@ -22,7 +22,7 @@ function writingEntity() {
     utils.transformApi(this.appsName, API5, (api)=>{
         this.props = api
          // console.log(this.props.entities[6].entityClass)
-         console.log(JSON.stringify(this.props))
+       //  console.log(JSON.stringify(this.props))
          //console.log(this.props.paths[0].methods)
         // console.log('#/components/schemas/Order'.split('#/components/schemas/')[1])
        // console.log(this.props.securitySchemes[0].url.implicit)

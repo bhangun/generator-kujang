@@ -1,5 +1,4 @@
 const GenBase = require('kujang-core/core/base');
-const utils = require('kujang-core/core/utils');
 
 /**
  * 
@@ -16,7 +15,7 @@ module.exports = class extends GenBase {
             {
                 type: 'input',
                 name: 'path_api',
-                message: 'Url/path to your api doc (json/yaml)',
+                message: `Url/path to your api doc ${this.chalkYellowBright('(json/yaml/yml)')}`,
                 validate: input => (/^((https?|chrome|file):\/\/[^\s$.?#].[^\s]*)|([A-z0-9-_+/:]+.(json|yaml|yml))$/.test(input) ? true : 'Something wrong with your URL or Path, please change!'),
                 store: true
             },
@@ -24,17 +23,19 @@ module.exports = class extends GenBase {
 
         const done = this.async();
         this.prompt(prompts).then((props) => {
-            utils.transformApi(this.appsName, props.path_api, (api)=>{
+            this.transformApi(this.appsName, props.path_api, (api)=>{
                 this.props = api
+                this.writeKujangJson(this.appsName,this.props)
                 done();
             })
         });
     }
    
     compose() {
-        this.composeWith(require.resolve('../flutter-mobx/mobx'), this.props);
+        //this.composeWith(require.resolve('../flutter-mobx/mobx'), this.props);
     }
 
+   
 
     /* test(){
         this.composeWith(require.resolve('../entity-mobx'), this.props);

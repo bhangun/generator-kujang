@@ -1,5 +1,4 @@
 const GenBase = require('kujang-core/core/base');
-const chalk = require('chalk');
 const packagejs = require('../package.json');
 
 module.exports = class extends GenBase {
@@ -19,7 +18,7 @@ module.exports = class extends GenBase {
             {
                 type: 'input',
                 name: 'appsName',
-                message: `What would your ${chalk.bold.blueBright('Flutter')} application name?`,
+                message: `What would your ${this.chalkBlueBright('Flutter')} application name?`,
                 validate: input => (/^[^\s][A-z0-9-_]*$/.test(input) ? true : 'Please avoid space or non standard flutter apps name!'),
                 default: appsName,
                 //store: true
