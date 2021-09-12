@@ -120,7 +120,7 @@ function writeFiles(props) {
             this.template(`${flutterDir}lib/utils/modules/modules.dart`, `${packageFolder}/lib/utils/modules/modules.dart`);
             this.template(`${flutterDir}lib/utils/modules/module.dart`, `${packageFolder}/lib/utils/modules/module.dart`);
 
-            this.template(`${flutterDir}lib/utils/config.ejs`, `${packageFolder}/lib/utils/config.dart`);
+            this.template(`${flutterDir}lib/utils/config.ejs`, `${packageFolder}/lib/utils/config.dart`, this, props);
             this.template(`${flutterDir}lib/utils/dimens.dart`, `${packageFolder}/lib/utils/dimens.dart`);
             this.template(`${flutterDir}lib/utils/helper.dart`, `${packageFolder}/lib/utils/helper.dart`);
             this.template(`${flutterDir}lib/utils/routes.dart`, `${packageFolder}/lib/utils/routes.dart`);
