@@ -67,5 +67,19 @@ function writingEntity2() {
     })
 }
 
+function writingJson() {
+
+    utils.transformApi(this.appsName, props.path_api, (api, origin)=>{
+       
+       // this.writeKujangJson(this.appsName,api)
+       // this.writeOriginJson(this.appsName,origin)
+    })
+
+    utils.transformApi(this.appsName, API5, (api)=>{
+        this.props = api
+    
+    })
+}
+
 writingEntity()
 //writingEntity2()

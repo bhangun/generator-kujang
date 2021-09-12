@@ -23,20 +23,20 @@ module.exports = class extends GenBase {
 
         const done = this.async();
         this.prompt(prompts).then((props) => {
-            this.transformApi(this.appsName, props.path_api, (api)=>{
+            this.transformApi(this.appsName, props.path_api, (api, origin)=>{
                 this.props = api
                 this.writeKujangJson(this.appsName,this.props)
+                this.writeOriginJson(this.appsName,origin)
                 done();
             })
         });
     }
    
     compose() {
-        //this.composeWith(require.resolve('../flutter-mobx/mobx'), this.props);
+       this.composeWith(require.resolve('../flutter-mobx/mobx'), this.props);
     }
 
    
-
     /* test(){
         this.composeWith(require.resolve('../entity-mobx'), this.props);
     } */

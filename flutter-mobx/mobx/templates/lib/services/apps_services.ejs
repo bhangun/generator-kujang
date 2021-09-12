@@ -12,52 +12,69 @@ class <%= capitalize(appsName) %>Services { <% for (i in paths) {
   console.log('i>'+i)
   console.log(paths[i].path)
 
-
   %>
 <% for (m in paths[i].methods) { 
 
 console.log('m>'+m)
-console.log(paths[i].methods[m])
+//console.log(paths[i].methods[m])
 
 
   const path = paths[i].path?paths[i].path:''; 
-  const requestType = paths[i].methods[m].requestBodyType?paths[i].methods[m].requestBodyType:'';
-  console.log('--0--'+m)
-  const requestClass = capitalize(requestType);
-  console.log('--1--'+m)
-  const requestBodyClass = capitalize(requestType); 
-  console.log('--2--'+m)
-  const responseClass = (paths[i].methods[m].responseType)?capitalize(paths[i].methods[m].responseType):capitalize(paths[i].methods[m].tags[0]); 
-  console.log('--3--'+m)
   const methodName = paths[i].methods[m].operationId?paths[i].methods[m].operationId:'';
-  console.log('--4--'+m)
-  const isInput = requestType?true:false;
-  console.log('--5--'+m)
-  const methodPath = validatePath(paths[i].methods[m].method);
-  console.log('--6--'+m)
-  const desc = paths[i].methods[m].description?paths[i].methods[m].description:''; 
-  console.log('--7--'+m)
+ 
   const summary = paths[i].methods[m].summary?paths[i].methods[m].summary:'';
-  console.log('--8--'+m)
+  const methodPath = validatePath(paths[i].methods[m].method);
+  const desc = paths[i].methods[m].description?paths[i].methods[m].description:''; 
+  console.log('----1---'+m)
+  // REQUEST
+  const requestBody = paths[i].methods[m].requestBody;
+  const requestBodyClass = requestBody.component?requestBody.component:''; 
+  console.log('----2-1--'+m)
+  // RESPONSE
+  const responses = paths[i].methods[m].responses;
+  console.log('----2-2--'+m)
+  console.log(responses.find(e=> e.code == '200'))
+
+  const code200 = responses.find(e=> e.code == '200')
+  const responseContent = code200?code200:{}
+  console.log('----2-3--'+m)
+  let resType = 'void'
+  console.log('----2-4--'+m)
+
+  console.log(responseContent.items)
+  console.log(responseContent.component)
+  if(responseContent.component || responseContent.items ) 
+    resType = responseContent.component//? responseContent.component : responseContent.items.type
+
+    console.log(resType);
+  //else if(responseContent.items) 
+    //resType = responseContent.items.type
+  
+  console.log('----3---'+m)
+  // PARAMETER
   const param =  putParam(paths[i].methods[m]);
-  console.log('--9--'+m)
   const parameters = param.param;
   const query = param.query;
+
+  const isInput = resType? true:false;
+ 
+  console.log('----4---'+m)
+  
 
   let payload = '';
   let payloadStatement = '';
   if(methodPath == 'post' || methodPath == 'update'){
-    payload = ', '+param.payload;
+    payload = ', '+ param.payload;
     payloadStatement = param.payloadStatement;
   }
   console.log('--10--'+m)
 %>
-  /// <%= summary %><% if(desc){%>
+  /// <%= summary %><% if(desc){ %>
   /// <%= desc %> <%}%>
-  static Future<<%= responseClass %>> <%= methodName %>(<%= parameters %>) async { 
+  static Future<<%= resType %>> <%= methodName %>(<%= parameters %>) async { 
     <%= payloadStatement %>
     var response = await RestServices.<%= methodPath %>('<%= path %><%= query %>'<%= payload %>); 
-    <%if(isInput){%>return <%= requestBodyClass %>.fromJson(json.decode(response));<%}%>
+    <% if(isInput){ %>return <%= requestBodyClass %>.fromJson(json.decode(response));<%}%>
   }
   <% } } %>
 }
