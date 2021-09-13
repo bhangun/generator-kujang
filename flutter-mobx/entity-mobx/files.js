@@ -4,11 +4,11 @@ module.exports = {
 };
 
 
-function writeFiles(folder, option, obj) {
+function writeFiles(folder, entities, obj, _) {
     //console.log(option)
     //const entityFolderName = folder + '/lib/modules/' + option.entityClass
-    const entityFileName = option.entityClass
-    obj.template('entity.ejs', `${folder}/lib/models/${entityFileName}.dart`, obj, option)
+    const entityFileName = entities.entityClass
+    obj.template('entity.ejs', `${folder}/lib/models/${entityFileName}.dart`, obj, {entities: entities, _:_})
 
     /* obj.template('entity.list.ejs', `${entityFolderName}/screens/${entityFileName}_list.dart`, obj, option)
     obj.template('entity.detail.ejs', `${entityFolderName}/screens/${entityFileName}_detail.dart`, obj, option)

@@ -12,10 +12,10 @@ module.exports = class extends GenBase {
 
     writingEntity() {
        /*  if (this.props.entities.length>0) this.props.entities.forEach(entity => {
-            writeEntity(this.props.packageFolder, entity, this)
+            writeEntity(this.props.packageFolder, entity, this, this._)
         })
         else otherEntity(this.props.paths, this.transformType, this._).forEach(e =>{
-            writeEntity(this.props.packageFolder, e, this)
+            writeEntity(this.props.packageFolder, e, this, this._)
         }) */
 
 

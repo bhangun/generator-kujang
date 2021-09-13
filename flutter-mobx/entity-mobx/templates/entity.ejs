@@ -18,10 +18,8 @@ var i = 0;
 id['type'] = 'int';
 id['name'] = 'id';
 id['i']=i;
-
-const relationships = []
 //fields.id = id;
-/* 
+
 relationships.forEach(rela => { 
     if( rela.relationshipType == 'many-to-one' || 
         rela.relationshipType == 'one-to-one' && 
@@ -37,7 +35,7 @@ relationships.forEach(rela => {
         
         fields[rela.otherEntityName] = varValue;
     }
-}); */
+});
 
 function capitalize(text){
     return text.substr( 0, 1 ).toUpperCase()+text.substr( 1 );
@@ -50,15 +48,15 @@ import 'package:equatable/equatable.dart';
 import '../../<%- idx %>/models/<%- idx %>.dart';<%}} %>
 
 class <%= entityClass %> extends Equatable{
-    <% for (idx in fields) {                                       
+    <% for (idx in fields) { 
         if (fields[idx]['desc'] == 'relationship') { %>
             <% if(fields[idx]['isList']) { %>
-    final List<<%- fields[idx].fieldType.type %>>? <%- fields[idx].fieldName %>;
+    final List<<%- fields[idx].fieldType.dart %>>? <%- fields[idx].fieldName %>;
             <% } else { %>
-    final <%= fields[idx].fieldType.type %>? <%= fields[idx].fieldName %>; 
+    final <%= fields[idx].fieldType.dart %>? <%= fields[idx].fieldName %>; 
             <% } 
         } else { %>
-    final <%- fields[idx].fieldType.type %>? <%- fields[idx].fieldName %>; <% 
+    final <%- fields[idx].fieldType.dart %>? <%- fields[idx].fieldName %>; <% 
         } 
         } %>
 
@@ -70,9 +68,9 @@ class <%= entityClass %> extends Equatable{
     factory <%= entityClass %>.fromJson(Map<String, dynamic> json) =>  
         <%= entityClass %>(<% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') { %>
  <% if(fields[idx]['isList']) { %>  
-        <%= fields[idx].fieldName %>: List<<%= fields[idx].fieldType.type %>>.from(json['<%= fields[idx].fieldName %>'].map((x) => 
-        <%= fields[idx].fieldType.type %>.fromJson(x))), <% } else { %>
-        <%= fields[idx].fieldName %>: <%= capitalize(fields[idx].fieldType.type) %>.fromJson(json['<%= fields[idx].fieldName %>']), 
+        <%= fields[idx].fieldName %>: List<<%= fields[idx].fieldType.dart %>>.from(json['<%= fields[idx].fieldName %>'].map((x) => 
+        <%= fields[idx].fieldType.dart %>.fromJson(x))), <% } else { %>
+        <%= fields[idx].fieldName %>: <%= capitalize(fields[idx].fieldType.dart) %>.fromJson(json['<%= fields[idx].fieldName %>']), 
         <% } } else { %><%- fields[idx].fieldName %>: json['<%- fields[idx].fieldName %>'], 
         <% } } %>
     );
@@ -107,7 +105,7 @@ class <%= entityClass %>List {
   });
 
   factory <%= entityClass %>List.fromJson(List<dynamic> json) {
-    List<<%= entityClass %>> <%= entityInstance %>s = [];
+    List<<%= entityClass %>> <%= entityInstance.toLowerCase() %>s = [];
     <%= entityInstance %>s = json.map((post) => <%= entityClass %>.fromJson(post)).toList();
 
     return <%= entityClass %>List(
@@ -118,8 +116,8 @@ class <%= entityClass %>List {
 
 <%_ const enumsAlreadyDeclared = [];
 fields.forEach(field => {
-    if (field.fieldIsEnum && enumsAlreadyDeclared.indexOf(field.fieldType.type) === -1) {
-        enumsAlreadyDeclared.push(field.fieldType.type); _%>
+    if (field.fieldIsEnum && enumsAlreadyDeclared.indexOf(field.fieldType.dart) === -1) {
+        enumsAlreadyDeclared.push(field.fieldType.dart); _%>
 enum <%= field.fieldName %> {<%
     const enums = field.fieldValues.split(',');
         for (let i = 0; i < enums.length; i++) { %>

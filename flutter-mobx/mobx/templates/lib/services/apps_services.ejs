@@ -3,13 +3,13 @@ import 'dart:convert';
 
 import 'package:<%= appsName %>/services/network/rest_services.dart'; <% for (i in entities) { %>
 import 'package:<%= appsName %>/models/<%= entities[i].entityInstance %>.dart'; <% } %>
-<% const methods = getMethods(paths) %>
-<% for (i in methods) { %>
+
+<% if(!entities) for (i in methods) { %>
 import 'package:<%= appsName %>/models/<%= methods[i].responseType %>.dart'; <% } %>
 
 /// <%= info.title %>
-/// @version <%= info.version%>
-class <%= capitalize(appsName) %>Services { 
+/// @version <%= info.version %>
+class <%= _.capitalize(appsName) %>Services { 
 <% for (i in methods) { %>
   /// <%= methods[i].summary %><% if(methods[i].desc){ %>
   /// <%= methods[i].desc %> <% } %>
@@ -20,142 +20,3 @@ class <%= capitalize(appsName) %>Services {
   }
 <% } %>
 }
-
-<% /// --------- FUNCTION --------------
-function getMethods(){
-  const methods = []
-  for (i in paths) { 
-    for (m in paths[i].methods) { 
-      const path = paths[i].path?paths[i].path:''; 
-      const methodName = paths[i].methods[m].operationId?paths[i].methods[m].operationId:'';
-      const summary = paths[i].methods[m].summary?paths[i].methods[m].summary:'';
-      const methodPath = validatePath(paths[i].methods[m].method);
-      const desc = paths[i].methods[m].description?paths[i].methods[m].description:''; 
-    
-console.log(paths[i].methods[m])
-      // RESPONSE
-      const responses = paths[i].methods[m].responses;
-      const code200 = responses.find(e=> e.code == '200')
-      const responseContent = code200? code200 : {}
-
-      let responseType = 'void'
-
-      if(responseContent.content) 
-        responseType = responseContent.content.component?responseContent.content.component:''
-      else if (responseContent.content)
-        responseType = capitalize(responseContent.content.items?responseContent.content.items.type+''+i : '')
-      else responseType = 'Object'+i
-
-
-      // PARAMETER
-      const param =  putParam(paths[i].methods[m], responseType);
-      const parameters = param.param;
-      const query = param.query;
-
-      const isInput = responseType? true:false;
-      
-
-      let payload = '';
-      let payloadStatement = '';
-      if(methodPath == 'post' || methodPath == 'update'){
-        payload = ', '+ param.payload;
-        payloadStatement = param.payloadStatement;
-      }
-
-      methods.push({
-        path: path,
-        methodName: methodName,
-        methodPath: methodPath,
-        summary: summary,
-        desc: desc,
-        responseType: responseType,
-        parameters: parameters,
-        query: query,
-        isInput: isInput,
-        requestPayload: payload,
-        requestPayloadStatement: payloadStatement
-      })
-    }
-  }
-  return methods
-}
-
-
-function putParam(input, resType){
-  let result = '';
-  let param = {}
-  let isProp = false
-  let onlyParam = ''
-
-  if(input.parameters)
-    param = input.parameters
-  else {
-    param = input.requestBody.properties;
-    isProp = true
-  }
-
-  let query = ''
-  let addComma = '';
-  let payload = '';
-  let payloadStatement = 'const '+resType.toLowerCase() +' = '+ resType+'(';
-
-  if(param){
-    
-    let req = ''
-    let n = param.length
-    let comma =''
-    let and = '';
-    let q = 0;
-
-    if(param.required)
-      req = '@required '
-
-    if(param.length > 0)
-      addComma = ', '
-
-    for(p in param){
-      result += comma + req + (isProp?param[p].dartType.type : param[p].schema.type) +'? '+param[p].name ;
-
-      onlyParam += comma + param[p].name+': '+ param[p].name ;
-
-      if(q > 0)
-        and='%26'
-
-      if(param[p].in == 'query'){
-        query += and + param[p].name + '=${'+ param[p].name + '}'
-        q++;
-      }
-      n--;
-
-      if(n>0)
-        comma =', '
-    }
-  }
-
-  // add parameter if there is payload
-  if(resType !== 'void'){
-    payloadStatement += onlyParam + ');'
-  }
-
-  if(query)
-    query = '?'+query
-
-  return {param: result, query: query, payload: resType.toLowerCase(), payloadStatement: payloadStatement};
-}
-
-function capitalize(text){
-  if(text)
-    return text.substr( 0, 1 ).toUpperCase()+text.substr( 1 );
-  else ''
-}
-
-function validatePath(m){
-  let method = m;
-  if(m == 'put')
-    method = 'update';
-  else if (m == 'get')
-    method = 'fetch';
-
-  return method;
-}
-%>
