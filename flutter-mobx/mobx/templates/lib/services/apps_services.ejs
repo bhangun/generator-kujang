@@ -1,94 +1,92 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:<%= appsName %>/services/network/rest_services.dart';
-<% for (i in entities) { %>
-import 'package:<%= appsName %>/models/<%= entities[i].entityInstance %>.dart'; <%}%>
+import 'package:<%= appsName %>/services/network/rest_services.dart'; <% for (i in entities) { %>
+import 'package:<%= appsName %>/models/<%= entities[i].entityInstance %>.dart'; <% } %>
+<% const methods = getMethods(paths) %>
+<% for (i in methods) { %>
+import 'package:<%= appsName %>/models/<%= methods[i].responseType %>.dart'; <% } %>
 
-/// <%= info.title%>
+/// <%= info.title %>
 /// @version <%= info.version%>
-class <%= capitalize(appsName) %>Services { <% for (i in paths) { 
-
-  console.log('i>'+i)
-  console.log(paths[i].path)
-
-  %>
-<% for (m in paths[i].methods) { 
-
-console.log('m>'+m)
-//console.log(paths[i].methods[m])
-
-
-  const path = paths[i].path?paths[i].path:''; 
-  const methodName = paths[i].methods[m].operationId?paths[i].methods[m].operationId:'';
- 
-  const summary = paths[i].methods[m].summary?paths[i].methods[m].summary:'';
-  const methodPath = validatePath(paths[i].methods[m].method);
-  const desc = paths[i].methods[m].description?paths[i].methods[m].description:''; 
-  console.log('----1---'+m)
-  // REQUEST
-  const requestBody = paths[i].methods[m].requestBody;
-  //const requestBodyClass = requestBody.component? requestBody.component : ''; 
-  console.log('----2-1--'+m)
-  // RESPONSE
-  const responses = paths[i].methods[m].responses;
-  console.log('----2-2--'+m)
-  console.log(responses.find(e=> e.code == '200'))
-
-  const code200 = responses.find(e=> e.code == '200')
-  console.log(code200)
-  const responseContent = code200? code200 : {}
-  console.log('----2-3--'+m)
-  let resType = 'void'
-  console.log('----2-4--'+m)
-
-  console.log(responseContent.items)
-  console.log(responseContent.component)
-  if(responseContent.content.component) 
-    resType = responseContent.content.component 
-  else if (responseContent.content.items.type)
-    resType = capitalize(responseContent.content.items.type+''+i)
-  else resType = 'Object'+i
-
-  console.log('----2-5--'+m)
-  console.log(resType);
-  //else if(responseContent.items) 
-    //resType = responseContent.items.type
-  
-  console.log('----3---'+m)
-  // PARAMETER
-  const param =  putParam(paths[i].methods[m]);
-  const parameters = param.param;
-  const query = param.query;
-
-  const isInput = resType? true:false;
- 
-  console.log('----4---'+m)
-  
-
-  let payload = '';
-  let payloadStatement = '';
-  if(methodPath == 'post' || methodPath == 'update'){
-    payload = ', '+ param.payload;
-    payloadStatement = param.payloadStatement;
+class <%= capitalize(appsName) %>Services { 
+<% for (i in methods) { %>
+  /// <%= methods[i].summary %><% if(methods[i].desc){ %>
+  /// <%= methods[i].desc %> <% } %>
+  static Future<<%= methods[i].responseType %>> <%= methods[i].methodName %>(<%= methods[i].parameters %>) async { 
+    <%= methods[i].requestPayloadStatement %>
+    var response = await RestServices.<%= methods[i].methodPath %>('<%= methods[i].path %><%= methods[i].query %>'<%= methods[i].requestPayload %>); 
+    <% if(methods[i].isInput){ %>return <%= methods[i].responseType %>.fromJson(json.decode(response)); <% } %>
   }
-  console.log('--10--'+m)
-%>
-  /// <%= summary %><% if(desc){ %>
-  /// <%= desc %> <%}%>
-  static Future<<%= resType %>> <%= methodName %>(<%= parameters %>) async { 
-    <%= payloadStatement %>
-    var response = await RestServices.<%= methodPath %>('<%= path %><%= query %>'<%= payload %>); 
-    <% if(isInput){ %>return <%= resType %>.fromJson(json.decode(response));<%}%>
-  }
-  <% } } %>
+<% } %>
 }
 
-<%
-function putParam(input){
+<% /// --------- FUNCTION --------------
+function getMethods(){
+  const methods = []
+  for (i in paths) { 
+    for (m in paths[i].methods) { 
+      const path = paths[i].path?paths[i].path:''; 
+      const methodName = paths[i].methods[m].operationId?paths[i].methods[m].operationId:'';
+      const summary = paths[i].methods[m].summary?paths[i].methods[m].summary:'';
+      const methodPath = validatePath(paths[i].methods[m].method);
+      const desc = paths[i].methods[m].description?paths[i].methods[m].description:''; 
+    
+console.log(paths[i].methods[m])
+      // RESPONSE
+      const responses = paths[i].methods[m].responses;
+      const code200 = responses.find(e=> e.code == '200')
+      const responseContent = code200? code200 : {}
+
+      let responseType = 'void'
+
+      if(responseContent.content) 
+        responseType = responseContent.content.component?responseContent.content.component:''
+      else if (responseContent.content)
+        responseType = capitalize(responseContent.content.items?responseContent.content.items.type+''+i : '')
+      else responseType = 'Object'+i
+
+
+      // PARAMETER
+      const param =  putParam(paths[i].methods[m], responseType);
+      const parameters = param.param;
+      const query = param.query;
+
+      const isInput = responseType? true:false;
+      
+
+      let payload = '';
+      let payloadStatement = '';
+      if(methodPath == 'post' || methodPath == 'update'){
+        payload = ', '+ param.payload;
+        payloadStatement = param.payloadStatement;
+      }
+
+      methods.push({
+        path: path,
+        methodName: methodName,
+        methodPath: methodPath,
+        summary: summary,
+        desc: desc,
+        responseType: responseType,
+        parameters: parameters,
+        query: query,
+        isInput: isInput,
+        requestPayload: payload,
+        requestPayloadStatement: payloadStatement
+      })
+    }
+  }
+  return methods
+}
+
+
+function putParam(input, resType){
   let result = '';
   let param = {}
   let isProp = false
+  let onlyParam = ''
+
   if(input.parameters)
     param = input.parameters
   else {
@@ -99,7 +97,7 @@ function putParam(input){
   let query = ''
   let addComma = '';
   let payload = '';
-  let payloadStatement = '';
+  let payloadStatement = 'const '+resType.toLowerCase() +' = '+ resType+'(';
 
   if(param){
     
@@ -116,7 +114,9 @@ function putParam(input){
       addComma = ', '
 
     for(p in param){
-      result += comma + req + capitalize(isProp?param[p].dartType.type : param[p].schema.type)+' '+param[p].name ;
+      result += comma + req + (isProp?param[p].dartType.type : param[p].schema.type) +'? '+param[p].name ;
+
+      onlyParam += comma + param[p].name+': '+ param[p].name ;
 
       if(q > 0)
         and='%26'
@@ -133,17 +133,14 @@ function putParam(input){
   }
 
   // add parameter if there is payload
-  /* if(input.requestBody){
-    const pload = capitalize(input.requestBody)+' '+input.requestBody;
-    result += addComma + pload;
-    payload = input.requestBody;
-    payloadStatement = capitalize(input.requestBody)+' '+ input.requestBody + ' = ' + capitalize(input.requestBody) +'();'
-  } */
+  if(resType !== 'void'){
+    payloadStatement += onlyParam + ');'
+  }
 
   if(query)
     query = '?'+query
 
-  return {param: result, query: query, payload: payload, payloadStatement: payloadStatement};
+  return {param: result, query: query, payload: resType.toLowerCase(), payloadStatement: payloadStatement};
 }
 
 function capitalize(text){

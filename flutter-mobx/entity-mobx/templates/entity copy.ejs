@@ -116,7 +116,7 @@ class <%= entityClass %>List {
   });
 
   factory <%= entityClass %>List.fromJson(List<dynamic> json) {
-    List<<%= entityClass %>> <%= entityInstance.toLowerCase() %>s = [];
+    List<<%= entityClass %>> <%= entityInstance %>s = [];
     <%= entityInstance %>s = json.map((post) => <%= entityClass %>.fromJson(post)).toList();
 
     return <%= entityClass %>List(
