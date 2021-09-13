@@ -45,9 +45,9 @@ abstract class _<%= entityClass %>Store with Store {
   }<%} } %>
 
   @action
-  <%= methods[i].methodName %>() {
+  <%= methods[i].methodName %>(<%= methods[i].parameters %>) {
     try {
-      <%= methods[i].methodName %>(<%= methods[i].parameters %>)
+      <%= methods[i].methodName %>(<%= methods[i].onlyParam %>)
     } catch (e) {
       
     }
