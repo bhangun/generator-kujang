@@ -83,9 +83,11 @@ module.exports = class extends GenBase {
     }
 
     get writing() {
-       // this.composeWith(require.resolve('../entity-mobx'), this.props);
+        this.props.isPrintComponent = false
         this.props.methods = this.propsForService(this.props.paths)
         this.props._ = this._
+
+        this.composeWith(require.resolve('../entity-mobx'), this.props);
         return writeFiles(this.props);
     }
 

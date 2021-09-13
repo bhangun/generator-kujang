@@ -3,21 +3,15 @@ module.exports = {
     writeFiles
 };
 
-function writeFiles(folder, path, obj, i, _, appsName) {
-
+function writeFiles(folder, path, obj, i, props) {
+    props.path = path
+    props.index = i
     const pathFolder = folder + '/lib/screens/path' + i
     const storeFolder = folder + '/lib/store/path' + i
     path.methods.forEach(method => {
-        obj.template('operation.form.ejs', 
-            `${pathFolder}/${method.operationId}.dart`, 
-            obj, 
-            { _: _, index: i, method: method, path: path, appsName: appsName 
-        })
+        props.method = method
+        obj.template('operation.form.ejs',`${pathFolder}/${method.operationId}.dart`, obj, props)
 
-        obj.template('operation.store.ejs', 
-            `${storeFolder}/${method.operationId}_store.dart`, 
-            obj, 
-            { _: _, index: i, method: method, path: path, appsName: appsName 
-        })
+        obj.template('operation.store.ejs', `${storeFolder}/${method.operationId}_store.dart`, obj, props)
     })
 }
