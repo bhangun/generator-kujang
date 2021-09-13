@@ -7,12 +7,14 @@
 _%>
 import 'package:flutter/material.dart';
 
-import '../store/<%= entityInstance %>_store.dart';
+import '../../store/path<%= index %>/<%= entityInstance %>_store.dart';
 import 'package:<%= appsName %>/widgets/global_methods.dart';
 import 'package:<%= appsName %>/widgets/progress_indicator_widget.dart';
-import '../../../models/<%= entityInstance %>.dart';<% for (idx in dartFields) { %><% if (dartFields[idx]['desc'] == 'relationship') {%>
-import '../../<%= idx %>/store/<%= idx %>_store.dart'; <%}}%>
 
+/**
+* <%= method.summary %>
+* path: <%= path.pathOrigin %>
+*/
 class <%= entityClass %>Form extends StatefulWidget {
   final <%= entityClass %>? data;
   <%= entityClass %>Form({this.data});
@@ -20,8 +22,8 @@ class <%= entityClass %>Form extends StatefulWidget {
   _<%= entityClass %>FormState createState() => _<%= entityClass %>FormState();
 }
 
-class _<%= entityClass %>FormState extends State<<%= entityClass %>Form> {
-  <% for (idx in dartFields) { %><% if(idx=='id' || dartFields[idx]['desc'] == 'relationship') {%>
+class _<%= entityClass %>FormState extends State<<%= entityClass %>Form> {<% 
+for (idx in dartFields) { %><% if(idx=='id' || dartFields[idx]['desc'] == 'relationship') {%>
   <%} else if (dartFields[idx]['type'] == 'enum') {%>
   var _<%= dartFields[idx]['name'] %> = ''; <%} else {%>
   final _<%= dartFields[idx]['name'] %> = <%= dartFields[idx]['cont'] %>;<%}%><%}%>

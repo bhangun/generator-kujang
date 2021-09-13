@@ -14,7 +14,7 @@ module.exports = class extends GenBase {
        /*  if (this.props.entities.length>0) this.props.entities.forEach(entity => {
             writeEntity(this.props.packageFolder, entity, this)
         })
-        else otherEntity(this.props.paths, this.transformType).forEach(e =>{
+        else otherEntity(this.props.paths, this.transformType, this._).forEach(e =>{
             writeEntity(this.props.packageFolder, e, this)
         }) */
 
@@ -26,7 +26,7 @@ module.exports = class extends GenBase {
     }
 }
 
-function otherEntity(paths,transformType) {
+function otherEntity(paths,transformType,_) {
     const responseTypes = [];
     for (const i in paths) {
         for (const m in paths[i].methods) {
@@ -39,7 +39,7 @@ function otherEntity(paths,transformType) {
             if (responseContent.content.component)
                 responseType = responseContent.content.component
             else if (responseContent.content.items.type)
-                responseType = capitalize(responseContent.content.items.type + '' + i)
+                responseType = _.capitalize(responseContent.content.items.type + '' + i)
             else responseType = 'Object' + i
 
             responseTypes.push(
@@ -47,8 +47,8 @@ function otherEntity(paths,transformType) {
                     "appsName": responseType,
                     "pkType": "String",
                     "relationships": [],
-                    "entityName": capitalize(responseType),
-                    "entityClass": capitalize(responseType),
+                    "entityName": _.capitalize(responseType),
+                    "entityClass": _.capitalize(responseType),
                     "entityInstance": responseType,
                     "entityFolderName": responseType,
                     "entityFileName": responseType,
@@ -91,9 +91,3 @@ function otherFields(input,transformType) {
 
     return fields
 }
-
-function capitalize(text){
-    if(text)
-      return text.substr( 0, 1 ).toUpperCase()+text.substr( 1 );
-    else ''
-  }
