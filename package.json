@@ -6,6 +6,7 @@
         "yeoman-generator",
         "generator-kujang",
         "kujang",
+        "oas",
         "openapi",
         "swagger",
         "flutter"

@@ -17,7 +17,7 @@
  */
 
 const writeFiles = require('./files').writeFiles;
-const GenBase = require('kujang-core/core/base');
+const GenBase = require('kujang-core/core');
 
 module.exports = class extends GenBase {
 
@@ -33,7 +33,7 @@ module.exports = class extends GenBase {
                 type: 'input',
                 name: 'packageName',
                 validate: input => (/^([a-z_]{1}[a-z0-9_]*(\.[a-z_]{1}[a-z0-9_]*)*)$/.test(input) ? true : 'The package name you have provided is not a valid Java package name.'),
-                message: 'What is your package name?',
+                message: `What is your ${this.chalkBlueBright('Flutter')} package name?`,
                 store: true
             },
             {

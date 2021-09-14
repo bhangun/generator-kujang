@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-const GenBase = require('kujang-core/core/base');
+const GenBase = require('kujang-core/core');
 const writeEntity = require('./files').writeFiles;
 const writeOperation = require('./operation').writeFiles;
 

@@ -1,5 +1,5 @@
 
-const GenBase = require('kujang-core/core/base');
+const GenBase = require('kujang-core/core');
 const utils = require('kujang-core/core/utils');
 
 
