@@ -15,7 +15,7 @@
      relationship.otherEntityName */
     /* 
        const entityConfig = {
-        jhipsterConfigDirectory: this.jhipsterConfigDirectory,
+        : this.,
         filename: this.filename,
         data: this.data || this.fileData,
         useConfigurationFile: this.useConfigurationFile,

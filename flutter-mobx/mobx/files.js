@@ -1,7 +1,6 @@
 /**
- * Copyright 2013-2018 the original author or authors from the JHipster project.
- *
- * This file is part of the JHipster project, see http://www.jhipster.tech/
+ * Copyright 2013-2021 the original author or authors Bhangun Hartani
+ * This file is part of the Kujang Generator
  * for more information.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
