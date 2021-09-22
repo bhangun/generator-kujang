@@ -28,7 +28,6 @@ module.exports = class extends GenBase {
     }
 
     prompting() {
-        console.log('------1-----------')
         const prompts = [
             {
                 type: 'input',
@@ -104,8 +103,10 @@ module.exports = class extends GenBase {
 
         this.props.isPrintComponent = false
 
-        this.props.methods = this.propsForService(this.props.paths)
+        this.props.methods = this.propsForService(this.props.paths, this.props.properties, 'dart' )
         this.props._ = this._
+
+        this.props.findEqualObject = this.findEqualObject
 
         this.composeWith(require.resolve('../entity-mobx'), this.props);
         return writeFiles(this.props);

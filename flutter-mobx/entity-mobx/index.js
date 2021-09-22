@@ -34,52 +34,7 @@ module.exports = class extends GenBase {
             this.props.entity = e   
             writeEntity(this.props.packageFolder, this, this.props,  this._)
         })
-        /* else this.otherEntity(this.props.paths).forEach(el =>{
-            this.log('----Other entity.')
-            this.props.entity = el
-            writeEntity(this.props.packageFolder, this, this.props,  this._)
-        }) */
-        
-        else if(this.props.properties){ 
-        
-           
-           
-            this.props.properties.forEach((el, i) =>{
-                const fields = []
 
-                this.props.entity = {
-                    "appsName": this.appsName,
-                    "pkType": "String",
-                    "relationships": [],
-                    "entityName": 'Object'+i,
-                    "entityClass": 'Object'+i,
-                    "entityInstance": 'object'+i,
-                    "entityFolderName": 'object'+i,
-                    "entityFileName": 'object'+i,
-                    "enableTranslation": false,
-                    "fields": []
-                  }
-                
-                el.forEach( f =>{
-                    fields.push({
-                        "fieldType": this.transformType(f.type, f.isEnum, 'dart'),
-                        "fieldName": f.name,
-                        "fieldIsEnum": f.isEnum,
-                        "fieldValues": f.isEnum? f.enum:'',
-                        "fieldsContainOneToMany": false,
-                        "fieldsContainOwnerManyToMany": false,
-                        "fieldsContainOwnerOneToOne": false,
-                        "fieldsContainNoOwnerOneToOne": false,
-                        "fieldsContainManyToOne": false,
-                        "required": f.required,
-                    })
-                })
-
-            this.props.entity.fields = fields
-            writeEntity(this.props.packageFolder, this, this.props,  this._)
-        })
-    }
-        
         this.props._ = this._
         this.props.paths.forEach((path,i) =>{
             writeOperation(this.props.packageFolder, path, this, i, this.props)
