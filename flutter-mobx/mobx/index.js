@@ -28,6 +28,7 @@ module.exports = class extends GenBase {
     }
 
     prompting() {
+        console.log('------1-----------')
         const prompts = [
             {
                 type: 'input',
@@ -88,7 +89,6 @@ module.exports = class extends GenBase {
 
         const done = this.async();
         this.prompt(prompts).then((props) => {
-
             this.config.set('params', props)
             this.config.set('baseName', props.baseName);
             this.config.set('appsName', this.appsName);
@@ -101,7 +101,9 @@ module.exports = class extends GenBase {
     }
 
     get writing() {
+
         this.props.isPrintComponent = false
+
         this.props.methods = this.propsForService(this.props.paths)
         this.props._ = this._
 
@@ -110,7 +112,7 @@ module.exports = class extends GenBase {
     }
 
     install() {
-       this.spawnCommand('flutter', ['create', '--org', `${this.packageName}`, '--project-name', `${this.appsName}`, '-a', `${this.config.get('android')}`, '-i', `${this.config.get('ios')}`, `${this.appsName}`]);
+      // this.spawnCommand('flutter', ['create', '--org', `${this.packageName}`, '--project-name', `${this.appsName}`, '-a', `${this.config.get('android')}`, '-i', `${this.config.get('ios')}`, `${this.appsName}`]);
     }
 
     end() {

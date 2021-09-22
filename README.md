@@ -3,7 +3,7 @@
 [![NPM version][npm-image]][npm-url] 
 
 # Kujang Generator
-Kujang generator to build Flutter Apps using Swagger 2.0 API definition or OpenAPI (Swagger 3.0) Standard
+API-first client generator to build Flutter Apps and others using OpenAPI 3.0 API definition (Swagger 3.0).
 
 ## Install
 ```bash

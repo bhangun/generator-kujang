@@ -13,10 +13,11 @@ class <%= _.capitalize(appsName) %>Services {
 <% for (i in methods) { %>
   /// <%= methods[i].summary %><% if(methods[i].desc){ %>
   /// <%= methods[i].desc %> <% } %>
+  /// Path: <%= methods[i].path %> 
   static Future<<%= methods[i].responseType %>> <%= methods[i].methodName %>(<%= methods[i].parameters %>) async { 
     <%= methods[i].requestPayloadStatement %>
     var response = await RestServices.<%= methods[i].methodPath %>('<%= methods[i].path %><%= methods[i].query %>'<%= methods[i].requestPayload %>); 
-    <% if(methods[i].isInput){ %>return <%= methods[i].responseType %>.fromJson(json.decode(response)); <% } %>
+    <% if(methods[i].responseType){ %>return <%= methods[i].responseType %>.fromJson(json.decode(response)); <% } %>
   }
 <% } %>
 }

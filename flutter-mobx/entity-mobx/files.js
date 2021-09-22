@@ -26,9 +26,10 @@ function writeFiles(folder, obj, props, _) {
 
     const entityFolderName = folder + '/lib/modules/' + props.entityClass
 
-    const entityFileName = props.entityClass
+    const entityFileName = props.entity.entityClass
+
     props.entity._ = _ 
-//console.log(props.entity)
+
     obj.template('entity.ejs', `${folder}/lib/models/${entityFileName}.dart`, obj, props.entity)
 
     if (props.isPrintComponent) {
