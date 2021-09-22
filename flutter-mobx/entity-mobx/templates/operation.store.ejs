@@ -30,24 +30,10 @@ abstract class _<%= entityClass %>Store with Store {
   @observable
   bool showError = false;
 
-  List<<%= entityClass %>>? <%= entityInstance %>List;
-  <% for (idx in dartFields) { if (dartFields[idx]['type'] == 'enum') {%>
-  String? <%- dartFields[idx]['name'] %>;<%} else if (dartFields[idx]['desc'] == 'relationship') { %><% if(dartFields[idx]['isList']) {%>
-  List<<%- dartFields[idx]['type'] %>>? <%- dartFields[idx]['name'] %>;<% } else {%>
-  <%= dartFields[idx]['type'] %>? <%= dartFields[idx]['name'] %>; <% } } else if(idx!='id'){%>
-  <%- dartFields[idx]['type'] %>? <%- dartFields[idx]['name'] %>;<% }} %>
-    
-  // actions:-------------------------------------------------------------------
-  String get formTitle => isUpdated? title='Update <%= entityClass %>':'Create <%= entityClass %>'; <% for (idx in dartFields) {  if(idx!='id') {%>
-  
-  void set<%= _.capitalize(dartFields[idx]['name'])%>(<% if(dartFields[idx]['type'] != 'enum' && dartFields[idx]['isList'])  {%>List<<%= dartFields[idx]['type'] %>><%} else{%><%= dartFields[idx]['type'] %><%}%> value) {
-    <%- dartFields[idx]['name'] %> = value;
-  }<%} } %>
-
   @action
   <%= methods[i].methodName %>(<%= methods[i].parameters %>) {
     try {
-      <%= _.capitalize(appsName) %>Services.<%= methods[i].methodName %>(<%= methods[i].onlyParam %>)
+      <%= _.capitalize(appsName) %>Services.<%= methods[i].methodName %>(<%- methods[i].onlyParam %>);
     } catch (e) {
       
     }
