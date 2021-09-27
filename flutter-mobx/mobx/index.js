@@ -113,7 +113,7 @@ module.exports = class extends GenBase {
     }
 
     install() {
-      // this.spawnCommand('flutter', ['create', '--org', `${this.packageName}`, '--project-name', `${this.appsName}`, '-a', `${this.config.get('android')}`, '-i', `${this.config.get('ios')}`, `${this.appsName}`]);
+      this.spawnCommand('flutter', ['create', '--org', `${this.packageName}`, '--project-name', `${this.appsName}`, '-a', `${this.config.get('android')}`, '-i', `${this.config.get('ios')}`, `${this.appsName}`]);
     }
 
     end() {

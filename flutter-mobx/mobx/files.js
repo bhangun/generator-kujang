@@ -126,7 +126,7 @@ function writeFiles(props) {
 
             // Views
             this.template(`${flutterDir}lib/screens/about.dart`, `${packageFolder}/lib/screens/about.dart`);
-            this.template(`${flutterDir}lib/screens/home.dart`, `${packageFolder}/lib/screens/home.dart`);
+            this.template(`${flutterDir}lib/screens/home.ejs`, `${packageFolder}/lib/screens/home.dart`, this, props);
             this.template(`${flutterDir}lib/screens/login.dart`, `${packageFolder}/lib/screens/login.dart`);
             this.template(`${flutterDir}lib/screens/splash.dart`, `${packageFolder}/lib/screens/splash.dart`);
 
@@ -135,7 +135,7 @@ function writeFiles(props) {
             this.template(`${flutterDir}lib/widgets/app_icon_widget.dart`, `${packageFolder}/lib/widgets/app_icon_widget.dart`);
             this.template(`${flutterDir}lib/widgets/appbar_widget.dart`, `${packageFolder}/lib/widgets/appbar_widget.dart`);
             this.template(`${flutterDir}lib/widgets/bottom_bar_widget.dart`, `${packageFolder}/lib/widgets/bottom_bar_widget.dart`);
-            this.template(`${flutterDir}lib/widgets/drawer_widget.dart`, `${packageFolder}/lib/widgets/drawer_widget.dart`);
+            this.template(`${flutterDir}lib/widgets/drawer_widget.ejs`, `${packageFolder}/lib/widgets/drawer_widget.dart`, this, props);
             this.template(`${flutterDir}lib/widgets/empty_app_bar_widget.dart`, `${packageFolder}/lib/widgets/empty_app_bar_widget.dart`);
             this.template(`${flutterDir}lib/widgets/error_message_widget.dart`, `${packageFolder}/lib/widgets/error_message_widget.dart`);
             this.template(`${flutterDir}lib/widgets/global_methods.dart`, `${packageFolder}/lib/widgets/global_methods.dart`);
