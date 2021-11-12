@@ -57,7 +57,7 @@ class UserServices {
 
   // Update user
   static updateUser(User user) async {
-    await RestServices.patch(API_USER, user);
+    await RestServices.update(API_USER, user);
   }
 
   // Delete user
