@@ -62,7 +62,7 @@ class UserServices {
 
   // Delete user
   static deleteUser(String userID) async {
-    await RestServices.delete(API_USER, userID);
+    await RestServices.delete(API_USER, data: userID);
   }
 
 
