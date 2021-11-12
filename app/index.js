@@ -29,10 +29,8 @@ module.exports = class extends GenBase {
          return this.initializing(this, this.props, packagejs)
     }
 
-    compose() {
+    compose() { 
         if(!this.props.module) 
            this.composeWith(require.resolve('../flutter-mobx/mobx'), this.props);
      }
-
-   
 };

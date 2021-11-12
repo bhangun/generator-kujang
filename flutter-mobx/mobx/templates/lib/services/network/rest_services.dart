@@ -63,7 +63,7 @@ class RestServices {
   }
 
   // PUT
-  static Future<dynamic> update(String uri, dynamic data) async {
+  static Future<dynamic> patch(String uri, dynamic data) async {
     Response response = await _dio.put(uri, data: data);
     return response.data;
   }

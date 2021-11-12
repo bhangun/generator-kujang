@@ -45,22 +45,18 @@ function capitalize(text){
 
 _%>
 import 'dart:convert';
-import 'package:equatable/equatable.dart';
-<% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') {%>
-import '../../<%- idx %>/models/<%- idx %>.type';<%}} %>
+import 'package:equatable/equatable.dart'; <% for (idx in fields) { if(fields[idx].fieldType.origin == 'object') { %>
+import '<%- fields[idx].fieldType.type.toLowerCase() %>.dart'; <%} else if(fields[idx].fieldType.origin == 'array'){%>
+import '<%- (fields[idx].fieldType.type).split('<')[1].split('>')[0].toLowerCase() %>.dart';<% }}%>
 
 class <%= entityClass %> extends Equatable{
-    <% for (idx in fields) { 
-        if (fields[idx]['desc'] == 'relationship') { %>
-            <% if(fields[idx]['isList']) { %>
-    final List<<%- fields[idx].fieldType.type %>>? <%- fields[idx].fieldName %>;
-            <% } else { %>
+    <% for (idx in fields) { %>
+    /// <%= fields[idx].fieldDescription %><% if (fields[idx]['desc'] == 'relationship') { %> <% if(fields[idx]['isList']) { %>
+    final List<<%- fields[idx].fieldType.type %>>? <%- fields[idx].fieldName %>; 
+    <% } else { %>
     final <%= fields[idx].fieldType.type %>? <%= fields[idx].fieldName %>; 
-            <% } 
-        } else { %>
-    final <%- fields[idx].fieldType.type %>? <%- fields[idx].fieldName %>; <% 
-        } 
-        } %>
+    <% } } else { %>
+    final <%- fields[idx].fieldType.type %>? <%- fields[idx].fieldName %>; <% } } %>
 
     const <%= entityClass %> ({ <% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') { %>
         this.<%- fields[idx].fieldName %>,<% } else {%> 
@@ -108,10 +104,10 @@ class <%= entityClass %>List {
 
   factory <%= entityClass %>List.fromJson(List<dynamic> json) {
     List<<%= entityClass %>> <%= entityInstance.toLowerCase() %>s = [];
-    <%= entityInstance %>s = json.map((post) => <%= entityClass %>.fromJson(post)).toList();
+    <%= entityInstance.toLowerCase() %>s = json.map((post) => <%= entityClass %>.fromJson(post)).toList();
 
     return <%= entityClass %>List(
-      <%= entityInstance %>s: <%= entityInstance %>s,
+      <%= entityInstance %>s: <%= entityInstance.toLowerCase() %>s,
     );
   }
 }
