@@ -30,6 +30,18 @@ abstract class _<%= entityClass %>Store with Store {
   @observable
   bool showError = false;
 
+  @observable
+  String formTitle = '';
+
+  @observable
+  bool loading = false;
+
+  @observable
+  bool success = false;
+
+  @action
+  save() {}
+
   @action
   <%= methods[i].methodName %>(<%= methods[i].parameters %>) {
     try {
