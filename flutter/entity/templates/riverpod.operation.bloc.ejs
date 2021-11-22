@@ -1,0 +1,41 @@
+<%_
+
+  const entityClass = _.capitalize(method.operationId)
+  const entityInstance = method.operationId
+  const dartFields = method.properties
+
+  const index = {};
+  let hasUserRelationship = false;
+  const id = {};
+  var i=0;
+
+
+_%>
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:<%= appsName %>/services/navigation.dart';
+import 'package:<%= appsName %>/services/apps_services.dart';
+import 'package:<%= appsName %>/modules/<%= entityInstance %>/services/<%= entityInstance %>_routes.dart';
+import 'package:<%= appsName %>/modules/<%= entityInstance %>/services/<%= entityInstance %>_services.dart';
+import 'package:<%= appsName %>/modules/<%= entityInstance %>/models/<%= entityInstance %>.dart';
+<% for (idx in dartFields) { %><% if (dartFields[idx]['desc'] == 'relationship') {%>
+import '../../<%= idx %>/models/<%= idx %>.dart'; <%}}%>
+
+final <%= entityInstance %>Bloc = ChangeNotifierProvider<<%= entityClass %>Bloc>((ref) => <%= entityClass %>Bloc());
+
+/// <%= info.title %>
+/// @version <%= info.version %>
+class <%= entityClass %>Bloc extends ChangeNotifier {
+  /// <%= item  %> 
+<% for (i in methods) { if(methods[i].methodName == entityInstance) {%>
+  /// <%= i  %> 
+  /// <%= methods[i].summary %>
+  Future<% if(methods[i].responseType && methods[i].responseType != 'UnknownObject' && methods[i].responseType != 'void'){%><<%= methods[i].responseType %>><%}%> <%= methods[i].methodName %>(<%= methods[i].parameters %>) async { 
+    var response = await AppsServices.<%= methods[i].methodName %>('<%= methods[i].path %><%- methods[i].query %>'<%- methods[i].jsonParam %>); 
+  }
+<% }} %>
+}

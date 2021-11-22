@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2013-2021 the original author or authors Bhangun Hartani
  * This file is part of the Kujang Generator
@@ -16,21 +17,19 @@
  * limitations under the License.
  */
 
-const GenBase = require('kujang-core/core');
-const packagejs = require('../package.json');
-
-module.exports = class extends GenBase {
-    constructor(args, opts) {
-        super(args, opts);
-        this.props = opts
-    }
-
-    get init() {
-         return this.initializing(this, this.props, packagejs)
-    }
-
-    compose() { 
-        if(!this.props.module) 
-           this.composeWith(require.resolve('../flutter'), this.props);
-     }
+module.exports = {
+    writeFiles
 };
+
+function writeFiles(folder, path, obj, i, props) {
+    props.path = path
+    props.index = i
+    const pathFolder = folder + '/lib/screens/path' + i
+    const storeFolder = folder + '/lib/bloc/path' + i
+    path.methods.forEach(method => {
+        props.method = method
+        obj.template('bloc.operation.form.ejs',`${pathFolder}/${method.operationId}.dart`, obj, props)
+
+        obj.template('bloc.operation.bloc.ejs', `${storeFolder}/${method.operationId}_bloc.dart`, obj, props)
+    })
+}

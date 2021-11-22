@@ -1,0 +1,92 @@
+<%_
+  
+  const entityClass = _.capitalize(method.operationId)
+  const entityInstance = method.operationId
+  const dartFields = method.properties
+
+_%>
+import 'package:flutter/material.dart';
+
+import '../../store/path<%= index %>/<%= entityInstance %>_store.dart';
+import 'package:<%= appsName %>/widgets/global_methods.dart';
+import 'package:<%= appsName %>/widgets/progress_indicator_widget.dart';
+
+/**
+* <%= method.summary %>
+* path: <%= path.pathOrigin %>
+*/
+class <%= entityClass %>Form extends StatefulWidget {
+  final <%= entityClass %>Store? data;
+  <%= entityClass %>Form({this.data});
+  @override
+  _<%= entityClass %>FormState createState() => _<%= entityClass %>FormState();
+}
+
+class _<%= entityClass %>FormState extends State<<%= entityClass %>Form> {<% 
+for (idx in dartFields) { %><% if(idx=='id' || dartFields[idx]['desc'] == 'relationship') {%>
+  <%} else if (dartFields[idx]['type'] == 'enum') {%>
+  var _<%= dartFields[idx]['name'] %> = ''; <%} else {%>
+  final _<%= dartFields[idx]['name'] %> = <%= dartFields[idx]['cont'] %>;<%}%><%}%>
+
+  late <%= entityClass %>Store _<%= entityInstance %>Store = <%= entityClass %>Store();<% for (idx in dartFields) { %><% if (dartFields[idx]['desc'] == 'relationship') {%>
+  late <%= _.capitalize(idx) %>Store _<%= idx %>Store = <%= entityClass %>Store(); <%}}%>
+
+  @override
+  void dispose() {<% for (idx in dartFields) { %><% if (dartFields[idx]['type'] != 'enum' && idx!='id' && dartFields[idx]['desc'] != 'relationship') {%>
+    _<%= dartFields[idx]['name'] %>.dispose();<%}%><%}%>
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    <% for (idx in dartFields) { if (idx != 'id' && dartFields[idx]['type'] != 'enum' && dartFields[idx]['desc'] != 'relationship')  {%>
+    _<%= dartFields[idx]['name'] %>.addListener(() {
+      _<%= entityInstance %>Store.set<%= _.capitalize(dartFields[idx]['name'])%>(_<%= dartFields[idx]['name'] %>.text);
+    });  <%}}%>
+    return  Scaffold(
+            appBar: AppBar(
+              title: Text(_<%= entityInstance %>Store.formTitle),
+            ),
+            body: _buildBody(),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => _<%= entityInstance %>Store.save(),
+              tooltip: 'Add',
+              child: Icon(Icons.save),
+            ));
+  }
+
+  _buildBody() {
+    return Stack(
+      children: <Widget>[
+        _<%= entityInstance %>Store.loading
+            ? CustomProgressIndicatorWidget()
+            : Material(child: _buildForm()),
+        _<%= entityInstance %>Store.success
+            ? Container()
+            : showErrorMessage(context, '') 
+        //_<%= entityInstance %>Store.isModified ? KutAlert() : Container(),
+      ],
+    );
+  }
+
+  _buildForm() {
+    return SafeArea(
+        child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            children: _buildListChild()));
+  }
+
+  _buildListChild() {
+    return <Widget>[
+      SizedBox(height: 120.0),<% for (idx in dartFields) { if (idx != 'id' && dartFields[idx]['type'] != 'enum')  {%>
+      TextField(
+        controller: _<%= dartFields[idx]['name'] %>,
+        decoration: InputDecoration(
+          filled: true,
+          labelText: '<%= _.capitalize(dartFields[idx]['name']) %>',
+        ),
+      ),
+      <%}}%>
+    ];
+  }
+}

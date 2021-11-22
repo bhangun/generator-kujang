@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "username": "admin",
+        "firstName": "Admin",
+        "lastName": "Admin",
+        "email": "admin@fulan.com",
+        "password": "admin123456",
+        "phone": "+628111111",
+        "userStatus": 0
+    },
+    {
+        "id": 2,
+        "username": "user",
+        "firstName": "User",
+        "lastName": "User",
+        "email": "user@fulan.com",
+        "password": "user123456",
+        "phone": "+628111111",
+        "userStatus": 1
+    },
+    {
+        "id": 3,
+        "username": "system",
+        "firstName": "System",
+        "lastName": "System",
+        "email": "system@fulan.com",
+        "password": "system123456",
+        "phone": "+628111111",
+        "userStatus": 0
+    }
+]
