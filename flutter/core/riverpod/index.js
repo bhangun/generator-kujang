@@ -1,7 +1,5 @@
 const GenBase = require('kujang-core/core');
 
-const writeFiles = require('./files').writeFiles;
-
 module.exports = class extends GenBase {
 
     constructor(args, opts) {
@@ -58,15 +56,15 @@ module.exports = class extends GenBase {
        this.template(`${flutterDir}lib/models/app_data.dart`, `${packageFolder}/lib/models/app_data.dart`);
 
         // Modules
-        this.template(`${flutterDir}lib/modules/user/bloc/user_bloc.dart`, `${packageFolder}/lib/modules/account/bloc/user_bloc.dart`);
-        this.template(`${flutterDir}lib/modules/user/models/user.dart`, `${packageFolder}/lib/modules/account/models/user.dart`);
+        this.template(`${flutterDir}lib/modules/user/bloc/user_bloc.dart`, `${packageFolder}/lib/modules/user/bloc/user_bloc.dart`);
+        this.template(`${flutterDir}lib/modules/user/models/user.dart`, `${packageFolder}/lib/modules/user/models/user.dart`);
  
-        this.template(`${flutterDir}lib/modules/user/services/user_routes.dart`, `${packageFolder}/lib/modules/account/services/user_routes.dart`);
-        this.template(`${flutterDir}lib/modules/user/services/user_services.dart`, `${packageFolder}/lib/modules/account/services/user_services.dart`);
+        this.template(`${flutterDir}lib/modules/user/services/user_routes.dart`, `${packageFolder}/lib/modules/user/services/user_routes.dart`);
+        this.template(`${flutterDir}lib/modules/user/services/user_services.dart`, `${packageFolder}/lib/modules/user/services/user_services.dart`);
 
-        this.template(`${flutterDir}lib/modules/user/screens/user_detail.dart`, `${packageFolder}/lib/modules/account/screens/user_detail.dart`);
-        this.template(`${flutterDir}lib/modules/user/screens/user_form.dart`, `${packageFolder}/lib/modules/account/screens/user_form.dart`);
-        this.template(`${flutterDir}lib/modules/user/screens/user_list.dart`, `${packageFolder}/lib/modules/account/screens/user_list.dart`);
+        this.template(`${flutterDir}lib/modules/user/screens/user_detail.dart`, `${packageFolder}/lib/modules/user/screens/user_detail.dart`);
+        this.template(`${flutterDir}lib/modules/user/screens/user_form.dart`, `${packageFolder}/lib/modules/user/screens/user_form.dart`);
+        this.template(`${flutterDir}lib/modules/user/screens/user_list.dart`, `${packageFolder}/lib/modules/user/screens/user_list.dart`);
 
         this.template(`${flutterDir}lib/modules/main_module.dart`, `${packageFolder}/lib/modules/main_module.dart`);
         this.template(`${flutterDir}lib/modules/register_modules.dart`, `${packageFolder}/lib/modules/register_modules.dart`);

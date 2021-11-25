@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:<%= appsName %>/modules/user/model/user.dart';
+
 import 'package:<%= appsName %>/services/navigation.dart';
-import 'package:<%= appsName %>/modules/user/services/user_routes.dart';
-import 'package:<%= appsName %>/modules/user/services/user_services.dart';
+import '../services/user_routes.dart';
+import '../services/user_services.dart';
+import '../models/user.dart';
 
 final userBloc = ChangeNotifierProvider<UserBloc>((ref) => UserBloc());
 
@@ -46,35 +47,6 @@ class UserBloc extends ChangeNotifier {
   List<User>? userList;
 
   String get formTitle => isUpdated ? title = 'Update User' : 'Create User';
-
-  /* 
-  void setUsername([object Object] value) {
-    username = value;
-  }
-  
-  void setFirstName([object Object] value) {
-    firstName = value;
-  }
-  
-  void setLastName([object Object] value) {
-    lastName = value;
-  }
-  
-  void setEmail([object Object] value) {
-    email = value;
-  }
-  
-  void setPassword([object Object] value) {
-    password = value;
-  }
-  
-  void setPhone([object Object] value) {
-    phone = value;
-  }
-  
-  void setUserStatus([object Object] value) {
-    userStatus = value;
-  } */
 
   itemTap(int _position) {
     try {

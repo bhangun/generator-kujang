@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:<%= appsName %>/modules/user/bloc/user_bloc.dart';
-import 'package:<%= appsName %>/modules/user/model/user.dart';
+
+import '../bloc/user_bloc.dart';
+import '../models/user.dart';
 
 class UserList extends ConsumerStatefulWidget {
   const UserList({Key? key}) : super(key: key);

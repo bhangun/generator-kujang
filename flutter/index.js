@@ -15,11 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-const writeFilesMobx = require('./core/mobx/files').writeFiles;
-//const writeFilesBloc = require('./bloc/files').writeFiles;
-
-const writeFilesRiverpod = require('./core/riverpod/files').writeFiles; 
 const GenBase = require('kujang-core/core');
 
 module.exports = class extends GenBase {

@@ -26,9 +26,6 @@ const writeOperationMobx = require('./operation.mobx').writeFiles;
 const writeOperationRiverpod = require('./operation.riverpod').writeFiles;
 const writeOperationBloc = require('./operation.bloc').writeFiles;
 
-const writeFilesMobx = require('../core/mobx/files').writeFiles;
-const writeFilesBloc = require('../core/bloc/files').writeFiles;
-const writeFilesRiverpod = require('../core/riverpod/files').writeFiles;
 
 module.exports = class extends GenBase {
 

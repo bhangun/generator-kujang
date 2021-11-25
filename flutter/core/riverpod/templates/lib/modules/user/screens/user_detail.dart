@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:<%= appsName %>/modules/user/bloc/user_bloc.dart';
+
+import '../bloc/user_bloc.dart';
 
 class UserDetail extends ConsumerStatefulWidget {
   const UserDetail({Key? key}) : super(key: key);
