@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:<%= appsName %>/modules/user/model/user.dart';
+import 'package:<%= appsName %>/modules/user/models/user.dart';
 import 'package:<%= appsName %>/services/local/database_services.dart';
 
 import '../../services/apps_routes.dart';

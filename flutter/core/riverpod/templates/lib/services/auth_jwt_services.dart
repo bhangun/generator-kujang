@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:f_logs/f_logs.dart';
 import 'package:flutter/services.dart';
 import 'package:<%= appsName %>/models/app_data.dart';
-import 'package:<%= appsName %>/modules/user/model/user.dart';
+import 'package:<%= appsName %>/modules/user/models/user.dart';
 
 import 'local/database_services.dart';
 import 'network/rest_services.dart';
