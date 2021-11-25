@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 
-/* const writeFilesMobx = require('./mobx/files').writeFiles;
-const writeFilesBloc = require('./bloc/files').writeFiles;
-const writeFilesRiverpod = require('./riverpod/files').writeFiles; */
+const writeFilesMobx = require('./core/mobx/files').writeFiles;
+//const writeFilesBloc = require('./bloc/files').writeFiles;
+
+const writeFilesRiverpod = require('./core/riverpod/files').writeFiles; 
 const GenBase = require('kujang-core/core');
 
 module.exports = class extends GenBase {
@@ -116,8 +117,8 @@ module.exports = class extends GenBase {
         this.props.findEqualObject = this.findEqualObject
 
         this.composeWith(require.resolve('./entity'), this.props);
-
-        //this.composeWith(require.resolve('./core'), this.props);
+      
+        this.composeWith(require.resolve('./core'), this.props);
     }
 
 

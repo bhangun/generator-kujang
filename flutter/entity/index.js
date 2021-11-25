@@ -38,21 +38,11 @@ module.exports = class extends GenBase {
         this.props = opts
     }
 
-    writeCore() {
-        
-        if(this.config.get('stateManagementType') == 'mobx')
-            return writeFilesMobx(this.props);
-        else if (this.config.get('stateManagementType') == 'riverpod')
-            return writeFilesRiverpod(this.props);
-        else return writeFilesBloc(this.props);
-    }
-
     writingEntity() {
-        
-
+         
         if (this.props.entities.length > 0) this.props.entities.forEach(e => {
             this.props.entity = e
-
+            
             if (this.config.get('stateManagementType') == 'mobx')
                 return writeEntityMobx(this.props.packageFolder, this, this.props, this._);
             else if (this.config.get('stateManagementType') == 'riverpod')
@@ -62,7 +52,6 @@ module.exports = class extends GenBase {
 
         this.props._ = this._
         
-
         if (this.config.get('stateManagementType') == 'mobx')
             return this.props.paths.forEach((path, i) => {
                 writeOperationMobx(this.props.packageFolder, path, this, i, this.props)

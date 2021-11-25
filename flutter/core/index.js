@@ -1,9 +1,4 @@
 const GenBase = require('kujang-core/core');
-
-const writeFilesMobx = require('./mobx/files').writeFiles;
-const writeFilesBloc = require('./bloc/files').writeFiles;
-const writeFilesRiverpod = require('./riverpod/files').writeFiles;
-
 module.exports = class extends GenBase {
 
     constructor(args, opts) {
@@ -13,13 +8,11 @@ module.exports = class extends GenBase {
     }
 
     compose(){
-        console.log(this.config.get('stateManagementType'))
-      
-        if(this.config.get('stateManagementType') == 'mobx')
-            return writeFilesMobx(this.props);
-        else if (this.config.get('stateManagementType') == 'riverpod')
-            return writeFilesRiverpod(this.props);
-        else return writeFilesBloc(this.props);
 
+        if(this.config.get('stateManagementType') == 'mobx')
+            this.composeWith(require.resolve('./mobx'), this.props);
+        else if (this.config.get('stateManagementType') == 'riverpod')
+            this.composeWith(require.resolve('./riverpod'), this.props, this);
+        else  this.composeWith(require.resolve('./bloc'), this.props); 
     }
 }
