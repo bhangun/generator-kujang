@@ -20,18 +20,15 @@ module.exports = class extends GenBase {
         this.template('l10n.yaml', `${packageFolder}/l10n.yaml`);
         this.template(`gitignore`, `${packageFolder}/.gitignore`);
 
-
-        this.template('pubspec.ejs', `${packageFolder}/pubspec.yaml`, this, this.props);
-        this.template('README.ejs', `${packageFolder}/README.md`, this, this.props);
-        this.template('l10n.yaml', `${packageFolder}/l10n.yaml`);
-        this.template(`gitignore`, `${packageFolder}/.gitignore`);
+        // Unit Test & Integration test
+        this.template('integration_test/main_test.ejs', `${packageFolder}/integration_test/main_test.ejs`, this, this.props);
+        this.template('test_driver/integration_test.dart', `${packageFolder}/test_driver/integration_test.dart`, this, this.props);
    
         // add assets
         this.template(`${flutterDir}assets/data/users.json`, `${packageFolder}/assets/data/users.json`);
 
         this.template(`${flutterDir}assets/fonts/Product-Sans-Bold-Italic.ttf`, `${packageFolder}/assets/fonts/Product-Sans-Bold-Italic.ttf`);
         this.template(`${flutterDir}assets/fonts/Product-Sans-Italic.ttf`, `${packageFolder}/assets/fonts/Product-Sans-Italic.ttf`);
-        // this.template(`${flutterDir}assets/fonts/Product-Sans-Regular.ttf`, `${packageFolder}/assets/fonts/Product-Sans-Regular.ttf`);
         
         this.template(`${flutterDir}assets/icons/ic_appicon.png`, `${packageFolder}/assets/icons/ic_appicon.png`);
         this.template(`${flutterDir}assets/icons/ic_launcher.png`, `${packageFolder}/assets/icons/ic_launcher.png`);
