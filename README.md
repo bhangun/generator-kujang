@@ -5,6 +5,12 @@
 # Kujang Generator
 API-first client generator to build Flutter Apps and others using OpenAPI 3.0 API definition (Swagger 3.0).
 
+![Kujang Result][kujang-result]
+
+## Prerequisite
+- NodeJS
+- Flutter
+
 ## Install
 ```bash
 npm i -g generator-kujang
@@ -35,4 +41,5 @@ flutter run
 [kujang-url]: https://www.npmjs.com/package/generator-kujang
 [npm-url]: https://www.npmjs.com/package/generator-kujang
 [npm-image]: https://badge.fury.io/js/generator-kujang.svg
+[kujang-result]: https://github.com/bhangun/repo-assets/blob/master/kujang/snapshot/kujang-result.png
 
