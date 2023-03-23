@@ -1,35 +1,89 @@
 <%_
-  
-  const entityClass = _.capitalize(method.operationId)
-  const entityInstance = method.operationId
-  const dartFields = method.properties
+  const dartFields = {};
+  const index = {};
+  let hasUserRelationship = false;
+  const id = {};
+  var i=0;
+
+  id['type'] = 'int';
+  id['name'] = 'id';
+  id['i']=i;
+  dartFields['id'] = id;
+
+  function capitalize(text){
+    return text.substr( 0, 1 ).toUpperCase()+text.substr( 1 );
+  }
+
+  fields.forEach(field => {
+      i++;
+      const varValue = {};
+      const fieldType = field.fieldType;
+      const fieldName = field.fieldName;
+      let dartType;
+      let dartCont;
+      let desc;
+      if (field.fieldIsEnum) {
+          dartType = 'enum';
+      } else if ( fieldType === 'UUID' || fieldType === 'String') {
+          dartType = 'String';
+      } else if ( fieldType === 'Integer') {
+        dartType = 'int';
+      } else if ( fieldType === 'Instant') {
+          dartType = 'DartTime';
+          desc = '.toIso8601String()' + 'Z';
+      } else {
+          dartType = fieldType ;
+      } 
+
+      dartCont = 'TextEditingController()';
+
+      varValue['type'] = dartType;
+      varValue['name'] = fieldName;
+      varValue['desc'] = desc;
+      varValue['cont'] = dartCont;
+      varValue['i']=i;
+      
+      dartFields[fieldName] = varValue;
+  });
+
+  relationships.forEach(rela => { 
+    if(rela.relationshipType == 'many-to-one' || rela.relationshipType == 'one-to-one' && rela.ownerSide == true
+    || rela.relationshipType == 'many-to-many'  && rela.ownerSide == true ){
+        
+        const varValue = {};
+        varValue['type'] = capitalize(rela.otherEntityName);
+        varValue['name'] = rela.relationshipName;
+        varValue['desc'] = 'relationship';
+        varValue['isList'] = (rela.relationshipType=='many-to-many')?true:false;
+        
+        dartFields[rela.otherEntityName] = varValue;
+    }
+  });
 
 _%>
 import 'package:flutter/material.dart';
 
-import '../../store/path<%= index %>/<%= entityInstance %>_store.dart';
+import '../store/<%= entityInstance %>_store.dart';
 import 'package:<%= appsName %>/widgets/global_methods.dart';
 import 'package:<%= appsName %>/widgets/progress_indicator_widget.dart';
+import '../../../models/<%= entityInstance %>.dart';<% for (idx in dartFields) { %><% if (dartFields[idx]['desc'] == 'relationship') {%>
+import '../../<%= idx %>/store/<%= idx %>_store.dart'; <%}}%>
 
-/**
-* <%= method.summary %>
-* path: <%= path.pathOrigin %>
-*/
 class <%= entityClass %>Form extends StatefulWidget {
-  final <%= entityClass %>Store? data;
+  final <%= entityClass %>? data;
   <%= entityClass %>Form({this.data});
   @override
   _<%= entityClass %>FormState createState() => _<%= entityClass %>FormState();
 }
 
-class _<%= entityClass %>FormState extends State<<%= entityClass %>Form> {<% 
-for (idx in dartFields) { %><% if(idx=='id' || dartFields[idx]['desc'] == 'relationship') {%>
+class _<%= entityClass %>FormState extends State<<%= entityClass %>Form> {
+  <% for (idx in dartFields) { %><% if(idx=='id' || dartFields[idx]['desc'] == 'relationship') {%>
   <%} else if (dartFields[idx]['type'] == 'enum') {%>
   var _<%= dartFields[idx]['name'] %> = ''; <%} else {%>
   final _<%= dartFields[idx]['name'] %> = <%= dartFields[idx]['cont'] %>;<%}%><%}%>
 
   late <%= entityClass %>Store _<%= entityInstance %>Store = <%= entityClass %>Store();<% for (idx in dartFields) { %><% if (dartFields[idx]['desc'] == 'relationship') {%>
-  late <%= _.capitalize(idx) %>Store _<%= idx %>Store = <%= entityClass %>Store(); <%}}%>
+  late <%= capitalize(idx) %>Store _<%= idx %>Store = <%= entityClass %>Store(); <%}}%>
 
   @override
   void dispose() {<% for (idx in dartFields) { %><% if (dartFields[idx]['type'] != 'enum' && idx!='id' && dartFields[idx]['desc'] != 'relationship') {%>
@@ -39,10 +93,13 @@ for (idx in dartFields) { %><% if(idx=='id' || dartFields[idx]['desc'] == 'relat
 
   @override
   Widget build(BuildContext context) {
+
+   
     <% for (idx in dartFields) { if (idx != 'id' && dartFields[idx]['type'] != 'enum' && dartFields[idx]['desc'] != 'relationship')  {%>
     _<%= dartFields[idx]['name'] %>.addListener(() {
-      _<%= entityInstance %>Store.set<%= _.capitalize(dartFields[idx]['name'])%>(_<%= dartFields[idx]['name'] %>.text);
-    });  <%}}%>
+      _<%= entityInstance %>Store.set<%= capitalize(dartFields[idx]['name'])%>(_<%= dartFields[idx]['name'] %>.text);
+    }); <%}}%>
+
     return  Scaffold(
             appBar: AppBar(
               title: Text(_<%= entityInstance %>Store.formTitle),
@@ -83,7 +140,7 @@ for (idx in dartFields) { %><% if(idx=='id' || dartFields[idx]['desc'] == 'relat
         controller: _<%= dartFields[idx]['name'] %>,
         decoration: InputDecoration(
           filled: true,
-          labelText: '<%= _.capitalize(dartFields[idx]['name']) %>',
+          labelText: '<%= capitalize(dartFields[idx]['name']) %>',
         ),
       ),
       <%}}%>

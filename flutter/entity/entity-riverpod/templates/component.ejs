@@ -1,0 +1,127 @@
+<%_
+const variables = {};
+
+const index = {};
+
+const defaultVariablesValues = {};
+let hasUserRelationship = false;
+let dartKeyType;
+if (pkType === 'String') {
+    dartKeyType = 'string';
+} else {
+    dartKeyType = 'number';
+}
+variables['id'] = 'id';
+
+const id = {};
+var i = 0;
+id['type'] = 'int';
+id['name'] = 'id';
+id['i']=i;
+//fields.id = id;
+
+relationships.forEach(rela => { 
+    if( rela.relationshipType == 'many-to-one' || 
+        rela.relationshipType == 'one-to-one' && 
+        rela.ownerSide == true  || 
+        rela.relationshipType == 'many-to-many'  
+        && rela.ownerSide == true ){
+        
+        const varValue = {};
+        varValue['type'] = capitalize(rela.otherEntityName);
+        varValue['name'] = rela.relationshipName;
+        varValue['desc'] = 'relationship';
+        varValue['isList'] = (rela.relationshipType=='many-to-many')?true:false;
+        
+        fields[rela.otherEntityName] = varValue;
+    }
+});
+
+function capitalize(text){
+    return text.substr( 0, 1 ).toUpperCase()+text.substr( 1 );
+}
+
+_%>
+import 'dart:convert';
+import 'package:equatable/equatable.dart';
+<% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') {%>
+import '../../<%- idx %>/models/<%- idx %>.dart';<%}} %>
+
+class <%= entityClass %> extends Equatable{
+    <% for (idx in fields) { 
+        if (fields[idx]['desc'] == 'relationship') { %>
+            <% if(fields[idx]['isList']) { %>
+    final List<<%- fields[idx].fieldType.dart %>>? <%- fields[idx].fieldName %>;
+            <% } else { %>
+    final <%= fields[idx].fieldType.dart %>? <%= fields[idx].fieldName %>; 
+            <% } 
+        } else { %>
+    final <%- fields[idx].fieldType.dart %>? <%- fields[idx].fieldName %>; <% 
+        } 
+        } %>
+
+    const <%= entityClass %> ({ <% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') { %>
+        this.<%- fields[idx].fieldName %>,<% } else {%> 
+        this.<%- fields[idx].fieldName %>,<% } } %> 
+    });
+
+    factory <%= entityClass %>.fromJson(Map<String, dynamic> json) =>  
+        <%= entityClass %>(<% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') { %>
+ <% if(fields[idx]['isList']) { %>  
+        <%= fields[idx].fieldName %>: List<<%= fields[idx].fieldType.dart %>>.from(json['<%= fields[idx].fieldName %>'].map((x) => 
+        <%= fields[idx].fieldType.dart %>.fromJson(x))), <% } else { %>
+        <%= fields[idx].fieldName %>: <%= capitalize(fields[idx].fieldType.dart) %>.fromJson(json['<%= fields[idx].fieldName %>']), 
+        <% } } else { %><%- fields[idx].fieldName %>: json['<%- fields[idx].fieldName %>'], 
+        <% } } %>
+    );
+
+    Map<String, dynamic> toJson() => 
+        {<% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') {%>
+        <% if(fields[idx]['isList']) {%>"<%= fields[idx].fieldName %>": List<dynamic>.from(<%= fields[idx].fieldName %>.map((x) => x.toJson())), 
+        <%} else { %>"<%= fields[idx].fieldName %>": <%= fields[idx].fieldName %>.toJson(),
+        <%} } else {%>"<%- fields[idx].fieldName %>": <%- fields[idx].fieldName %>,
+        <% }} %>
+    };
+
+    static List<<%= entityClass %>> listFromString(String str) => new List<<%= entityClass %>>.from(json.decode(str).map((x) => <%= entityClass %>.fromJson(x)));
+
+    static List<<%= entityClass %>> listFromJson(List<dynamic> data) {
+        return data.map((post) => <%= entityClass %>.fromJson(post)).toList();
+    }
+
+    static String list<%= entityClass %>ToJson(List<<%= entityClass %>> data) => json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
+
+    @override
+    List<Object> get props => [<% for (idx in fields) { %>
+        <%= fields[idx].fieldName %>!, <% } %>
+    ];
+}
+
+class <%= entityClass %>List {
+  final List<<%= entityClass %>>? <%= entityInstance %>s;
+
+  <%= entityClass %>List({
+    this.<%= entityInstance %>s,
+  });
+
+  factory <%= entityClass %>List.fromJson(List<dynamic> json) {
+    List<<%= entityClass %>> <%= entityInstance.toLowerCase() %>s = [];
+    <%= entityInstance %>s = json.map((post) => <%= entityClass %>.fromJson(post)).toList();
+
+    return <%= entityClass %>List(
+      <%= entityInstance %>s: <%= entityInstance %>s,
+    );
+  }
+}
+
+<%_ const enumsAlreadyDeclared = [];
+fields.forEach(field => {
+    if (field.fieldIsEnum && enumsAlreadyDeclared.indexOf(field.fieldType.dart) === -1) {
+        enumsAlreadyDeclared.push(field.fieldType.dart); _%>
+enum <%= field.fieldName %> {<%
+    const enums = field.fieldValues.split(',');
+        for (let i = 0; i < enums.length; i++) { %>
+    <%= enums[i] %><%if (i < enums.length - 1) { %>,<% }
+        } %>
+} <%_ } }); _%>
+

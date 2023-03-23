@@ -1,0 +1,54 @@
+<%_
+
+  const entityClass = _.capitalize(method.operationId)
+  const entityInstance = method.operationId
+  const dartFields = method.properties
+
+  const index = {};
+  let hasUserRelationship = false;
+  const id = {};
+  var i=0;
+
+
+_%>
+import 'package:mobx/mobx.dart';
+import 'package:<%= appsName %>/services/navigation.dart';
+import 'package:<%= appsName %>/services/apps_routes.dart';
+import 'package:<%= appsName %>/services/apps_services.dart';
+<% for (idx in dartFields) { %><% if (dartFields[idx]['desc'] == 'relationship') {%>
+import '../../<%= idx %>/models/<%= idx %>.dart'; <%}}%>
+
+part '<%= entityInstance %>_store.g.dart';
+
+class <%= entityClass %>Store = _<%= entityClass %>Store with _$<%= entityClass %>Store;
+
+abstract class _<%= entityClass %>Store with Store {
+
+  @observable
+  String errorMessage='error';
+
+  @observable
+  bool showError = false;
+
+  @observable
+  String formTitle = '';
+
+  @observable
+  bool loading = false;
+
+  @observable
+  bool success = false;
+
+  @action
+  save() {}
+
+  @action
+  <%= methods[i].methodName %>(<%= methods[i].parameters %>) {
+    try {
+      <%= _.capitalize(appsName) %>Services.<%= methods[i].methodName %>(<%- methods[i].onlyParam %>);
+    } catch (e) {
+      
+    }
+  }
+
+}

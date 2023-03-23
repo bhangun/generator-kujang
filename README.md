@@ -33,7 +33,21 @@ flutter clean
 flutter run
 ```
 
+## Development
 
+### Clone Kujang
+```bash
+git clone to/your/generator-kujang
+```
+### Link Kujang
+```bash
+npm link to/your/generator-kujang
+```
+
+### Unlink Kujang
+```bash
+npm unlink to/your/generator-kujang
+```
 
 [kujang-cli]: https://github.com/bhangun/repo-assets/blob/master/kujang/snapshot/kujang-cli.png
 [kujang-cli-end]: https://github.com/bhangun/repo-assets/blob/master/kujang/snapshot/end-cli.png

@@ -71,10 +71,10 @@ module.exports = class extends GenBase {
                 name: 'stateManagementType',
                 message: 'Which State-Management style do you want to use?',
                 choices: [
-                    {
+                   /*  {
                         value: 'mobx',
                         name: 'MobX state-management'
-                    },
+                    }, */
                     {
                         value: 'riverpod',
                         name: 'Riverpod state-management'
@@ -84,7 +84,7 @@ module.exports = class extends GenBase {
                         name: 'Flutter_Bloc state-management'
                     }, */
                 ],
-                default: 'mobx'
+                default: 'riverpod'
             }
         ];
 
@@ -110,15 +110,20 @@ module.exports = class extends GenBase {
         this.props._ = this._
 
         this.props.findEqualObject = this.findEqualObject
-
-        this.composeWith(require.resolve('./entity'), this.props);
+        if (this.config.get('stateManagementType') == 'riverpod')
+            this.composeWith(require.resolve('./entity/entity-riverpod'), this.props);
       
-        this.composeWith(require.resolve('./core'), this.props);
+        this.composeWith(require.resolve('./apps'), this.props);
     }
 
 
     install() {
-        this.spawnCommand('flutter', ['create', '--org', `${this.packageName}`, '--project-name', `${this.appsName}`, '-a', `${this.config.get('android')}`, '-i', `${this.config.get('ios')}`, `${this.appsName}`]);
+        this.spawnCommand('flutter', [
+            'create', '--org', `${this.packageName}`, 
+            '--project-name', `${this.appsName}`, 
+            '-a', `${this.config.get('android')}`, 
+            '-i', `${this.config.get('ios')}`, 
+            `${this.appsName}`]);
     }
 
     end() {

@@ -38,5 +38,8 @@
     "license": "Apache-2.0",
     "bugs": {
         "url": "https://github.com/bhangun/generator-kujang/issues"
+    },
+    "devDependencies": {
+        "eslint": "^8.20.0"
     }
 }
