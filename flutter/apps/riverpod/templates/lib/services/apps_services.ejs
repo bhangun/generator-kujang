@@ -16,7 +16,7 @@ class <%= _.capitalize(appsName) %>Services {
   /**
   <% if(methods[i].desc){ %><%= methods[i].desc %> <% } %>
   */
-  static Future<% if(methods[i].responseType && methods[i].responseType != 'UnknownObject' && methods[i].responseType != 'void'){%><<%= methods[i].responseType %>><%}%> <%= methods[i].methodName %>(<%= methods[i].parameters %>) async { 
+  static Future<% if(methods[i].responseType && methods[i].responseType != 'UnknownObject' && methods[i].responseType != 'void'){%><<%= methods[i].responseType %>><%}%> <%= methods[i].serviceName %>(<%= methods[i].parameters %>) async { 
     var response = await RestServices.<%= methods[i].methodPath %>('<%= methods[i].path %><%- methods[i].query %>'<%- methods[i].jsonParam %>); 
     <% if(methods[i].responseType && methods[i].responseType != 'UnknownObject' && methods[i].responseType != 'void'){ %>return <%= methods[i].responseType %>.fromJson(json.decode(response)); <% } %>
   }

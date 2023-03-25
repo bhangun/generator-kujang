@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-const GenBase = require('kujang-core/core');
+const GenBase = require('keris/core');
 const writeEntity = require('./files').writeFiles;
 const writeOperation = require('./operation').writeFiles;
 
@@ -38,8 +38,9 @@ module.exports = class extends GenBase {
         })
 
         this.props._ = this._
-        return this.props.paths.forEach((path, i) => {
-            writeOperation(this.props.packageFolder, path, this, i, this.props)
-        });
+        /* return this.props.paths.forEach((path, i) => {
+            writeOperation(this.props.packageFolder, this.props.paths, this, 0, this.props)
+        }); */
+        writeOperation(this.props.packageFolder, this.props.paths[0], this, 0, this.props)
     }
 }

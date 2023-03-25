@@ -33,4 +33,15 @@ function writeFiles(folder, path, obj, i, props) {
 
         obj.template('operation.bloc.ejs', `${storeFolder}/${method.operationId}_bloc.dart`, obj, props)
     })
+
+   /*  const page = `"/${entityInstance}": (BuildContext context) => ${entityClass}ListPage(),`;
+            utils.rewriteFile({
+                file: entityPagePath,
+                needle: 'kutilang-needle-add-route',
+                splicable: [
+                    this.stripMargin(page)
+                ]
+            }, this); */
+
+            
 }

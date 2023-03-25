@@ -1,4 +1,4 @@
-const GenBase = require('kujang-core/core');
+const GenBase = require('keris/core');
 module.exports = class extends GenBase {
 
     constructor(args, opts) {

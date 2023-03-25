@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const GenBase = require('kujang-core/core');
+const GenBase = require('keris/core');
 
 module.exports = class extends GenBase {
 
@@ -106,7 +106,7 @@ module.exports = class extends GenBase {
 
         this.props.isPrintComponent = false
 
-        this.props.methods = this.propsForService(this.props.paths, this.props.properties, 'dart' )
+        //this.props.methods = this.propsForServices(this.props.paths, this.props.properties, 'dart' )
         this.props._ = this._
 
         this.props.findEqualObject = this.findEqualObject

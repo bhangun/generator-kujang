@@ -31,11 +31,11 @@ final <%= entityInstance %>Bloc = ChangeNotifierProvider<<%= entityClass %>Bloc>
 /// @version <%= info.version %>
 class <%= entityClass %>Bloc extends ChangeNotifier {
   /// <%= item  %> 
-<% for (i in methods) { if(methods[i].methodName == entityInstance) {%>
+<% for (i in methods) { if(methods[i].serviceName == entityInstance) {%>
   /// <%= i  %> 
   /// <%= methods[i].summary %>
-  Future<% if(methods[i].responseType && methods[i].responseType != 'UnknownObject' && methods[i].responseType != 'void'){%><<%= methods[i].responseType %>><%}%> <%= methods[i].methodName %>(<%= methods[i].parameters %>) async { 
-    var response = await AppsServices.<%= methods[i].methodName %>('<%= methods[i].path %><%- methods[i].query %>'<%- methods[i].jsonParam %>); 
+  Future<% if(methods[i].responseType && methods[i].responseType != 'UnknownObject' && methods[i].responseType != 'void'){%><<%= methods[i].responseType %>><%}%> <%= methods[i].serviceName %>(<%= methods[i].parameters %>) async { 
+    var response = await AppsServices.<%= methods[i].serviceName %>('<%= methods[i].path %><%- methods[i].query %>'<%- methods[i].jsonParam %>); 
   }
 <% }} %>
 }

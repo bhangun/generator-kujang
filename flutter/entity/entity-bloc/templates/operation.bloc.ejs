@@ -43,9 +43,9 @@ abstract class _<%= entityClass %>Store with Store {
   save() {}
 
   @action
-  <%= methods[i].methodName %>(<%= methods[i].parameters %>) {
+  <%= methods[i].serviceName %>(<%= methods[i].parameters %>) {
     try {
-      <%= _.capitalize(appsName) %>Services.<%= methods[i].methodName %>(<%- methods[i].onlyParam %>);
+      <%= _.capitalize(appsName) %>Services.<%= methods[i].serviceName %>(<%- methods[i].onlyParam %>);
     } catch (e) {
       
     }

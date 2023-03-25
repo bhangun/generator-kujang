@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-const GenBase = require('kujang-core/core');
+const GenBase = require('keris/core');
 const packagejs = require('../package.json');
 
 module.exports = class extends GenBase {

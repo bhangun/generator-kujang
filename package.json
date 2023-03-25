@@ -23,7 +23,7 @@
         "url": "git+https://github.com/bhangun/generator-kujang.git"
     },
     "dependencies": {
-        "kujang-core": "^0.1.13"
+        "keris": "^0.1.0"
     },
     "scripts": {
         "pretest": "eslint .",
