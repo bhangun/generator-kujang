@@ -106,7 +106,6 @@ module.exports = class extends GenBase {
 
         this.props.isPrintComponent = false
 
-        //this.props.methods = this.propsForServices(this.props.paths, this.props.properties, 'dart' )
         this.props._ = this._
 
         this.props.findEqualObject = this.findEqualObject

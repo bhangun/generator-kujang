@@ -7,7 +7,7 @@
 _%>
 import 'package:flutter/material.dart';
 
-import '../../store/path<%= index %>/<%= entityInstance %>_store.dart';
+import '../../bloc/path<%= index %>/<%= entityInstance %>_bloc.dart';
 import 'package:<%= appsName %>/widgets/global_methods.dart';
 import 'package:<%= appsName %>/widgets/progress_indicator_widget.dart';
 
@@ -16,8 +16,8 @@ import 'package:<%= appsName %>/widgets/progress_indicator_widget.dart';
 * path: <%= path.pathOrigin %>
 */
 class <%= entityClass %>Form extends StatefulWidget {
-  final <%= entityClass %>Store? data;
-  <%= entityClass %>Form({this.data});
+  final <%= entityClass %>Bloc? data;
+  const <%= entityClass %>Form({super.key, this.data});
   @override
   _<%= entityClass %>FormState createState() => _<%= entityClass %>FormState();
 }
@@ -28,8 +28,8 @@ for (idx in dartFields) { %><% if(idx=='id' || dartFields[idx]['desc'] == 'relat
   var _<%= dartFields[idx]['name'] %> = ''; <%} else {%>
   final _<%= dartFields[idx]['name'] %> = <%= dartFields[idx]['cont'] %>;<%}%><%}%>
 
-  late <%= entityClass %>Store _<%= entityInstance %>Store = <%= entityClass %>Store();<% for (idx in dartFields) { %><% if (dartFields[idx]['desc'] == 'relationship') {%>
-  late <%= _.capitalize(idx) %>Store _<%= idx %>Store = <%= entityClass %>Store(); <%}}%>
+  late <%= entityClass %>Bloc _<%= entityInstance %>Bloc = <%= entityClass %>Bloc();<% for (idx in dartFields) { %><% if (dartFields[idx]['desc'] == 'relationship') {%>
+  late <%= _.capitalize(idx) %>Bloc _<%= idx %>Bloc = <%= entityClass %>Bloc(); <%}}%>
 
   @override
   void dispose() {<% for (idx in dartFields) { %><% if (dartFields[idx]['type'] != 'enum' && idx!='id' && dartFields[idx]['desc'] != 'relationship') {%>
@@ -41,30 +41,29 @@ for (idx in dartFields) { %><% if(idx=='id' || dartFields[idx]['desc'] == 'relat
   Widget build(BuildContext context) {
     <% for (idx in dartFields) { if (idx != 'id' && dartFields[idx]['type'] != 'enum' && dartFields[idx]['desc'] != 'relationship')  {%>
     _<%= dartFields[idx]['name'] %>.addListener(() {
-      _<%= entityInstance %>Store.set<%= _.capitalize(dartFields[idx]['name'])%>(_<%= dartFields[idx]['name'] %>.text);
+      _<%= entityInstance %>Bloc.set<%= _.capitalize(dartFields[idx]['name'])%>(_<%= dartFields[idx]['name'] %>.text);
     });  <%}}%>
     return  Scaffold(
             appBar: AppBar(
-              title: Text(_<%= entityInstance %>Store.formTitle),
+              title: Text(_<%= entityInstance %>Bloc.formTitle),
             ),
             body: _buildBody(),
             floatingActionButton: FloatingActionButton(
-              onPressed: () => _<%= entityInstance %>Store.save(),
+              onPressed: () => _<%= entityInstance %>Bloc.save(),
               tooltip: 'Add',
-              child: Icon(Icons.save),
+              child: const Icon(Icons.save),
             ));
   }
 
   _buildBody() {
     return Stack(
       children: <Widget>[
-        _<%= entityInstance %>Store.loading
-            ? CustomProgressIndicatorWidget()
+        _<%= entityInstance %>Bloc.loading
+            ? const CustomProgressIndicatorWidget()
             : Material(child: _buildForm()),
-        _<%= entityInstance %>Store.success
+        _<%= entityInstance %>Bloc.success
             ? Container()
             : showErrorMessage(context, '') 
-        //_<%= entityInstance %>Store.isModified ? KutAlert() : Container(),
       ],
     );
   }
@@ -72,13 +71,13 @@ for (idx in dartFields) { %><% if(idx=='id' || dartFields[idx]['desc'] == 'relat
   _buildForm() {
     return SafeArea(
         child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             children: _buildListChild()));
   }
 
   _buildListChild() {
     return <Widget>[
-      SizedBox(height: 120.0),<% for (idx in dartFields) { if (idx != 'id' && dartFields[idx]['type'] != 'enum')  {%>
+      const SizedBox(height: 120.0),<% for (idx in dartFields) { if (idx != 'id' && dartFields[idx]['type'] != 'enum')  {%>
       TextField(
         controller: _<%= dartFields[idx]['name'] %>,
         decoration: InputDecoration(

@@ -41,6 +41,6 @@ module.exports = class extends GenBase {
         /* return this.props.paths.forEach((path, i) => {
             writeOperation(this.props.packageFolder, this.props.paths, this, 0, this.props)
         }); */
-        writeOperation(this.props.packageFolder, this.props.paths[0], this, 0, this.props)
+        writeOperation(this.props.packageFolder, this.props.services, this, 0, this.props)
     }
 }

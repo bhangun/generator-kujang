@@ -17,12 +17,12 @@ module.exports = class extends GenBase {
 
         this.template('pubspec.ejs', `${packageFolder}/pubspec.yaml`, this, this.props);
         this.template('README.ejs', `${packageFolder}/README.md`, this, this.props);
-        this.template('l10n.yaml', `${packageFolder}/l10n.yaml`);
+       // this.template('l10n.yaml', `${packageFolder}/l10n.yaml`);
         this.template(`gitignore`, `${packageFolder}/.gitignore`);
 
         // Unit Test & Integration test
         this.template('integration_test/main_test.ejs', `${packageFolder}/integration_test/main_test.ejs`, this, this.props);
-        this.template('test_driver/integration_test.dart', `${packageFolder}/test_driver/integration_test.dart`, this, this.props);
+       // this.template('test_driver/integration_test.dart', `${packageFolder}/test_driver/integration_test.dart`, this, this.props);
    
         // add assets
         this.template(`${flutterDir}assets/data/users.json`, `${packageFolder}/assets/data/users.json`);
@@ -43,11 +43,6 @@ module.exports = class extends GenBase {
         // Locale
         this.template(`${flutterDir}lib/l10n/app_en.arb`, `${packageFolder}/lib/l10n/app_en.arb`);
         this.template(`${flutterDir}lib/l10n/app_id.arb`, `${packageFolder}/lib/l10n/app_id.arb`);
-
-        // Layout
-        this.template(`${flutterDir}lib/layout/desktop.dart`, `${packageFolder}/lib/layout/desktop.dart`);
-        this.template(`${flutterDir}lib/layout/mobile.dart`, `${packageFolder}/lib/layout/mobile.dart`);
-        this.template(`${flutterDir}lib/layout/web.dart`, `${packageFolder}/lib/layout/web.dart`);
 
         // Model
        this.template(`${flutterDir}lib/models/app_data.dart`, `${packageFolder}/lib/models/app_data.dart`);
@@ -73,7 +68,6 @@ module.exports = class extends GenBase {
         this.template(`${flutterDir}lib/screens/splash.dart`, `${packageFolder}/lib/screens/splash.dart`);
 
         // Services
-        
         this.template(`${flutterDir}lib/services/local/database_services.dart`, `${packageFolder}/lib/services/local/database_services.dart`);
         this.template(`${flutterDir}lib/services/local/database.dart`, `${packageFolder}/lib/services/local/database.dart`);
         this.template(`${flutterDir}lib/services/local/local_db_constants.dart`, `${packageFolder}/lib/services/local/local_db_constants.dart`);
@@ -110,6 +104,7 @@ module.exports = class extends GenBase {
         this.template(`${flutterDir}lib/widgets/empty_app_bar_widget.dart`, `${packageFolder}/lib/widgets/empty_app_bar_widget.dart`);
         this.template(`${flutterDir}lib/widgets/global_methods.dart`, `${packageFolder}/lib/widgets/global_methods.dart`);
         this.template(`${flutterDir}lib/widgets/textfield_widget.dart`, `${packageFolder}/lib/widgets/textfield_widget.dart`);
+        this.template(`${flutterDir}lib/widgets/progress_indicator_widget.dart`, `${packageFolder}/lib/widgets/progress_indicator_widget.dart`);
 
         this.template(`${flutterDir}lib/main.dart`, `${packageFolder}/lib/main.dart`);
 

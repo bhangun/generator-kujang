@@ -27,7 +27,7 @@ function writeFiles(folder, path, obj, i, props) {
     props.item = i
     const pathFolder = folder + '/lib/screens/path' + i
     const storeFolder = folder + '/lib/bloc/path' + i
-    path.methods.forEach(method => {
+    path.forEach(method => {
         props.method = method
         obj.template('operation.form.ejs',`${pathFolder}/${method.operationId}.dart`, obj, props)
 

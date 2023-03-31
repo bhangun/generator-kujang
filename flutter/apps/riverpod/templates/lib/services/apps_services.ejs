@@ -4,21 +4,22 @@ import 'dart:convert';
 import 'package:<%= appsName %>/services/network/rest_services.dart'; <% for (i in entities) { %>
 import 'package:<%= appsName %>/models/<%= entities[i].entityInstance %>.dart'; <% } %>
 
-<% if(!entities) for (i in methods) { %>
-import 'package:<%= appsName %>/models/<%= methods[i].responseType %>.dart'; <% } %>
+<% if(!entities) for (i in services) { %>
+import 'package:<%= appsName %>/models/<%= services[i].responseType %>.dart'; <% } %>
 
 /// <%= info.title %>
 /// @version <%= info.version %>
-class <%= _.capitalize(appsName) %>Services { 
-<% for (i in methods) { %>
-  /// <%= methods[i].summary %>
-  /// Path: <%= methods[i].path %>, 
+class AppsServices { 
+<% for (i in services) { %>
   /**
-  <% if(methods[i].desc){ %><%= methods[i].desc %> <% } %>
+    <% if(services[i].desc){ %><%= services[i].desc %> <% } %>
   */
-  static Future<% if(methods[i].responseType && methods[i].responseType != 'UnknownObject' && methods[i].responseType != 'void'){%><<%= methods[i].responseType %>><%}%> <%= methods[i].serviceName %>(<%= methods[i].parameters %>) async { 
-    var response = await RestServices.<%= methods[i].methodPath %>('<%= methods[i].path %><%- methods[i].query %>'<%- methods[i].jsonParam %>); 
-    <% if(methods[i].responseType && methods[i].responseType != 'UnknownObject' && methods[i].responseType != 'void'){ %>return <%= methods[i].responseType %>.fromJson(json.decode(response)); <% } %>
+  /// <%= services[i].summary %>
+  /// Path: <%= services[i].path %> <% if(services[i].externalDoc){%>
+  /// External Doc: <%= services[i].externalDoc %><%}%>
+  static <% if(services[i].hasResponse ){%>Future<<%= services[i].responseType %>><%}%> <%= services[i].serviceName %>(<%= services[i].parametersString %>) async { 
+    var response = await RestServices.<%= services[i].method %>('<%= services[i].path %><%- services[i].query %>'<%- services[i].jsonParam %>); 
+    <% if(services[i].hasResponse ){ %>return <%= services[i].responseType %>.fromJson(json.decode(response)); <% } %>
   }
 <% } %>
 }

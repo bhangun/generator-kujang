@@ -7,7 +7,7 @@ import 'rest_error_util.dart';
 
 class RestServices {
   static final _dio = Dio()
-    ..options.baseUrl = api
+    ..options.baseUrl = baseURL
     ..options.connectTimeout = timeoutConnection
     ..options.receiveTimeout = timeoutReceive
     ..interceptors.clear()
@@ -60,7 +60,7 @@ class RestServices {
   }
 
   // DELETE
-  static Future<dynamic> delete(String uri, dynamic id) async {
+  static Future<dynamic> delete(String uri, [dynamic id]) async {
     Response response = await _dio.delete(uri, data: id);
     return response.data;
   }

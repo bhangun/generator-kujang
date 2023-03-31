@@ -30,3 +30,14 @@ Widget header(String accountName,String accountEmail,String imgPath) =>
         backgroundImage:  AssetImage(imgPath),
       ),
     );
+
+ // General Methods:-----------------------------------------------------------
+  showErrorMessage(BuildContext context, String message) {
+    Future.delayed(Duration(milliseconds: 0), () {
+     /*  if (message != null) {
+        
+      } */
+    });
+
+    return Container();
+  }
