@@ -45,18 +45,18 @@ function capitalize(text){
 
 _%>
 import 'dart:convert';
-import 'package:equatable/equatable.dart'; <% for (idx in fields) { if(fields[idx].fieldType.origin == 'object') { %>
-import '<%- fields[idx].fieldType.toLowerCase() %>.dart'; <%} else if(fields[idx].fieldType.origin == 'array' && fields[idx].fieldType.endsWith('>')){%>
-import '<%- fields[idx].fieldType.slice(5, fields[idx].fieldType.length -1 ).toLowerCase() %>.dart'; <% }}%>
+import 'package:equatable/equatable.dart'; <% for (idx in fields) { if(fields[idx].fieldType.origin && fields[idx].fieldType.origin == 'object') { %>
+import '<%- fields[idx].fieldType.type.toLowerCase() %>.dart'; <%} else if(fields[idx].fieldType.origin == 'array' && fields[idx].fieldType.type.endsWith('>')){%>
+import '<%- fields[idx].fieldType.type.slice(5, fields[idx].fieldType.type.length -1 ).toLowerCase() %>.dart'; <% }}%>
 
 class <%= entityClass %> extends Equatable{
     <% for (idx in fields) { %>
     /// <%= fields[idx].fieldDescription %><% if (fields[idx]['desc'] == 'relationship') { %> <% if(fields[idx]['isList']) { %>
-    final List<<%- fields[idx].fieldType %>>? <%- fields[idx].fieldName %>; 
+    final List<<%- fields[idx].fieldType.type %>>? <%- fields[idx].fieldName %>; 
     <% } else { %>
-    final <%= fields[idx].fieldType %>? <%= fields[idx].fieldName %>; 
+    final <%= fields[idx].fieldType.type %>? <%= fields[idx].fieldName %>; 
     <% } } else { %>
-    final <%- fields[idx].fieldType %>? <%- fields[idx].fieldName %>; <% } } %>
+    final <%- fields[idx].fieldType.type %>? <%- fields[idx].fieldName %>; <% } } %>
 
     const <%= entityClass %>(<%if(fields.length > 0){%>{ <% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') { %>
         this.<%- fields[idx].fieldName %>,<% } else {%> 
@@ -66,8 +66,8 @@ class <%= entityClass %> extends Equatable{
     factory <%= entityClass %>.fromJson(Map<String, dynamic> json) =>  
         <%= entityClass %>(<% for (idx in fields) { if (fields[idx]['desc'] == 'relationship') { %>
  <% if(fields[idx]['isList']) { %>  
-        <%= fields[idx].fieldName %>: List<<%= fields[idx].fieldType %>>.from(json['<%= fields[idx].fieldName %>'].map((x) => 
-        <%= fields[idx].fieldType %>.fromJson(x))), <% } else { %>
+        <%= fields[idx].fieldName %>: List<<%= fields[idx].fieldType.type %>>.from(json['<%= fields[idx].fieldName %>'].map((x) => 
+        <%= fields[idx].fieldType.type %>.fromJson(x))), <% } else { %>
         <%= fields[idx].fieldName %>: <%= capitalize(fields[idx].fieldType) %>.fromJson(json['<%= fields[idx].fieldName %>']), 
         <% } } else { %><%- fields[idx].fieldName %>: json['<%- fields[idx].fieldName %>'], 
         <% } } %>

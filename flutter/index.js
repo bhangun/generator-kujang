@@ -17,6 +17,7 @@
  */
 const GenBase = require('keris/core');
 
+
 module.exports = class extends GenBase {
 
     constructor(args, opts) {
@@ -106,7 +107,7 @@ module.exports = class extends GenBase {
 
         this.props.isPrintComponent = false
 
-        this.props._ = this._
+       // this.props._ = this._
 
         this.props.findEqualObject = this.findEqualObject
         if (this.config.get('stateManagementType') == 'riverpod')
@@ -115,8 +116,7 @@ module.exports = class extends GenBase {
         this.composeWith(require.resolve('./apps'), this.props);
     }
 
-
-    install() {
+    async install() {
         this.spawnCommand('flutter', [
             'create', '--org', `${this.packageName}`, 
             '--project-name', `${this.appsName}`, 
@@ -130,3 +130,8 @@ module.exports = class extends GenBase {
     }
 };
 
+function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
