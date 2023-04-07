@@ -1,7 +1,7 @@
 import 'package:f_logs/f_logs.dart';
 import 'package:flutter/material.dart';
 import 'package:<%= appsName %>/modules/account/models/user_model.dart';
-import 'package:<%= appsName %>/modules/account/screens/user_form.dart';
+import 'package:<%= appsName %>/modules/account/pages/user_form.dart';
 import 'package:<%= appsName %>/modules/account/services/user_routes.dart';
 import 'package:<%= appsName %>/modules/account/services/user_services.dart';
 import 'package:<%= appsName %>/services/navigation.dart';

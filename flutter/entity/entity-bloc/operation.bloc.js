@@ -24,7 +24,7 @@ module.exports = {
 function writeFiles(folder, path, obj, i, props) {
     props.path = path
     props.index = i
-    const pathFolder = folder + '/lib/screens/path' + i
+    const pathFolder = folder + '/lib/pages/path' + i
     const storeFolder = folder + '/lib/bloc/path' + i
     path.methods.forEach(method => {
         props.method = method

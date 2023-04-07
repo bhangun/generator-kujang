@@ -62,18 +62,18 @@ module.exports = class extends GenBase {
         this.template(`${flutterDir}lib/modules/user/services/user_routes.dart`, `${packageFolder}/lib/modules/user/services/user_routes.dart`);
         this.template(`${flutterDir}lib/modules/user/services/user_services.dart`, `${packageFolder}/lib/modules/user/services/user_services.dart`);
 
-        this.template(`${flutterDir}lib/modules/user/screens/user_detail.dart`, `${packageFolder}/lib/modules/user/screens/user_detail.dart`);
-        this.template(`${flutterDir}lib/modules/user/screens/user_form.dart`, `${packageFolder}/lib/modules/user/screens/user_form.dart`);
-        this.template(`${flutterDir}lib/modules/user/screens/user_list.dart`, `${packageFolder}/lib/modules/user/screens/user_list.dart`);
+        this.template(`${flutterDir}lib/modules/user/pages/user_detail.dart`, `${packageFolder}/lib/modules/user/pages/user_detail.dart`);
+        this.template(`${flutterDir}lib/modules/user/pages/user_form.dart`, `${packageFolder}/lib/modules/user/pages/user_form.dart`);
+        this.template(`${flutterDir}lib/modules/user/pages/user_list.dart`, `${packageFolder}/lib/modules/user/pages/user_list.dart`);
 
         this.template(`${flutterDir}lib/modules/main_module.dart`, `${packageFolder}/lib/modules/main_module.dart`);
         this.template(`${flutterDir}lib/modules/register_modules.dart`, `${packageFolder}/lib/modules/register_modules.dart`);
 
         // Views
-        this.template(`${flutterDir}lib/screens/about.dart`, `${packageFolder}/lib/screens/about.dart`);
-        this.template(`${flutterDir}lib/screens/home.ejs`, `${packageFolder}/lib/screens/home.dart`, this, this.props);
-        this.template(`${flutterDir}lib/screens/login.dart`, `${packageFolder}/lib/screens/login.dart`);
-        this.template(`${flutterDir}lib/screens/splash.dart`, `${packageFolder}/lib/screens/splash.dart`);
+        this.template(`${flutterDir}lib/pages/about.dart`, `${packageFolder}/lib/pages/about.dart`);
+        this.template(`${flutterDir}lib/pages/home.ejs`, `${packageFolder}/lib/pages/home.dart`, this, this.props);
+        this.template(`${flutterDir}lib/pages/login.dart`, `${packageFolder}/lib/pages/login.dart`);
+        this.template(`${flutterDir}lib/pages/splash.dart`, `${packageFolder}/lib/pages/splash.dart`);
 
         // Services
         

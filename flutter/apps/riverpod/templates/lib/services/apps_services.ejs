@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:<%= appsName %>/services/network/rest_services.dart'; <% for (i in entities) { %>
+import 'rest/rest_services.dart'; <% for (i in entities) { %>
 import 'package:<%= appsName %>/models/<%= entities[i].entityInstance %>.dart'; <% } %>
 
 <% if(!entities) for (i in services) { %>

@@ -61,9 +61,9 @@ module.exports = class extends GenBase {
         this.template(`${flutterDir}lib/modules/account/services/user_routes.dart`, `${packageFolder}/lib/modules/account/services/user_routes.dart`);
         this.template(`${flutterDir}lib/modules/account/services/user_services.dart`, `${packageFolder}/lib/modules/account/services/user_services.dart`);
 
-        this.template(`${flutterDir}lib/modules/account/screens/user_detail.dart`, `${packageFolder}/lib/modules/account/screens/user_detail.dart`);
-        this.template(`${flutterDir}lib/modules/account/screens/user_form.dart`, `${packageFolder}/lib/modules/account/screens/user_form.dart`);
-        this.template(`${flutterDir}lib/modules/account/screens/user_list.dart`, `${packageFolder}/lib/modules/account/screens/user_list.dart`);
+        this.template(`${flutterDir}lib/modules/account/pages/user_detail.dart`, `${packageFolder}/lib/modules/account/pages/user_detail.dart`);
+        this.template(`${flutterDir}lib/modules/account/pages/user_form.dart`, `${packageFolder}/lib/modules/account/pages/user_form.dart`);
+        this.template(`${flutterDir}lib/modules/account/pages/user_list.dart`, `${packageFolder}/lib/modules/account/pages/user_list.dart`);
 
         this.template(`${flutterDir}lib/modules/administration/models/counter_model.dart`, `${packageFolder}/lib/modules/administration/models/counter_model.dart`);
         this.template(`${flutterDir}lib/modules/administration/models/data_model.dart`, `${packageFolder}/lib/modules/administration/models/data_model.dart`);
@@ -108,10 +108,10 @@ module.exports = class extends GenBase {
         this.template(`${flutterDir}lib/utils/routes.dart`, `${packageFolder}/lib/utils/routes.dart`);
 
         // Views
-        this.template(`${flutterDir}lib/screens/about.dart`, `${packageFolder}/lib/screens/about.dart`);
-        this.template(`${flutterDir}lib/screens/home.ejs`, `${packageFolder}/lib/screens/home.dart`, this, this.props);
-        this.template(`${flutterDir}lib/screens/login.dart`, `${packageFolder}/lib/screens/login.dart`);
-        this.template(`${flutterDir}lib/screens/splash.dart`, `${packageFolder}/lib/screens/splash.dart`);
+        this.template(`${flutterDir}lib/pages/about.dart`, `${packageFolder}/lib/pages/about.dart`);
+        this.template(`${flutterDir}lib/pages/home.ejs`, `${packageFolder}/lib/pages/home.dart`, this, this.props);
+        this.template(`${flutterDir}lib/pages/login.dart`, `${packageFolder}/lib/pages/login.dart`);
+        this.template(`${flutterDir}lib/pages/splash.dart`, `${packageFolder}/lib/pages/splash.dart`);
 
         // Widgets
         this.template(`${flutterDir}lib/widgets/alert_widget.dart`, `${packageFolder}/lib/widgets/alert_widget.dart`);

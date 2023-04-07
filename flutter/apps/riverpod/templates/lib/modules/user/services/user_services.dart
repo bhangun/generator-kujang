@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/services.dart';
 
 import '../models/user.dart';
-import '../../../services/network/rest_services.dart';
+import '../../../services/rest/rest_services.dart';
 
 class UserServices {
   static Future<User> user(String id) async {
-    var response = await RestServices.fetch('/api/user' + id);
+    var response = await RestServices.fetch('/api/user$id');
     return User.fromJson(json.decode(response));
   }
 

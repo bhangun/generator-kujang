@@ -1,10 +1,10 @@
-import 'main_module.dart';
-import '../utils/modules/module.dart';
-// kutilang-needle-import-module -- don't remove this line
+import '../main_module.dart';
+import '../utils/modules/module_model.dart';
+import 'user/user_module.dart';
 
 List<Module> registerModules(){
   return [
     MainModule(),
-    // kutilang-needle-add-module -- don't remove this line
+    UserModule(),
   ];
 }

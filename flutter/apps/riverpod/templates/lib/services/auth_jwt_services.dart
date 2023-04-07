@@ -1,20 +1,26 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:f_logs/f_logs.dart';
 import 'package:flutter/services.dart';
 import 'package:<%= appsName %>/models/app_data.dart';
 import 'package:<%= appsName %>/modules/user/models/user.dart';
+import 'package:logging/logging.dart';
 
-import 'local/database_services.dart';
-import 'network/rest_services.dart';
+import 'local_database/db_services.dart';
+import 'rest/rest_services.dart';
+
+final log = Logger('AuthServices');
 
 class AuthServices {
+  late DatabaseServices db;
+
   /// Path authenticate,
   /// Post authorize & Get isAuthorize
-  static Future<int> login(String _username, String _password,
-      [bool _rememberMe = false]) async {
- 
+  static Future<int> login(String username, String password,
+      [bool rememberMe = false]) async {
+    try {} catch (e) {
+      log.info(e.toString());
+    }
     /* var body = jsonEncode({
       "username": _username,
       "password": _password,
@@ -24,39 +30,40 @@ class AuthServices {
     if (data.runtimeType.toString() ==
         '_InternalLinkedHashMap<String, dynamic>') {
       String _token = data['id_token'];
-      DatabaseServices.db.saveToken(_token);
+      db.saveToken(_token);
       return "SUCCESS";
     } else {
       return data;
     } 
     */
 
-    
     for (var user in await userStatic()) {
-      if (user.username == _username && user.password == _password) {
-        return await DatabaseServices.db.insertObject({"user":user.id});
-        //return 'SUCCESS';
+      if (user.username == username && user.password == password) {
+        //return await db.insertObject({"user":user.id});
+        // return 'SUCCESS';
       }
     }
     return 0;
     //return 'unauthorized';
   }
 
-  
+  static Future<User> signIn() async {
+    return await RestServices.post('authenticate', 'body');
+  }
 
-  static Future<List<User>> userStatic() async{
-    return  User.listFromJson(
+  static Future<List<User>> userStatic() async {
+    return User.listFromJson(
         json.decode(await rootBundle.loadString('assets/data/users.json')));
   }
 
   static Future<String> fetchToken() async {
-    String token = await DatabaseServices.db.fetchToken();
+    String token = ''; //await dbs.fetchToken();
     return token;
   }
 
   static void logout() {
-    FLog.debug(text: 'logout');
-    DatabaseServices.db.deleteToken();
+    log.severe('logout');
+    //  db.deleteToken();
   }
 
   /// changePassword
@@ -75,7 +82,7 @@ class AuthServices {
   /// GET activateAccount
   static activate(String key) async {
     var body = " ?key=";
-    await RestServices.post('activate?key=' + key, body);
+    await RestServices.post('activate?key=$key', body);
   }
 
   /// Path account/reset-password/finish

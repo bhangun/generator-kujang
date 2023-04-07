@@ -6,12 +6,27 @@ const appName = 'Kujang Apps';
 
 const baseURL = '<%= endpoint.url %>';
 
-List<String> contentTypes = ["application/json","application/xml","application/x-www-form-urlencoded"];
+List<String> contentTypes = [
+  "application/json",
+  "application/xml",
+  "application/x-www-form-urlencoded"
+];
 
-String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
-   
+String contentType =
+    contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+
+
 // Authentication
 const token = "token";
+
+// Store Name
+String storeName = 'kujang';
+
+// DB Name
+const dbName = 'kujang.db';
+
+// Fields
+const fieldId = 'id';
 
 // Timeout
 const int timeoutReceive = 5000;

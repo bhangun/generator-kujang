@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:<%= appsName %>/services/navigation.dart';
-import '../services/user_routes.dart';
-import '../services/user_services.dart';
+
 import '../models/user.dart';
+import '../services/user_services.dart';
+
+import '../user_routes.dart';
 
 final userBloc = ChangeNotifierProvider<UserBloc>((ref) => UserBloc());
 
@@ -16,7 +17,7 @@ final userProv = FutureProvider<List<User>>((ref) async {
     await rootBundle.loadString('assets/data/users.json'),
   );
   return User.listFromJson(content);
-  //return await UserServices.users();
+
 });
 
 class UserBloc extends ChangeNotifier {
@@ -48,12 +49,13 @@ class UserBloc extends ChangeNotifier {
 
   String get formTitle => isUpdated ? title = 'Update User' : 'Create User';
 
-  itemTap(int _position) {
+
+  itemTap(int position) {
     try {
-      position = _position;
+      position = position;
       user = userList![position];
       isItemEmpty = false;
-      NavigationServices.navigateTo(UserRoutes.userDetail);
+  
     } catch (e) {
       isItemEmpty = true;
     }
@@ -62,7 +64,7 @@ class UserBloc extends ChangeNotifier {
   add() {
     user = null;
     isUpdated = false;
-    NavigationServices.navigateTo(UserRoutes.userForm);
+   
   }
 
   save() {
@@ -72,12 +74,12 @@ class UserBloc extends ChangeNotifier {
       isUpdated
           ? UserServices.updateUser(_toUser())
           : UserServices.createUser(_toUser());
-      NavigationServices.navigateTo(UserRoutes.userList);
+  
       loading = false;
       success = true;
       getUserList();
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
@@ -91,7 +93,7 @@ class UserBloc extends ChangeNotifier {
       success = true;
       getUserList();
     } catch (e) {
-      print(e.toString());
+     // print(e.toString());
     }
   }
 
@@ -103,13 +105,13 @@ class UserBloc extends ChangeNotifier {
     loading = true;
     success = false;
     try {
-      NavigationServices.navigateTo(UserRoutes.userForm);
+    
       isUpdated = true;
       loading = false;
       success = true;
       getUserList();
     } catch (e) {
-      print(e.toString());
+     // print(e.toString());
     }
   }
 
@@ -157,7 +159,7 @@ class UserBloc extends ChangeNotifier {
 
   User _toUser() {
     return User(
-      id: isUpdated ? user!.id : null,
+      id: isUpdated ? user!.id : 0,
       /*   username: username, 
     firstName: firstName, 
     lastName: lastName, 
@@ -170,6 +172,6 @@ class UserBloc extends ChangeNotifier {
 
   viewList() {
     getUserList();
-    NavigationServices.navigateTo(UserRoutes.userList);
+   
   }
 }

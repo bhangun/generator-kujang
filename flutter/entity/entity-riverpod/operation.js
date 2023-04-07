@@ -25,13 +25,13 @@ function writeFiles(folder, path, obj, i, props) {
     props.path = path
     props.index = i
     props.item = i
-    const pathFolder = folder + '/lib/screens/path' + i
+    const pathFolder = folder + '/lib/pages/path' + i
     const storeFolder = folder + '/lib/bloc/path' + i
     path.forEach(method => {
         props.method = method
-        obj.template('operation.form.ejs',`${pathFolder}/${method.operationId}.dart`, obj, props)
+        obj.template('operation/operation.form.ejs',`${pathFolder}/${method.operationId}.dart`, obj, props)
 
-        obj.template('operation.bloc.ejs', `${storeFolder}/${method.operationId}_bloc.dart`, obj, props)
+        obj.template('operation/operation.bloc.ejs', `${storeFolder}/${method.operationId}_bloc.dart`, obj, props)
     })
 
    /*  const page = `"/${entityInstance}": (BuildContext context) => ${entityClass}ListPage(),`;

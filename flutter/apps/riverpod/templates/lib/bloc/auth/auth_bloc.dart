@@ -1,185 +1,145 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:<%= appsName %>/modules/user/models/user.dart';
-import 'package:<%= appsName %>/services/local/database_services.dart';
-
-import '../../services/apps_routes.dart';
-import '../../services/auth_jwt_services.dart';
-import '../../services/navigation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-final authBloc = ChangeNotifierProvider<AuthBloc>((ref) => AuthBloc());
+import '../../../main_routes.dart';
+import '../../../models/status.dart';
+import '../../../services/auth_jwt_services.dart';
+
+final authBloc = ChangeNotifierProvider((ref) => AuthBloc(ref: ref));
 
 class AuthBloc extends ChangeNotifier {
+  Ref ref;
+
   String username = '';
-
-  User? user;
-
-  String loginMessage = '';
-
   String password = '';
-
-  String passwordMessage = '';
-
-  String confirmPassword = '';
-
-  String confirmPasswordMessage = '';
-
-  bool success = false;
-
-  bool loggedIn = false;
-
-  bool loading = false;
-
   bool rememberMe = false;
-
-  String errorMessage = '';
-
-  bool showError = false;
-
-  bool get canRegister =>
-      username.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty;
-
-  bool get canForgetPassword =>
-      !hasErrorInForgotPassword && username.isNotEmpty;
-
-  bool hasErrorsInLogin = false;
-
-  bool hasErrorInForgotPassword = false;
-
-  void setUserId(String value) {
-    _validateUserEmail(value);
-    username = value;
+  String token = '';
+  // final User user;
+  bool loggedIn = false;
+  String loginMessage = '';
+  String passwordMessage = '';
+  String confirmPassword = '';
+  String confirmPasswordMessage = '';
+  late Status status;
+  AuthBloc({required this.ref}) {
+    status = const Status();
   }
 
-  void setPassword(String value) {
+  bool canRegister() {
+    return username.isNotEmpty &&
+        password.isNotEmpty &&
+        confirmPassword.isNotEmpty;
+  }
+
+  bool canForgetPassword() {
+    return !status.hasErrorInForgotPassword && username.isNotEmpty;
+  }
+
+  signUpDefault() {}
+
+  void setPassword(String value) async {
     _validatePassword(value);
-    password = value;
+    value;
+    notifyListeners();
   }
 
   void setConfirmPassword(String value) {
     _validateConfirmPassword(value);
-    confirmPassword = value;
-  }
-
-  void _validateUserEmail(String value) {
-    // Regex for email validation
-    String pattern = "[a-zA-Z0-9+._%-+]{1,256}\\@"
-        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
-        "(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+";
-
-    RegExp regExp = RegExp(pattern);
-
-    if (value.isEmpty) {
-      loginMessage = "empty";
-    } else if (regExp.hasMatch(value)) {
-      showError = true;
-      loginMessage = '';
-    } else {
-      showError = true;
-      loginMessage = 'unauthorized';
-    }
-
     notifyListeners();
   }
 
   void _validatePassword(String value) {
     if (value.isEmpty) {
-      passwordMessage = "empty";
+      passwordMessage = 'empty';
     } else if (value.length < 6) {
-      passwordMessage = "length";
+      passwordMessage = 'length';
     } else {
       passwordMessage = '';
     }
-    notifyListeners();
   }
 
   void _validateConfirmPassword(String value) {
     if (value.isEmpty) {
       confirmPasswordMessage = "confirm";
-    } else if (value != password) {
+    } else if (value == password) {
       confirmPasswordMessage = "match";
     } else {
       confirmPasswordMessage = '';
     }
-    notifyListeners();
   }
 
   String messagePassword(context) {
     switch (passwordMessage) {
       case "confirm":
-        return AppLocalizations.of(context)!.passwordConfirm;
+        return AppLocalizations.of(context).passwordConfirm;
       case "empty":
-        return AppLocalizations.of(context)!.passwordEmpty;
+        return AppLocalizations.of(context).passwordEmpty;
       case "length":
-        return AppLocalizations.of(context)!.passwordLength;
+        return AppLocalizations.of(context).passwordLength;
       case "match":
-        return AppLocalizations.of(context)!.passwordMatch;
+        return AppLocalizations.of(context).passwordMatch;
       default:
         return "";
     }
   }
 
   message(context) {
-    errorMessage = AppLocalizations.of(context)!.errorUnauthorized;
-    switch (errorMessage) {
+    Status(errorMessage: AppLocalizations.of(context).errorUnauthorized);
+    switch (status.errorMessage) {
       case "unauthorized":
-        errorMessage = AppLocalizations.of(context)!.errorUnauthorized;
+        Status(errorMessage: AppLocalizations.of(context).errorUnauthorized);
         break;
       case "username":
-        return AppLocalizations.of(context)!.errorUsername;
+        return AppLocalizations.of(context).errorUsername;
       default:
-        return AppLocalizations.of(context)!.errorNetwork;
+        return AppLocalizations.of(context).errorNetwork;
     }
   }
 
   signIn(context) {
-    errorMessage = message(context);
-
-    AuthServices.login(username, password, rememberMe).then((v) {
+    print('----ssdfsfd---');
+   // Status(errorMessage: message(context));
+    loggedIn = true;
+    /*  AuthServices.login(username, password, rememberMe).then((v) {
       _loggedin(v);
-    });
+    }); */
+    notifyListeners();
   }
 
-  void _loggedin(value) async{
-    int id = (await DatabaseServices.db.fetchObject(value))["user"];
-    for (var user in await AuthServices.userStatic()) {
-      if (user.id == id) {
-        this.user = user;
-      }
-    }
-   
-    NavigationServices.navigateTo(AppsRoutes.home);
-    /* if (value == 'SUCCESS') {
-      FLog.info(text: "Success login!");
-      NavigationServices.navigateTo(AppsRoutes.home);
-    } else if (value.toString().contains("[401]")) {
-      showError = true;
-      loading = false;
-      errorMessage = "unauthorized";
-    } else if (value.toString().contains("[400]")) {
-      showError = true;
-      loading = false;
-      errorMessage = "username";
-    } */
+  void _loggedin(value) async {
+    
   }
 
   Future register() async {
-    loading = true;
+    const Status(loading: true);
   }
 
   Future gotoHome() async {
-    if (loggedIn) NavigationServices.navigateTo(AppsRoutes.home);
+   
   }
 
   Future forgotPassword() async {
-    loading = true;
+    const Status(loading: true);
   }
 
+  void signUpWithGoogle() async {}
+
+  void signUpWithFacebook() async {}
+
+  void signUpWithApple() async {}
+
+  void signUpWithTwitter() async {}
+
   Future<void> logout() async {
-    loading = true;
+    const Status(loading: true);
     AuthServices.logout();
-    NavigationServices.navigateTo(AppsRoutes.login);
-    loading = false;
+   
+    const Status(loading: false);
+  }
+
+  void signOut() {
+    loggedIn =false;
+    notifyListeners();
   }
 }

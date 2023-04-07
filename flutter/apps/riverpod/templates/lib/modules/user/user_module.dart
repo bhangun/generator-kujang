@@ -1,9 +1,6 @@
-
-import 'package:<%= appsName %>/utils/routes.dart';
-import 'package:<%= appsName %>/utils/modules/module.dart';
-import 'package:<%= appsName %>/modules/user/services/user_routes.dart';
-
-import 'services/user_services.dart';
+import '../../utils/modules/menu.dart';
+import '../../utils/modules/module_model.dart';
+import 'user_routes.dart';
 
 class UserModule implements Module {
   @override
@@ -12,13 +9,13 @@ class UserModule implements Module {
   @override
   pages() {
     return [
-      Page(title: 'User Detail', route: UserRoutes.userDetail),
-      Page(title: 'User Form', route: UserRoutes.userForm),
-      Page(
+      Menu(title: '', path: UserRoutes.detail),
+      /* p.Page(title: 'User Form', path: UserRoutes.userForm),
+      p.Page(
           title: 'User List',
-          route: UserRoutes.userList,
+          path: UserRoutes.userList,
           showInDrawer: true,
-          showInHome: true)
+          showInHome: true) */
     ];
   }
 
@@ -26,13 +23,8 @@ class UserModule implements Module {
   services() {}
 
   @override
-  routes() =>[UserRoutes.routes];
-  
+  goroutes() => UserRoutes.goroutes;
 
   @override
-  providers() {
-    return [
-      
-    ];
-  }
+  String? baseRoute = '';
 }

@@ -1,0 +1,30 @@
+<%_
+  
+  
+
+_%>
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../utils/modules/menu.dart';
+
+var header = {"title": "", "logo": "assets/images/logo.png"};
+
+List<Menu> menu(BuildContext context) => [
+      Menu(
+        title: AppLocalizations.of(context).dashboard,
+        icon: "list",
+        path: "/dashboard",
+      ),
+      Menu(
+        title: AppLocalizations.of(context).about,
+        icon: "home",
+        path: "/about",
+      ), <% for (i in services) { %>
+      Menu(
+        title: AppLocalizations.of(context).<%= services[i].serviceName %>,
+        icon: "home",
+        path: "/<%= services[i].serviceName %>",
+      ),
+      <%}%>>
+    ];
