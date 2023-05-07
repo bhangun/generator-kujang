@@ -117,6 +117,7 @@ module.exports = class extends GenBase {
     }
 
     async install() {
+        this.spawnCommand('chmod', ['+x','run_update_locale']);
         this.spawnCommand('flutter', [
             'create', '--org', `${this.packageName}`, 
             '--project-name', `${this.appsName}`, 

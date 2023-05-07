@@ -9,39 +9,57 @@
   const id = {};
   var i=0;
 
+  var responseType = ''
+  var desc = ''
+  var summary = ''
+  var serviceName = ''
+  var parametersString = ''
+  var parameterItems = ''
+  var hasResponse = false
+
+  for (i in services) { 
+    if(services[i].serviceName == entityInstance) {
+
+      desc = services[i].desc
+      summary = services[i].summary
+      serviceName = services[i].serviceName
+      parametersString = services[i].parametersString
+      parameterItems = services[i].parameterItems
+
+      if(services[i].responseType){
+        if(services[i].responseType != 'void'){
+          responseType = _.capitalize(services[i].responseType.toLowerCase())
+          hasResponse = true
+        }
+      }
+    }
+  }
 
 _%>
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:<%= appsName %>/services/navigation.dart';
-import 'package:<%= appsName %>/services/apps_services.dart';
-import 'package:<%= appsName %>/modules/<%= entityInstance %>/services/<%= entityInstance %>_routes.dart';
-import 'package:<%= appsName %>/modules/<%= entityInstance %>/services/<%= entityInstance %>_services.dart';
-import 'package:<%= appsName %>/modules/<%= entityInstance %>/models/<%= entityInstance %>.dart';
-<% for (idx in dartFields) { %><% if (dartFields[idx]['desc'] == 'relationship') {%>
-import '../../<%= idx %>/models/<%= idx %>.dart'; <%}}%>
+import 'package:<%= appsName %>/services/apps_services.dart'; 
+<% if(hasResponse) {%>import 'package:<%= appsName %>/models/<%= responseType.toLowerCase() %>.dart';<%}%>
 
 final <%= entityInstance %>Bloc = ChangeNotifierProvider<<%= entityClass %>Bloc>((ref) => <%= entityClass %>Bloc());
 
 /// <%= info.title %>
 /// @version <%= info.version %>
 class <%= entityClass %>Bloc extends ChangeNotifier {
-  /// <%= item  %> 
-<% for (i in services) { if(services[i].serviceName == entityInstance) {%>
-  String formTitle = '<%= services[i].desc %>';
+
+  String formTitle = '<% if(summary) {%><%= summary %>:<%}%> <%= desc %>';
   bool success = false;
   bool loading = false;
 
   save(){}
-  
-  /// <%= services[i].summary %>
-  /// <%= services[i].desc %>
-  Future<% if(services[i].responseType && services[i].responseType != 'UnknownObject' && services[i].responseType != 'void'){%><<%= services[i].responseType %>><%}%> <%= services[i].serviceName %>(<%= services[i].parametersString %>) async { 
-    var response = await AppsServices.<%= services[i].serviceName %>('<%= services[i].path %><%- services[i].query %>'<%- services[i].jsonParam %>); 
-  }
-<% }} %>
+
+  /// <%= summary  %>
+  /// <%= desc %> 
+  <% if(hasResponse) {%>Future<<%= responseType %>> <%= serviceName %>(<%= parametersString %>) async {  
+    var response = await AppsServices.<%= serviceName %>(<% for (x in parameterItems) {%><%= parameterItems[x].name %>,<%}%>); 
+    return response;
+  }<%} else {%><%= serviceName %>(<%= parametersString %>) async {  
+    await AppsServices.<%= serviceName %>(<% for (x in parameterItems) {%><%= parameterItems[x].name %>,<%}%>); 
+  } <%}%>
 }

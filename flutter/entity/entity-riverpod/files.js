@@ -26,7 +26,7 @@ function writeFiles(folder, obj, props, _) {
 
     const entityFolderName = folder + '/lib/modules/' + props.entityClass
 
-    const entityFileName = _.camelCase(props.entity.entityClass)
+    const entityFileName = _.camelCase(props.entity.entityClass).toLowerCase()
 
     props.entity._ = _ 
 

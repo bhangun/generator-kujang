@@ -138,6 +138,6 @@ module.exports = class extends GenBase {
         this.template(`${flutterDir}macos/Runner/Release.entitlements`, `${packageFolder}/macos/Runner/Release.entitlements`);
 
         // test
-        this.template(`${flutterDir}test/widget_test.dart`, `${packageFolder}/test/widget_test.dart`);
+        this.template(`${flutterDir}test/widget_test.ejs`, `${packageFolder}/test/widget_test.dart`);
     }
 }

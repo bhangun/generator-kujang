@@ -100,4 +100,16 @@ Map<String, IconData> icons() => {
       'abc': Icons.abc,
       'add_photo': Icons.add_a_photo,
       'add': Icons.add
-    };
+};
+
+
+transformStringParam(List<String> text) {
+    String payload = '';
+    var del = '&';
+    var i = 0;
+    for (var e in text) {
+      payload += e + (i<text.length-1?del:'');
+      i++;
+    }
+    return payload;
+}

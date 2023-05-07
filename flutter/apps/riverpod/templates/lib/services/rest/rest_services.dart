@@ -61,7 +61,7 @@ class RestServices {
   }
 
   // DELETE
-  static Future<dynamic> delete(String uri, dynamic id) async {
+  static Future<dynamic> delete(String uri, [dynamic id]) async {
     Response response = await _dio.delete(uri, data: id);
     return response.data;
   }

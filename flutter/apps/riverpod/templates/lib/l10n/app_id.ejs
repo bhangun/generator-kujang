@@ -1,4 +1,4 @@
-{
+<% let n=0 %>{
     "title": "apa kabar",
     "home": "Beranda",
     "sign_in": "Masuk",
@@ -26,5 +26,5 @@
     "errorUsername":"Nama User dan sandi tidak cocok",
     "errorUnauthorized": "Anda tidak memiliki otoritas",
     "errorNetwork": "Sesuatu terjadi pada jaringan, silahkan periksa jaringan",<% for (i in services) { %>
-    <%= services[i].serviceName %>": "<%= services[i].serviceName %>",<%}%>
+    "<%= services[i].serviceName %>": "<%= services[i].serviceName %>"<%if(n < services.length-1){%>,<%} n++}%>
 }

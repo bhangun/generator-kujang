@@ -1,25 +1,62 @@
+<%_
+  var requestType = ''
+  var responseType = ''
+  var desc = ''
+  var summary = ''
+  var serviceName = ''
+  var parametersString = ''
+  var parameterItems = ''
+  var hasResponse = false
+  var isParamArray = false
+  var serviceLocal = []
+
+  for (i in services) { 
+    for(req in services[i].requestBody){
+      requestType  = req.component
+      if(requestType != '' && requestType != req.component){
+
+      }
+    }
+
+
+    if(services[i].serviceName == entities[i].entityInstance) {
+
+      desc = services[i].desc
+      summary = services[i].summary
+      serviceName = services[i].serviceName
+      parametersString = services[i].parametersString
+      parameterItems = services[i].parameterItems
+
+     
+
+      if(services[i].responseType){
+        if(services[i].responseType != 'void'){
+          responseType = _.capitalize(services[i].responseType.toLowerCase())
+          hasResponse = true
+        }
+      }
+    }
+  }
+
+_%>
 import 'dart:async';
 import 'dart:convert';
 
-import 'rest/rest_services.dart'; <% for (i in entities) { %>
-import 'package:<%= appsName %>/models/<%= entities[i].entityInstance %>.dart'; <% } %>
-
-<% if(!entities) for (i in services) { %>
-import 'package:<%= appsName %>/models/<%= services[i].responseType %>.dart'; <% } %>
+import 'rest/rest_services.dart'; <% if(entities.length > 1) { for (i in entities) { %>
+import 'package:<%= appsName %>/models/<%= entities[i].entityInstance.toLowerCase() %>.dart'; <% }} else {for (i in services) { %>
+import 'package:<%= appsName %>/models/<%= services[i].responseType %>.dart'; <% }} %>
 
 /// <%= info.title %>
 /// @version <%= info.version %>
 class AppsServices { 
 <% for (i in services) { %>
-  /**
-    <% if(services[i].desc){ %><%= services[i].desc %> <% } %>
-  */
+  /// <% if(services[i].desc){ %><%= services[i].desc %> <% } %>
   /// <%= services[i].summary %>
   /// Path: <%= services[i].path %> <% if(services[i].externalDoc){%>
   /// External Doc: <%= services[i].externalDoc %><%}%>
   static <% if(services[i].hasResponse ){%>Future<<%= services[i].responseType %>><%}%> <%= services[i].serviceName %>(<%= services[i].parametersString %>) async { 
-    var response = await RestServices.<%= services[i].method %>('<%= services[i].path %><%- services[i].query %>'<%- services[i].jsonParam %>); 
-    <% if(services[i].hasResponse ){ %>return <%= services[i].responseType %>.fromJson(json.decode(response)); <% } %>
+    <% if(services[i].hasResponse ) {%>var response = <%}%>await RestServices.<%= services[i].method %>('<%= services[i].path %><%- services[i].query %>'<%- services[i].jsonParam %>); 
+    <% if(services[i].hasResponse ){ %>return <%= services[i].responseType %>.fromJson(json.decode(response));<%}%>
   }
 <% } %>
 }

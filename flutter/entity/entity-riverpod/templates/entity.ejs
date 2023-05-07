@@ -45,8 +45,7 @@ function capitalize(text){
 
 _%>
 import 'dart:convert';
-import 'package:equatable/equatable.dart'; <% for (idx in fields) { if(fields[idx].fieldType.origin && fields[idx].fieldType.origin == 'object') { %>
-import '<%- fields[idx].fieldType.type.toLowerCase() %>.dart'; <%} else if(fields[idx].fieldType.origin == 'array' && fields[idx].fieldType.type.endsWith('>')){%>
+import 'package:equatable/equatable.dart'; <% for (idx in fields) { %><% if(fields[idx].fieldType.origin == 'array' && fields[idx].fieldType.type.endsWith('>')){%>
 import '<%- fields[idx].fieldType.type.slice(5, fields[idx].fieldType.type.length -1 ).toLowerCase() %>.dart'; <% }}%>
 
 class <%= entityClass %> extends Equatable{

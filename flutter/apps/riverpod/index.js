@@ -18,10 +18,11 @@ module.exports = class extends GenBase {
         this.template('pubspec.ejs', `${packageFolder}/pubspec.yaml`, this, this.props);
         this.template('README.ejs', `${packageFolder}/README.md`, this, this.props);
         this.template(`gitignore`, `${packageFolder}/.gitignore`);
+        this.template(`run_update_locale`, `${packageFolder}/run_update_locale`);
 
         // Unit Test & Integration test
         this.template('integration_test/main_test.ejs', `${packageFolder}/integration_test/main_test.ejs`, this, this.props);
-        this.template('test/widget_test.dart', `${packageFolder}/test/widget_test.dart`, this, this.props);
+        this.template('test/widget_test.ejs', `${packageFolder}/test/widget_test.dart`, this, this.props);
    
         // add assets
         this.template(`${flutterDir}lib/data/users.json`, `${packageFolder}/lib/data/users.json`);
