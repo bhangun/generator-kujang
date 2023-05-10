@@ -1,40 +1,10 @@
 <%_
-  var requestType = ''
-  var responseType = ''
-  var desc = ''
-  var summary = ''
-  var serviceName = ''
-  var parametersString = ''
-  var parameterItems = ''
-  var hasResponse = false
-  var isParamArray = false
-  var serviceLocal = []
+
+  var newEntities = []
 
   for (i in services) { 
-    for(req in services[i].requestBody){
-      requestType  = req.component
-      if(requestType != '' && requestType != req.component){
-
-      }
-    }
-
-
-    if(services[i].serviceName == entities[i].entityInstance) {
-
-      desc = services[i].desc
-      summary = services[i].summary
-      serviceName = services[i].serviceName
-      parametersString = services[i].parametersString
-      parameterItems = services[i].parameterItems
-
+    if(services[i].serviceName == entities.) {
      
-
-      if(services[i].responseType){
-        if(services[i].responseType != 'void'){
-          responseType = _.capitalize(services[i].responseType.toLowerCase())
-          hasResponse = true
-        }
-      }
     }
   }
 
