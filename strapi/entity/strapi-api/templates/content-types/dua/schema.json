@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "duas",
+  "info": {
+    "singularName": "dua",
+    "pluralName": "duas",
+    "displayName": "dua"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nama": {
+      "type": "string"
+    }
+  }
+}

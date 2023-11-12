@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_group_projects",
+  "info": {
+    "displayName": "Project",
+    "icon": "archive"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

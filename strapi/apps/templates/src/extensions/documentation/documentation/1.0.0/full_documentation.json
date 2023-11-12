@@ -1,0 +1,94 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "DOCUMENTATION",
+    "description": "",
+    "termsOfService": "YOUR_TERMS_OF_SERVICE_URL",
+    "contact": {
+      "name": "TEAM",
+      "email": "contact-email@something.io",
+      "url": "mywebsite.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "x-generation-date": "2023-11-12T04:45:38.511Z"
+  },
+  "x-strapi-config": {
+    "path": "/documentation",
+    "plugins": [
+      "upload",
+      "users-permissions"
+    ]
+  },
+  "servers": [
+    {
+      "url": "http://localhost:1337/api",
+      "description": "Development server"
+    }
+  ],
+  "externalDocs": {
+    "description": "Find out more",
+    "url": "https://docs.strapi.io/developer-docs/latest/getting-started/introduction.html"
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {},
+    "requestBodies": {
+      "Users-Permissions-RoleRequest": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "permissions": {
+                  "$ref": "#/components/schemas/Users-Permissions-PermissionsTree"
+                }
+              }
+            },
+            "example": {
+              "name": "foo",
+              "description": "role foo",
+              "permissions": {
+                "api::content-type.content-type": {
+                  "controllers": {
+                    "controllerA": {
+                      "find": {
+                        "enabled": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {},
+  "tags": []
+}
